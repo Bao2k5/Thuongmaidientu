@@ -11,6 +11,7 @@
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
 ### 🎓 ĐỒ ÁN CHUYÊN NGÀNH THƯƠNG MẠI ĐIỆN TỬ
+
 **Nhóm 2 - Khoa Công Nghệ Thông Tin**
 
 </div>
@@ -21,12 +22,12 @@
 
 <div align="center">
 
-| STT | Họ và Tên | MSSV | Vai Trò | Phân Công | GitHub |
-|:---:|-----------|:----:|---------|-----------|:------:|
-| 1 | **Lê Dương Bảo** | 123456 | 👑 **Team Leader** | • Quản lý dự án<br>• Backend API<br>• Database Design<br>• Admin Dashboard | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Bao2k5) |
-| 2 | **Nguyễn Lê Hưng** | 234567 | 💻 **Frontend Developer** | • React Components<br>• UI/UX Design<br>• State Management<br>• Responsive Design | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
-| 3 | **Phạm Thanh Tùng** | 345678 | 🎨 **UI/UX Designer** | • Mockup Design<br>• Logo & Branding<br>• User Flow<br>• Frontend Support | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
-| 4 | **Trần Gia Nghĩa** | 456789 | 📊 **Tester & QA** | • Testing & QA<br>• Documentation<br>• Bug Tracking<br>• Backend Support | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
+| STT | Họ và Tên           |  MSSV  | Vai Trò                   | Phân Công                                                                         |                                                          GitHub                                                           |
+| :-: | ------------------- | :----: | ------------------------- | --------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
+|  1  | **Lê Dương Bảo**    | 123456 | 👑 **Team Leader**        | • Quản lý dự án<br>• Backend API<br>• Database Design<br>• Admin Dashboard        | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Bao2k5) |
+|  2  | **Nguyễn Lê Hưng**  | 234567 | 💻 **Frontend Developer** | • React Components<br>• UI/UX Design<br>• State Management<br>• Responsive Design |             [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#)             |
+|  3  | **Phạm Thanh Tùng** | 345678 | 🎨 **UI/UX Designer**     | • Mockup Design<br>• Logo & Branding<br>• User Flow<br>• Frontend Support         |             [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#)             |
+|  4  | **Trần Gia Nghĩa**  | 456789 | 📊 **Tester & QA**        | • Testing & QA<br>• Documentation<br>• Bug Tracking<br>• Backend Support          |             [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#)             |
 
 </div>
 
@@ -139,26 +140,31 @@ node scripts/seed.js
 ### 👤 Tài Khoản Mặc Định
 
 **Admin:**
+
 - Email: `admin@bthn.com`
 - Password: `admin123`
 
 **User:**
+
 - Email: `user@bthn.com`
 - Password: `user123`
 
 ### ⚠️ LƯU Ý QUAN TRỌNG
 
 1. **MongoDB**: Đảm bảo MongoDB đang chạy trước khi start backend
+
    ```bash
    # Kiểm tra MongoDB
    mongosh
    ```
 
 2. **Port Conflicts**: Nếu port 3000 hoặc 5173 đã được sử dụng:
+
    - Backend: Đổi `PORT` trong file `.env`
    - Frontend: Vite sẽ tự động chọn port khác (5174, 5175...)
 
 3. **Node Version**: Sử dụng Node.js v18+ để tránh lỗi
+
    ```bash
    node --version  # Kiểm tra version
    ```
@@ -202,12 +208,14 @@ Thuongmaidientu/
 ## ✨ TÍNH NĂNG CHÍNH
 
 ### 🔐 Xác Thực & Phân Quyền
+
 - Đăng ký, đăng nhập người dùng
 - Xác thực bằng JWT (JSON Web Token)
 - Phân quyền User & Admin
 - Quên mật khẩu và gửi email xác thực
 
 ### 🛍️ Quản Lý Sản Phẩm
+
 - CRUD sản phẩm (Tạo, Đọc, Cập nhật, Xóa)
 - Phân loại theo danh mục (Nhẫn, Dây chuyền, Lắc tay, Hoa tai)
 - Upload hình ảnh sản phẩm (Cloudinary)
@@ -215,22 +223,26 @@ Thuongmaidientu/
 - Flash sale & giảm giá
 
 ### 🛒 Giỏ Hàng & Đơn Hàng
+
 - Thêm, sửa, xóa sản phẩm trong giỏ hàng
 - Tạo đơn hàng
 - Theo dõi trạng thái đơn hàng
 - Lịch sử mua hàng
 
 ### 💳 Thanh Toán
+
 - Thanh toán online qua Stripe
 - Thanh toán khi nhận hàng (COD)
 - Webhook xử lý thanh toán tự động
 
 ### ⭐ Đánh Giá & Yêu Thích
+
 - Đánh giá sản phẩm (rating 1-5 sao)
 - Viết review chi tiết
 - Danh sách sản phẩm yêu thích (Wishlist)
 
 ### 👑 Quản Trị Viên (Admin)
+
 - Dashboard thống kê doanh thu, đơn hàng, người dùng
 - Quản lý người dùng
 - Quản lý đơn hàng (cập nhật trạng thái, shipping)
@@ -239,6 +251,7 @@ Thuongmaidientu/
 - Xem log hoạt động admin
 
 ### 📦 Khác
+
 - Bộ sưu tập sản phẩm (Collections)
 - Chương trình khuyến mãi (Promos)
 - Gửi email thông báo
@@ -249,15 +262,18 @@ Thuongmaidientu/
 ## 🚀 CÔNG NGHỆ SỬ DỤNG
 
 ### Backend Framework & Runtime
+
 - **Node.js** v18+ - JavaScript runtime
 - **Express.js** v5.x - Web framework
 - **Mongoose** v8.x - MongoDB ODM
 
 ### Database
+
 - **MongoDB** - NoSQL database
 - **MongoDB Atlas** - Cloud database (optional)
 
 ### Authentication & Security
+
 - **JWT (jsonwebtoken)** - Token-based authentication
 - **bcryptjs** - Password hashing
 - **helmet** - HTTP headers security
@@ -267,21 +283,25 @@ Thuongmaidientu/
 - **hpp** - HTTP Parameter Pollution prevention
 
 ### Payment & Storage
+
 - **Stripe** - Payment gateway
 - **Cloudinary** - Image storage & CDN
 - **Multer** - File upload handling
 
 ### Email
+
 - **Nodemailer** - Email sending
 - **Gmail SMTP** - Email service
 
 ### Development Tools
+
 - **dotenv** - Environment variables
 - **cors** - Cross-Origin Resource Sharing
 - **morgan** - HTTP request logger
 - **nodemon** - Auto-restart server (dev)
 
 ### Testing
+
 - **Postman** - API testing
 - **Jest** (optional) - Unit testing
 
@@ -371,6 +391,7 @@ npm run seed
 ```
 
 **Tài khoản Admin mặc định:**
+
 - Email: `admin@example.com`
 - Password: `admin123`
 
@@ -391,79 +412,6 @@ Server sẽ chạy tại: **http://localhost:3000**
 1. Mở Postman
 2. Import file `postman_collection.json` từ thư mục gốc
 3. Đọc hướng dẫn chi tiết tại [POSTMAN_TESTING_GUIDE.md](./POSTMAN_TESTING_GUIDE.md)
-
----
-
-## 📁 CẤU TRÚC THỦ MỤC
-
-```
-Thuongmaidientu/
-│
-├── BE/                          # Backend source code
-│   ├── server.js               # Entry point - khởi động server
-│   └── src/
-│       ├── app.js              # Express app configuration
-│       ├── config/
-│       │   └── db.js           # MongoDB connection
-│       ├── models/             # Mongoose models (8 models)
-│       │   ├── user.model.js
-│       │   ├── product.model.js
-│       │   ├── cart.model.js
-│       │   ├── order.model.js
-│       │   ├── review.model.js
-│       │   ├── collection.model.js
-│       │   ├── promo.model.js
-│       │   └── adminLog.model.js
-│       ├── controllers/        # Business logic
-│       │   ├── auth.controller.js
-│       │   ├── product.controller.js
-│       │   ├── cart.controller.js
-│       │   ├── order.controller.js
-│       │   ├── payment.controller.js
-│       │   ├── review.controller.js
-│       │   ├── user.controller.js
-│       │   ├── wishlist.controller.js
-│       │   ├── collection.controller.js
-│       │   ├── promo.controller.js
-│       │   └── admin.controller.js
-│       ├── routes/             # API routes
-│       │   ├── index.js        # Route aggregator
-│       │   ├── auth.routes.js
-│       │   ├── product.routes.js
-│       │   ├── cart.routes.js
-│       │   ├── order.routes.js
-│       │   ├── review.routes.js
-│       │   ├── user.routes.js
-│       │   ├── collection.routes.js
-│       │   ├── promo.routes.js
-│       │   └── admin.routes.js
-│       ├── middleware/         # Custom middleware
-│       │   ├── auth.middleware.js      # JWT verification
-│       │   ├── validate.middleware.js  # Input validation
-│       │   └── security.middleware.js  # Security headers
-│       └── utils/              # Helper functions
-│           ├── cloudinary.js   # Image upload
-│           ├── mailer.js       # Email sending
-│           └── helpers.js      # Utility functions
-│
-├── scripts/                    # Utility scripts
-│   ├── seed.js                # Database seeding
-│   ├── check_admin.js         # Check admin account
-│   ├── invoke_login_direct.js # Test login
-│   └── smoke_test.js          # API smoke test
-│
-├── tests/                      # Test files
-│   └── auth.test.js
-│
-├── .env.example               # Environment variables template
-├── .gitignore                 # Git ignore rules
-├── package.json               # NPM dependencies
-├── postman_collection.json    # Postman API collection
-├── README.md                  # Documentation (file này)
-├── POSTMAN_TESTING_GUIDE.md   # Hướng dẫn test API
-└── IMPROVEMENTS.md            # Lịch sử cập nhật
-
-```
 
 ---
 
@@ -499,11 +447,13 @@ npm run login-test           # Test đăng nhập
 ## 🔗 API ENDPOINTS
 
 ### 🔐 Authentication (`/api/auth`)
+
 - `POST /api/auth/register` - Đăng ký tài khoản
 - `POST /api/auth/login` - Đăng nhập
 - `POST /api/auth/forgot-password` - Quên mật khẩu
 
 ### 📦 Products (`/api/products`)
+
 - `GET /api/products` - Lấy danh sách sản phẩm
 - `GET /api/products/:id` - Chi tiết sản phẩm
 - `GET /api/products/slug/:slug` - Lấy sản phẩm theo slug
@@ -512,12 +462,14 @@ npm run login-test           # Test đăng nhập
 - `DELETE /api/products/:id` - Xóa sản phẩm (Admin)
 
 ### 🛒 Cart (`/api/cart`)
+
 - `GET /api/cart` - Xem giỏ hàng
 - `POST /api/cart` - Thêm vào giỏ
 - `PUT /api/cart` - Cập nhật số lượng
 - `DELETE /api/cart` - Xóa giỏ hàng
 
 ### 🧾 Orders (`/api/orders`)
+
 - `GET /api/orders` - Danh sách đơn hàng của tôi
 - `GET /api/orders/:id` - Chi tiết đơn hàng
 - `POST /api/orders` - Tạo đơn hàng
@@ -525,16 +477,19 @@ npm run login-test           # Test đăng nhập
 - `POST /api/orders/create-payment-intent` - Tạo thanh toán Stripe
 
 ### 👤 User (`/api/users`)
+
 - `GET /api/users/profile` - Thông tin cá nhân
 - `PUT /api/users/profile` - Cập nhật profile
 - `GET /api/users/wishlist` - Danh sách yêu thích
 - `POST /api/users/wishlist/:productId` - Thêm vào wishlist
 
 ### ⭐ Reviews (`/api/products/:id/reviews`)
+
 - `GET /api/products/:id/reviews` - Xem đánh giá
 - `POST /api/products/:id/reviews` - Viết đánh giá
 
 ### 👑 Admin (`/api/admin`)
+
 - `GET /api/admin/stats` - Thống kê dashboard
 - `GET /api/admin/users` - Danh sách user
 - `GET /api/admin/orders` - Danh sách đơn hàng
@@ -554,14 +509,17 @@ Error: connect ECONNREFUSED 127.0.0.1:27017
 ```
 
 **Giải pháp:**
+
 1. Kiểm tra MongoDB đã chạy chưa:
+
    ```bash
    # Windows
    net start MongoDB
-   
+
    # Linux/Mac
    sudo systemctl start mongod
    ```
+
 2. Hoặc dùng MongoDB Atlas (cloud database)
 
 ### ❌ Lỗi JWT Secret
@@ -586,7 +544,8 @@ Error: Invalid API key
 Error: No signatures found matching the expected signature
 ```
 
-**Giải pháp:** 
+**Giải pháp:**
+
 1. Cài Stripe CLI
 2. Chạy: `stripe listen --forward-to localhost:3000/api/orders/webhook`
 3. Copy webhook secret vào `.env`
@@ -606,6 +565,7 @@ Error: listen EADDRINUSE: address already in use :::3000
 Dự án này được phát triển bởi **Nhóm 2** cho môn **Thương Mại Điện Tử**.
 
 Nếu bạn muốn đóng góp:
+
 1. Fork repository
 2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
 3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
