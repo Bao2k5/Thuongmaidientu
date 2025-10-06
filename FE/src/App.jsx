@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import useAuthStore from './store/authStore';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ZaloChat from './components/common/ZaloChat';
@@ -31,6 +33,13 @@ const ComingSoon = ({ title }) => (
 );
 
 function App() {
+  const { initialize } = useAuthStore();
+
+  // Initialize auth state from localStorage on app load
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Routes>

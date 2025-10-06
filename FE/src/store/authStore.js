@@ -1,9 +1,12 @@
 import { create } from 'zustand';
+import authService from '../services/authService';
 
 const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
   isAdmin: false,
+  loading: false,
+  error: null,
 
   // Initialize from localStorage
   initialize: () => {
@@ -25,22 +28,24 @@ const useAuthStore = create((set) => ({
 
   // Login
   login: async (email, password) => {
+    set({ loading: true, error: null });
     try {
-      // Sẽ tích hợp API sau
-      const mockUser = { id: 1, email, name: 'User', role: 'user' };
-      const mockToken = 'mock-token-123';
-      
-      localStorage.setItem('token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      const response = await authService.login({ email, password });
       
       set({
-        user: mockUser,
+        user: response.user,
         isAuthenticated: true,
-        isAdmin: false,
+        isAdmin: response.user?.role === 'admin',
+        loading: false,
+        error: null,
       });
       
-      return { user: mockUser, token: mockToken };
+      return response;
     } catch (error) {
+      set({ 
+        loading: false, 
+        error: error.response?.data?.message || 'Đăng nhập thất bại' 
+      });
       console.error('Login error:', error);
       throw error;
     }
@@ -48,11 +53,16 @@ const useAuthStore = create((set) => ({
 
   // Register
   register: async (userData) => {
+    set({ loading: true, error: null });
     try {
-      // Sẽ tích hợp API sau
-      console.log('Register:', userData);
-      return { success: true };
+      const response = await authService.register(userData);
+      set({ loading: false, error: null });
+      return response;
     } catch (error) {
+      set({ 
+        loading: false, 
+        error: error.response?.data?.message || 'Đăng ký thất bại' 
+      });
       console.error('Register error:', error);
       throw error;
     }
