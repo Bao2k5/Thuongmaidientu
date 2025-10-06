@@ -1,0 +1,328 @@
+{
+  "info": {
+    "name": "Thuongmaidientu API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "body": {"mode":"raw","raw":"{\n  \"name\": \"Nguyen Van A\",\n  \"email\": \"user1@example.com\",\n  \"password\": \"user123456\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/auth/register","host": ["{{baseUrl}}"],"path":["api","auth","register"]}
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "body": {"mode":"raw","raw":"{\n  \"email\": \"user1@example.com\",\n  \"password\": \"user123456\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/auth/login","host": ["{{baseUrl}}"],"path":["api","auth","login"]}
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "body": {"mode":"raw","raw":"{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/auth/login","host": ["{{baseUrl}}"],"path":["api","auth","login"]}
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "body": {"mode":"raw","raw":"{\n  \"email\": \"user1@example.com\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/auth/forgot-password","host": ["{{baseUrl}}"],"path":["api","auth","forgot-password"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/products?page=1&limit=12","host": ["{{baseUrl}}"],"path":["api","products"],"query":[{"key":"page","value":"1"},{"key":"limit","value":"12"}]}
+          }
+        },
+        {
+          "name": "Get Product by Slug",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/products/slug/sample-ring","host": ["{{baseUrl}}"],"path":["api","products","slug","sample-ring"]}
+          }
+        },
+        {
+          "name": "Create Product (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"name\": \"Diamond Ring Premium\",\n  \"slug\": \"diamond-ring-premium\",\n  \"description\": \"Nhẫn kim cương cao cấp\",\n  \"price\": 5000000,\n  \"stock\": 10,\n  \"category\": \"Rings\",\n  \"tags\": [\"luxury\", \"diamond\"]\n}"},
+            "url": {"raw": "{{baseUrl}}/api/products","host": ["{{baseUrl}}"],"path":["api","products"]}
+          }
+        },
+        {
+          "name": "Update Product (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"price\": 4500000,\n  \"priceSale\": 3900000,\n  \"isFlashSale\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/products/PRODUCT_ID","host": ["{{baseUrl}}"],"path":["api","products","PRODUCT_ID"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/cart","host": ["{{baseUrl}}"],"path":["api","cart"]}
+          }
+        },
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"productId\": \"PRODUCT_ID\",\n  \"qty\": 2\n}"},
+            "url": {"raw": "{{baseUrl}}/api/cart","host": ["{{baseUrl}}"],"path":["api","cart"]}
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"productId\": \"PRODUCT_ID\",\n  \"qty\": 3\n}"},
+            "url": {"raw": "{{baseUrl}}/api/cart","host": ["{{baseUrl}}"],"path":["api","cart"]}
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/cart","host": ["{{baseUrl}}"],"path":["api","cart"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"address\": \"123 Nguyen Trai, Q1, TPHCM\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/orders","host": ["{{baseUrl}}"],"path":["api","orders"]}
+          }
+        },
+        {
+          "name": "Get My Orders",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/orders","host": ["{{baseUrl}}"],"path":["api","orders"]}
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/orders/ORDER_ID","host": ["{{baseUrl}}"],"path":["api","orders","ORDER_ID"]}
+          }
+        },
+        {
+          "name": "Mock Payment",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/orders/ORDER_ID/pay","host": ["{{baseUrl}}"],"path":["api","orders","ORDER_ID","pay"]}
+          }
+        },
+        {
+          "name": "Create Payment Intent (Stripe)",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"address\": \"456 Le Loi, Q1, TPHCM\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/orders/create-payment-intent","host": ["{{baseUrl}}"],"path":["api","orders","create-payment-intent"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/profile","host": ["{{baseUrl}}"],"path":["api","users","profile"]}
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"name\": \"Nguyen Van A Updated\",\n  \"address\": \"789 Tran Hung Dao, Q5, TPHCM\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/users/profile","host": ["{{baseUrl}}"],"path":["api","users","profile"]}
+          }
+        },
+        {
+          "name": "Get Wishlist",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/wishlist","host": ["{{baseUrl}}"],"path":["api","users","wishlist"]}
+          }
+        },
+        {
+          "name": "Add to Wishlist",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/wishlist/PRODUCT_ID","host": ["{{baseUrl}}"],"path":["api","users","wishlist","PRODUCT_ID"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get Product Reviews",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/products/PRODUCT_ID/reviews","host": ["{{baseUrl}}"],"path":["api","products","PRODUCT_ID","reviews"]}
+          }
+        },
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{userToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"rating\": 5,\n  \"title\": \"Sản phẩm tuyệt vời\",\n  \"text\": \"Chất lượng rất tốt, giao hàng nhanh\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/products/PRODUCT_ID/reviews","host": ["{{baseUrl}}"],"path":["api","products","PRODUCT_ID","reviews"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/admin/users?page=1&limit=20","host": ["{{baseUrl}}"],"path":["api","admin","users"],"query":[{"key":"page","value":"1"},{"key":"limit","value":"20"}]}
+          }
+        },
+        {
+          "name": "List All Orders",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/admin/orders","host": ["{{baseUrl}}"],"path":["api","admin","orders"]}
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"status\": \"shipped\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/admin/orders/ORDER_ID/status","host": ["{{baseUrl}}"],"path":["api","admin","orders","ORDER_ID","status"]}
+          }
+        },
+        {
+          "name": "Get Stats",
+          "request": {
+            "method": "GET",
+            "header": [{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/admin/stats","host": ["{{baseUrl}}"],"path":["api","admin","stats"]}
+          }
+        },
+        {
+          "name": "Send Test Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"to\": \"test@example.com\",\n  \"subject\": \"Test Email\",\n  \"text\": \"This is a test\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/admin/send-test-email","host": ["{{baseUrl}}"],"path":["api","admin","send-test-email"]}
+          }
+        },
+        {
+          "name": "Bulk Update Products",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"list\": [\n    {\n      \"id\": \"PRODUCT_ID_1\",\n      \"updates\": {\n        \"price\": 1200000,\n        \"stock\": 50\n      }\n    }\n  ]\n}"},
+            "url": {"raw": "{{baseUrl}}/api/admin/products/bulk-update","host": ["{{baseUrl}}"],"path":["api","admin","products","bulk-update"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "Get All Collections",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/collections","host": ["{{baseUrl}}"],"path":["api","collections"]}
+          }
+        },
+        {
+          "name": "Get Collection by Slug",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/collections/default","host": ["{{baseUrl}}"],"path":["api","collections","default"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Promos",
+      "item": [
+        {
+          "name": "Get Active Promos",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/promos/active","host": ["{{baseUrl}}"],"path":["api","promos","active"]}
+          }
+        },
+        {
+          "name": "Create Promo (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{adminToken}}"}],
+            "body": {"mode":"raw","raw":"{\n  \"title\": \"Flash Sale 50%\",\n  \"type\": \"product\",\n  \"product\": \"PRODUCT_ID\",\n  \"discountPercent\": 50,\n  \"startAt\": \"2025-10-06T00:00:00Z\",\n  \"endAt\": \"2025-10-10T23:59:59Z\",\n  \"active\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/promos","host": ["{{baseUrl}}"],"path":["api","promos"]}
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [{"key":"baseUrl","value":"http://localhost:3000"},{"key":"adminToken","value":""},{"key":"userToken","value":""}]
+}
