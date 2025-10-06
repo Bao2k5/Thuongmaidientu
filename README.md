@@ -5,8 +5,10 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
-![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white)
 
 ### 🎓 ĐỒ ÁN CHUYÊN NGÀNH THƯƠNG MẠI ĐIỆN TỬ
 **Nhóm 2 - Khoa Công Nghệ Thông Tin**
@@ -15,20 +17,177 @@
 
 ---
 
-## 👥 THÀNH VIÊN NHÓM
+## � THÀNH VIÊN NHÓM
 
-| STT | Họ và Tên | Vai Trò | GitHub |
-|-----|-----------|---------|--------|
-| 1 | **Lê Dương Bảo** | 👑 Trưởng nhóm | [@Bao2k5](https://github.com/Bao2k5) |
-| 2 | Nguyễn Lê Hưng | Thành viên | |
-| 3 | Phạm Thanh Tùng | Thành viên | |
-| 4 | Trần Gia Nghĩa | Thành viên | |
+<div align="center">
+
+| STT | Họ và Tên | MSSV | Vai Trò | Phân Công | GitHub |
+|:---:|-----------|:----:|---------|-----------|:------:|
+| 1 | **Lê Dương Bảo** | 123456 | 👑 **Team Leader** | • Quản lý dự án<br>• Backend API<br>• Database Design<br>• Admin Dashboard | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Bao2k5) |
+| 2 | **Nguyễn Lê Hưng** | 234567 | 💻 **Frontend Developer** | • React Components<br>• UI/UX Design<br>• State Management<br>• Responsive Design | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
+| 3 | **Phạm Thanh Tùng** | 345678 | 🎨 **UI/UX Designer** | • Mockup Design<br>• Logo & Branding<br>• User Flow<br>• Frontend Support | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
+| 4 | **Trần Gia Nghĩa** | 456789 | 📊 **Tester & QA** | • Testing & QA<br>• Documentation<br>• Bug Tracking<br>• Backend Support | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](#) |
+
+</div>
 
 ---
 
 ## 📝 GIỚI THIỆU DỰ ÁN
 
-**Jewelry BTHN** là hệ thống thương mại điện tử chuyên về trang sức (nhẫn, dây chuyền, lắc tay, hoa tai) được xây dựng với kiến trúc RESTful API hiện đại. Dự án tập trung vào việc xây dựng backend hoàn chỉnh với đầy đủ tính năng của một website thương mại điện tử chuyên nghiệp.
+**Jewelry BTHN** là hệ thống thương mại điện tử chuyên về trang sức cao cấp, được xây dựng với kiến trúc RESTful API (Node.js + Express + MongoDB) và giao diện luxury (React + Vite + TailwindCSS). Dự án bao gồm hệ thống quản lý sản phẩm, giỏ hàng, thanh toán Stripe, và Admin Dashboard hoàn chỉnh.
+
+---
+
+## �🚀 HƯỚNG DẪN CHẠY DỰ ÁN
+
+### 📋 Yêu Cầu Hệ Thống
+
+- **Node.js**: v18.0.0 trở lên
+- **MongoDB**: v6.0 trở lên (hoặc MongoDB Atlas)
+- **npm**: v9.0.0 trở lên
+
+### 🔧 Cài Đặt & Chạy
+
+#### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/Bao2k5/Thuongmaidientu.git
+cd Thuongmaidientu
+```
+
+#### 2️⃣ Cài Đặt Backend
+
+```bash
+cd BE
+npm install
+```
+
+**Tạo file `.env` trong thư mục `BE/`:**
+
+```env
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/jewelry-bthn
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRE=7d
+NODE_ENV=development
+
+# Email Configuration (Gmail)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+
+# Cloudinary (Upload ảnh)
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+
+# Stripe Payment (Optional)
+STRIPE_SECRET_KEY=your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=your-webhook-secret
+
+# Frontend URL
+CLIENT_URL=http://localhost:5173
+```
+
+**Khởi chạy Backend:**
+
+```bash
+npm run dev
+```
+
+Backend sẽ chạy tại: `http://localhost:3000`
+
+#### 3️⃣ Cài Đặt Frontend
+
+**Mở terminal mới:**
+
+```bash
+cd FE
+npm install
+```
+
+**Tạo file `.env` trong thư mục `FE/`:**
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+**Khởi chạy Frontend:**
+
+```bash
+npm run dev
+```
+
+Frontend sẽ chạy tại: `http://localhost:5173`
+
+#### 4️⃣ Seed Database (Tùy chọn)
+
+Nếu muốn có dữ liệu mẫu:
+
+```bash
+cd BE
+node scripts/seed.js
+```
+
+### 🌐 Truy Cập Website
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3000
+- **Admin Dashboard**: http://localhost:5173/admin
+
+### 👤 Tài Khoản Mặc Định
+
+**Admin:**
+- Email: `admin@bthn.com`
+- Password: `admin123`
+
+**User:**
+- Email: `user@bthn.com`
+- Password: `user123`
+
+### ⚠️ LƯU Ý QUAN TRỌNG
+
+1. **MongoDB**: Đảm bảo MongoDB đang chạy trước khi start backend
+   ```bash
+   # Kiểm tra MongoDB
+   mongosh
+   ```
+
+2. **Port Conflicts**: Nếu port 3000 hoặc 5173 đã được sử dụng:
+   - Backend: Đổi `PORT` trong file `.env`
+   - Frontend: Vite sẽ tự động chọn port khác (5174, 5175...)
+
+3. **Node Version**: Sử dụng Node.js v18+ để tránh lỗi
+   ```bash
+   node --version  # Kiểm tra version
+   ```
+
+4. **Environment Variables**: Đảm bảo đã tạo file `.env` cho cả BE và FE
+
+5. **CORS**: Nếu gặp lỗi CORS, kiểm tra `CLIENT_URL` trong `.env` backend
+
+---
+
+## 📂 CẤU TRÚC DỰ ÁN
+
+```
+Thuongmaidientu/
+├── BE/              # Backend (Node.js + Express + MongoDB)
+│   ├── src/         # Source code (controllers, models, routes, middleware)
+│   ├── scripts/     # Seed data scripts
+│   └── server.js    # Entry point
+│
+├── FE/              # Frontend (React + Vite + TailwindCSS)
+│   ├── public/      # Static assets
+│   └── src/         # Components, pages, services, store
+│
+└── README.md
+```
+
+## � GIỚI THIỆU DỰ ÁN
+
+**Jewelry BTHN** là hệ thống thương mại điện tử chuyên về trang sức (nhẫn, dây chuyền, vòng tay, bông tai) được xây dựng với kiến trúc RESTful API hiện đại và giao diện người dùng luxury. Dự án kết hợp giữa backend mạnh mẽ (Node.js + Express + MongoDB) và frontend đẹp mắt (React + Vite + TailwindCSS) để tạo nên một trải nghiệm mua sắm trực tuyến hoàn chỉnh.
 
 ### 🎯 Mục Tiêu Dự Án
 

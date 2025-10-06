@@ -6,7 +6,10 @@
     "test": "jest --runInBand",
     "start": "node BE/server.js",
     "dev": "nodemon BE/server.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "install:all": "npm install && cd FE && npm install",
+    "dev:all": "concurrently \"npm run dev\" \"cd FE && npm run dev\"",
+    "build:fe": "cd FE && npm run build"
   },
   "keywords": [],
   "author": "",

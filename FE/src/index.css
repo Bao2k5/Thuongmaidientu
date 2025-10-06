@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Pure White Minimalist Luxury Theme - Inspired by Mộc Miên Jewelry */
+  body {
+    @apply bg-luxury-white text-luxury-gray;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-luxury-black font-serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl;
+    font-weight: 300;
+  }
+
+  h3 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h4 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  a {
+    @apply text-luxury-darkGray transition-colors duration-300;
+  }
+
+  a:hover {
+    @apply text-luxury-black;
+  }
+}
+
+@layer components {
+  /* Elegant Bordered Button - Mộc Miên Style */
+  .btn-luxury {
+    @apply px-8 py-3 border-1 border-luxury-black text-luxury-black font-sans text-sm uppercase tracking-widest;
+    @apply transition-all duration-300 hover:bg-luxury-black hover:text-luxury-white;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+  }
+
+  .btn-luxury-outline {
+    @apply px-8 py-3 border-1 border-luxury-gray text-luxury-gray font-sans text-sm uppercase tracking-widest;
+    @apply transition-all duration-300 hover:border-luxury-black hover:text-luxury-black;
+    font-weight: 400;
+  }
+
+  .btn-luxury-small {
+    @apply px-6 py-2 border-1 border-luxury-black text-luxury-black font-sans text-xs uppercase tracking-extra-wide;
+    @apply transition-all duration-300 hover:bg-luxury-black hover:text-luxury-white;
+  }
+
+  /* Card with subtle shadow */
+  .card-luxury {
+    @apply bg-luxury-white border-1 border-luxury-platinum transition-all duration-300;
+    @apply hover:shadow-sm;
+  }
+
+  /* Input fields */
+  .input-luxury {
+    @apply w-full px-4 py-3 border-1 border-luxury-platinum bg-luxury-white text-luxury-darkGray;
+    @apply focus:outline-none focus:border-luxury-gray transition-colors duration-300;
+    font-size: 14px;
+  }
+
+  /* Section spacing */
+  .section-luxury {
+    @apply py-20 md:py-28;
+  }
+
+  /* Container */
+  .container-luxury {
+    @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .text-heading {
+    @apply text-luxury-black font-serif;
+  }
+
+  .text-body {
+    @apply text-luxury-gray font-sans;
+  }
+
+  .text-accent {
+    @apply text-luxury-darkGray;
+  }
+
+  .bg-subtle {
+    @apply bg-luxury-pearl;
+  }
+
+  .border-subtle {
+    @apply border-luxury-platinum;
+  }
+
+  .tracking-luxury {
+    letter-spacing: 0.15em;
+  }
+
+  .tracking-luxury-wide {
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Loading Animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
