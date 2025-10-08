@@ -141,7 +141,7 @@ node scripts/seed.js
 
 **Admin:**
 
-- Email: `admin@bthn.com`
+- Email: `admin@example.com`
 - Password: `admin123`
 
 **User:**
