@@ -1,12 +1,42 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import useWishlistStore from '../../store/wishlistStore';
+import useAuthStore from '../../store/authStore';
 
 const ProductCard = ({ product, onQuickView }) => {
+  const { user } = useAuthStore();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlistStore();
+  const [wishlistLoading, setWishlistLoading] = useState(false);
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
 
   const displayPrice = product.priceSale || product.price;
   const hasDiscount = product.priceSale && product.priceSale < product.price;
+  const inWishlist = isInWishlist(product._id);
+
+  const handleWishlistToggle = async (e) => {
+    e.preventDefault(); // Prevent navigation to product detail
+    e.stopPropagation();
+    
+    if (!user) {
+      // Could show login modal or redirect to login
+      return;
+    }
+
+    setWishlistLoading(true);
+    try {
+      if (inWishlist) {
+        await removeFromWishlist(product._id);
+      } else {
+        await addToWishlist(product);
+      }
+    } catch (error) {
+      console.error('Wishlist error:', error);
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
 
   return (
     <div className="group relative card-luxury">
@@ -39,6 +69,40 @@ const ProductCard = ({ product, onQuickView }) => {
           )}
         </div>
       </Link>
+      
+      {/* Wishlist Heart Button */}
+      {user && (
+        <button
+          onClick={handleWishlistToggle}
+          disabled={wishlistLoading}
+          className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+            inWishlist 
+              ? 'bg-red-500 text-white shadow-lg' 
+              : 'bg-luxury-white/90 text-luxury-darkGray hover:bg-red-50 hover:text-red-500'
+          } ${wishlistLoading ? 'opacity-50 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'}`}
+          title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+        >
+          {wishlistLoading ? (
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+          ) : (
+            <svg 
+              className="w-5 h-5" 
+              fill={inWishlist ? "currentColor" : "none"} 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth="2" 
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+              />
+            </svg>
+          )}
+        </button>
+      )}
+
+      {/* Quick View Button */}
       {onQuickView && (
         <button
           onClick={() => onQuickView(product)}

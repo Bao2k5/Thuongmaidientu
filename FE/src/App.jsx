@@ -14,6 +14,7 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Wishlist from './pages/Wishlist';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -154,7 +155,7 @@ function App() {
           <>
             <Header />
             <main className="flex-1 pt-24">
-              <ComingSoon title="Yêu Thích" />
+              <Wishlist />
             </main>
             <Footer />
             <ZaloChat />

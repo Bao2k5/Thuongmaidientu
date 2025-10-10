@@ -19,7 +19,7 @@ router.delete('/addresses/:index', verifyToken, userController.deleteAddress);
 // Wishlist
 const wishlistController = require('../controllers/wishlist.controller');
 router.get('/wishlist', verifyToken, wishlistController.getWishlist);
-router.post('/wishlist/:productId', verifyToken, wishlistController.addToWishlist);
+router.post('/wishlist', verifyToken, wishlistController.addToWishlist);
 router.delete('/wishlist/:productId', verifyToken, wishlistController.removeFromWishlist);
 
 module.exports = router;
