@@ -9,6 +9,8 @@ import {
   FiChevronLeft,
   FiChevronRight
 } from 'react-icons/fi';
+import BlogSection from '../components/common/BlogSection';
+import FlashSaleSection from '../components/common/FlashSaleSection';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -111,7 +113,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-luxury-cream">
       {/* Hero Slider */}
       <section className="relative h-[600px] overflow-hidden">
         {heroSlides.map((slide, index) => (
@@ -129,13 +131,13 @@ const Home = () => {
             </div>
             <div className="relative h-full flex items-center justify-center text-center text-white px-4">
               <div className={`transition-all duration-700 ${index === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">
+                <h1 className="font-display text-5xl md:text-6xl font-light text-white mb-4">
                   {slide.title}
                 </h1>
-                <p className="text-xl md:text-2xl mb-8">{slide.subtitle}</p>
+                <p className="text-lg md:text-2xl text-white/90 mb-8">{slide.subtitle}</p>
                 <Link
                   to={slide.link}
-                  className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full font-medium transition-colors"
+                  className="inline-flex items-center gap-2 bg-luxury-charcoal hover:bg-luxury-brown text-white px-8 py-4 rounded-full font-medium transition-colors"
                 >
                   {slide.cta}
                   <FiArrowRight />
@@ -176,7 +178,7 @@ const Home = () => {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-luxury-ivory">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
@@ -185,11 +187,11 @@ const Home = () => {
                 className="text-center animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-500 rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-luxury-beige text-luxury-brown rounded-full mb-4">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-lg font-semibold mb-2 text-luxury-charcoal">{feature.title}</h3>
+                <p className="text-luxury-brown">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -197,14 +199,14 @@ const Home = () => {
       </section>
 
       {/* Collections */}
-      <section className="py-20">
+      <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold mb-4">
-              Bộ Sưu Tập
+            <h2 className="font-display text-4xl md:text-5xl font-light text-luxury-charcoal mb-4">
+              Bộ Sưu Tập Bạc 925
             </h2>
-            <p className="text-gray-600 text-lg">
-              Khám phá các sản phẩm trang sức tinh tế và sang trọng
+            <p className="text-luxury-brown text-lg">
+              Khám phá các trang sức bạc 925 tinh tế và sang trọng
             </p>
           </div>
 
@@ -217,7 +219,7 @@ const Home = () => {
               >
                 <Link
                   to={collection.link}
-                  className="group block relative overflow-hidden rounded-lg"
+                  className="group block relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="aspect-square relative">
                     <img
@@ -225,12 +227,12 @@ const Home = () => {
                       alt={collection.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/60 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="text-2xl font-serif font-bold mb-1">
+                      <h3 className="font-display text-2xl font-light mb-1">
                         {collection.name}
                       </h3>
-                      <p className="text-sm text-gray-200">
+                      <p className="text-sm text-luxury-cream/80">
                         {collection.count} sản phẩm
                       </p>
                     </div>
@@ -243,22 +245,22 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+      <section className="py-20 bg-gradient-to-r from-luxury-brown via-luxury-taupe to-luxury-brown text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+            <h2 className="font-display text-4xl md:text-5xl font-light mb-6">
               Đăng Ký Nhận Ưu Đãi
             </h2>
-            <p className="text-xl mb-8 text-blue-50">
+            <p className="text-xl mb-8 text-luxury-cream">
               Nhận ngay mã giảm giá 10% cho đơn hàng đầu tiên
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Email của bạn"
-                className="flex-1 px-6 py-4 rounded-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                className="flex-1 px-6 py-4 rounded-full text-luxury-charcoal focus:outline-none focus:ring-2 focus:ring-luxury-cream"
               />
-              <button className="bg-white text-blue-500 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-colors">
+              <button className="bg-white text-luxury-brown px-8 py-4 rounded-full font-semibold hover:bg-luxury-cream transition-colors">
                 Đăng Ký
               </button>
             </div>
@@ -267,14 +269,14 @@ const Home = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20">
+      <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold mb-4">
-              Tại Sao Chọn Chúng Tôi
+            <h2 className="font-display text-4xl md:text-5xl font-light text-luxury-charcoal mb-4">
+              Tại Sao Chọn Hoàng My Jewelry
             </h2>
-            <p className="text-gray-600 text-lg">
-              Cam kết mang đến trải nghiệm mua sắm tốt nhất
+            <p className="text-luxury-brown text-lg">
+              Cam kết mang đến trải nghiệm mua sắm tốt nhất với bạc 925 tinh tế
             </p>
           </div>
 
@@ -284,7 +286,7 @@ const Home = () => {
                 emoji: '💎',
                 title: 'Chất Lượng Vượt Trội',
                 description:
-                  'Mỗi sản phẩm đều được chế tác tỉ mỉ từ vật liệu cao cấp và kiểm định chất lượng nghiêm ngặt.',
+                  'Mỗi sản phẩm bạc 925 đều được chế tác tỉ mỉ từ vật liệu cao cấp và kiểm định chất lượng nghiêm ngặt.',
               },
               {
                 emoji: '🎨',
@@ -296,7 +298,7 @@ const Home = () => {
                 emoji: '🤝',
                 title: 'Giá Trị Tốt Nhất',
                 description:
-                  'Cam kết mang đến sản phẩm chất lượng với mức giá hợp lý nhất trên thị trường.',
+                  'Cam kết mang đến sản phẩm chất lượng bạc 925 với mức giá hợp lý nhất trên thị trường.',
               },
             ].map((item, index) => (
               <div
@@ -305,8 +307,8 @@ const Home = () => {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="text-6xl mb-6">{item.emoji}</div>
-                <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-4 text-luxury-charcoal">{item.title}</h3>
+                <p className="text-luxury-brown leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -314,6 +316,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Flash Sale Section */}
+      <FlashSaleSection />
+
+      {/* Blog Section */}
+      <BlogSection />
     </div>
   );
 };
