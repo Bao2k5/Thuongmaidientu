@@ -4,23 +4,23 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 text-luxury-darkGray">
+    <footer className="bg-luxury-charcoal text-luxury-cream">
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Info */}
           <div>
-            <h3 className="font-display text-3xl font-light tracking-wide mb-4 text-luxury-black">
-              BTHN <span className="text-xl tracking-widest">JEWELRY</span>
+            <h3 className="font-display text-3xl font-light tracking-wide mb-4 text-luxury-cream">
+              HOÀNG <span className="text-xl tracking-widest">MY</span>
             </h3>
-            <p className="text-luxury-gray font-light text-sm leading-relaxed mb-6">
-              Trang sức cao cấp, thiết kế tinh xảo, mang đến vẻ đẹp vượt thời gian.
+            <p className="text-luxury-cream/80 font-light text-sm leading-relaxed mb-6">
+              Trang sức bạc 925 cao cấp, thiết kế tinh xảo, mang đến vẻ đẹp vượt thời gian.
             </p>
             <div className="flex space-x-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-luxury-darkGray hover:text-luxury-black transition"
+                className="text-luxury-cream hover:text-accent-silver transition"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-luxury-darkGray hover:text-luxury-black transition"
+                className="text-luxury-cream hover:text-accent-silver transition"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -42,7 +42,7 @@ const Footer = () => {
                 href="https://www.tiktok.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-luxury-darkGray hover:text-luxury-black transition"
+                className="text-luxury-cream hover:text-accent-silver transition"
                 aria-label="TikTok"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@ const Footer = () => {
                 href="https://zalo.me/0375225749"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-luxury-darkGray hover:text-luxury-black transition"
+                className="text-luxury-cream hover:text-accent-silver transition"
                 aria-label="Zalo"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
@@ -65,25 +65,25 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-black">Liên Kết</h4>
+            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Liên Kết</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/products" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/products" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Sản Phẩm
                 </Link>
               </li>
               <li>
-                <Link to="/collections" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/collections" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Bộ Sưu Tập
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/about" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Giới Thiệu
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/contact" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Liên Hệ
                 </Link>
               </li>
@@ -92,25 +92,25 @@ const Footer = () => {
 
           {/* Customer Support */}
           <div>
-            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-black">Hỗ Trợ</h4>
+            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Hỗ Trợ</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/shipping" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/shipping" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Vận Chuyển
                 </Link>
               </li>
               <li>
-                <Link to="/returns" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/returns" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Đổi Trả
                 </Link>
               </li>
               <li>
-                <Link to="/warranty" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/warranty" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   Bảo Hành
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <Link to="/faq" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   FAQ
                 </Link>
               </li>
@@ -119,30 +119,30 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-black">Liên Hệ</h4>
+            <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Liên Hệ</h4>
             <ul className="space-y-4">
               <li className="flex items-start space-x-3">
-                <svg className="w-5 h-5 text-luxury-darkGray mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-accent-silver mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="text-luxury-gray font-light text-sm">
+                <span className="text-luxury-cream/80 font-light text-sm">
                   Cộng Hòa, Tân Bình, TP.HCM
                 </span>
               </li>
               <li className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-luxury-darkGray flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-accent-silver flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <a href="tel:+84375223143" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <a href="tel:+84375223143" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   0375 223 143
                 </a>
               </li>
               <li className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-luxury-darkGray flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-accent-silver flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:2331540071@vaa.edu.vn" className="text-luxury-gray hover:text-luxury-black font-light text-sm transition">
+                <a href="mailto:2331540071@vaa.edu.vn" className="text-luxury-cream/80 hover:text-accent-silver font-light text-sm transition">
                   2331540071@vaa.edu.vn
                 </a>
               </li>
@@ -151,9 +151,9 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-luxury-platinum mt-12 pt-8">
-          <p className="text-center text-luxury-gray font-light text-sm">
-            © {currentYear} BTHN Jewelry. All rights reserved.
+        <div className="border-t border-luxury-brown/30 mt-12 pt-8">
+          <p className="text-center text-luxury-cream/70 font-light text-sm">
+            © {currentYear} Hoàng My Jewelry. Bạc 925 Tinh Tế & Nhẹ Nhàng. All rights reserved.
           </p>
         </div>
       </div>
