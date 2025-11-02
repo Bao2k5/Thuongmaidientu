@@ -11,6 +11,8 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('description');
 
   const product = mockProducts.find(p => p.id === parseInt(id)) || mockProducts[0];
+  // normalize stock flag: some data use `stock`, others use `inStock`
+  const inStock = (product.inStock !== undefined) ? product.inStock : (product.stock ? product.stock > 0 : true);
   const relatedProducts = mockProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   const productReviews = mockReviews.filter(r => r.productId === product.id);
 
@@ -40,7 +42,7 @@ const ProductDetail = () => {
           <div>
             <div className="aspect-square bg-gray-50 mb-4 overflow-hidden border border-sky-100">
               <img 
-                src={product.images[selectedImage]} 
+                src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'} 
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
               />
@@ -54,7 +56,7 @@ const ProductDetail = () => {
                     selectedImage === i ? 'border-sky-900' : 'border-gray-200 hover:border-sky-400'
                   }`}
                 >
-                  <img src={img} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                  <img src={img?.url || img || 'https://via.placeholder.com/500'} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -80,7 +82,7 @@ const ProductDetail = () => {
             <div className="mb-8">
               <p className="text-4xl font-light text-sky-900 mb-2">{formatPrice(product.price)}</p>
               <div className="flex items-center gap-2">
-                {product.inStock ? (
+                {inStock ? (
                   <>
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span className="text-green-600 font-light text-sm">Còn hàng</span>
@@ -139,7 +141,7 @@ const ProductDetail = () => {
 
             {/* Action Buttons */}
             <div className="space-y-4 mb-8">
-              <button className="w-full bg-sky-900 text-white py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300 flex items-center justify-center gap-2">
+              <button className="w-full bg-sky-900 text-white py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300 flex items-center justify-center gap-2" disabled={!inStock}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>

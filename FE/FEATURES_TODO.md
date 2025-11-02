@@ -3,6 +3,7 @@
 ## ✅ ĐÃ HOÀN THÀNH (Completed)
 
 ### Frontend Core
+
 - ✅ All pages render successfully (Home, Products, ProductDetail, Cart, Checkout, Auth)
 - ✅ Header with navigation, search, cart/wishlist counters
 - ✅ Footer with links and social media
@@ -13,6 +14,7 @@
 - ✅ Mock data cho testing
 
 ### Pages Implemented
+
 - ✅ **HomeSimple.jsx** - Hero, Features, Collections, About, Testimonials, Instagram, Products
 - ✅ **Products.jsx** - Grid/List view, Filters, Sort, Pagination
 - ✅ **ProductDetail.jsx** - Gallery, Info, Tabs, Reviews, Related products
@@ -29,6 +31,7 @@
 ### 1. 🎨 **Design & UX** (ĐANG LÀM)
 
 #### Màu sắc - Color Scheme
+
 - ⚠️ **Sky-900 quá đậm** → Đổi sang sky-700/gray-800 cho headings
 - ⚠️ **Sky-700 cho body text** → Đổi sang gray-700 (neutral)
 - ✅ Đã tạo custom color palette trong `tailwind.config.js`:
@@ -38,11 +41,13 @@
   - `neutral-custom-800`: Headings
 
 #### Typography
+
 - 📝 Headings nên lighter weight (font-light/font-normal thay vì font-semibold)
 - 📝 Body text tăng line-height cho dễ đọc (leading-relaxed → leading-loose)
 - 📝 Letter spacing cho headings (tracking-wide)
 
 #### Spacing & Layout
+
 - 📝 Tăng whitespace giữa các sections
 - 📝 Padding/margin cần consistent hơn
 - 📝 Card shadows nhẹ nhàng hơn (shadow-sm thay vì shadow-lg)
@@ -52,6 +57,7 @@
 ### 2. 🚀 **Features Còn Thiếu** (Missing Features)
 
 #### Products Page
+
 - ❌ **Quick View Modal** - Xem nhanh product không cần chuyển trang
 - ❌ **Filter by Material** - Chức năng lọc theo chất liệu chưa hoạt động
 - ❌ **Price Range Slider** - UI có nhưng chưa functional
@@ -60,6 +66,7 @@
 - ❌ **Product Count** - "Hiển thị X sản phẩm" chưa có
 
 #### Product Detail
+
 - ❌ **Image Zoom** - Hover vào ảnh chưa có zoom
 - ❌ **Image Lightbox** - Click ảnh mở fullscreen
 - ❌ **Add to Wishlist Animation** - Chưa có animation/feedback
@@ -69,6 +76,7 @@
 - ❌ **Review Pagination** - Nếu nhiều reviews
 
 #### Cart & Checkout
+
 - ❌ **Cart Notification** - Toast khi add to cart
 - ❌ **Remove Confirmation** - Confirm trước khi xóa
 - ❌ **Save for Later** - Lưu sản phẩm ra khỏi cart
@@ -77,6 +85,7 @@
 - ❌ **Payment Integration** - Stripe/VNPay chưa connect
 
 #### Header & Navigation
+
 - ❌ **Search Functionality** - Search modal có UI nhưng chưa hoạt động
 - ❌ **Search Suggestions** - Autocomplete khi gõ
 - ❌ **Search History** - Lưu lịch sử tìm kiếm
@@ -85,6 +94,7 @@
 - ❌ **Sticky Header** - Header fixed khi scroll
 
 #### Auth & User
+
 - ❌ **Form Validation** - Validation rules chưa đầy đủ
 - ❌ **Password Strength Meter** - Indicator khi đăng ký
 - ❌ **Forgot Password Flow** - Reset password qua email
@@ -99,27 +109,32 @@
 ### 3. 🔌 **Backend Integration** (API Connection)
 
 #### Products API
+
 - ❌ GET `/api/products` - Lấy danh sách sản phẩm
 - ❌ GET `/api/products/:id` - Chi tiết sản phẩm
 - ❌ GET `/api/products/search` - Tìm kiếm
 - ❌ GET `/api/products/related/:id` - Sản phẩm liên quan
 
 #### Cart API
+
 - ❌ GET `/api/cart` - Lấy giỏ hàng
 - ❌ POST `/api/cart` - Thêm vào giỏ
 - ❌ PUT `/api/cart/:id` - Cập nhật số lượng
 - ❌ DELETE `/api/cart/:id` - Xóa khỏi giỏ
 
 #### Order API
+
 - ❌ POST `/api/orders` - Đặt hàng
 - ❌ GET `/api/orders` - Lịch sử đơn hàng
 - ❌ GET `/api/orders/:id` - Chi tiết đơn hàng
 
 #### Review API
+
 - ❌ GET `/api/reviews/:productId` - Lấy đánh giá
 - ❌ POST `/api/reviews` - Viết đánh giá
 
 #### Auth API
+
 - ❌ POST `/api/auth/register` - Đăng ký
 - ❌ POST `/api/auth/login` - Đăng nhập
 - ❌ POST `/api/auth/logout` - Đăng xuất
@@ -130,18 +145,21 @@
 ### 4. 🐛 **Bugs & Issues**
 
 #### Visual Issues
+
 - ⚠️ **Sky-900 color** - Quá đậm, cần lighter
 - ⚠️ Hover effects - Một số nơi thiếu hover state
 - ⚠️ Focus states - Input fields thiếu focus indicator
 - ⚠️ Loading states - Chưa có skeleton/spinner
 
 #### Functional Issues
+
 - ⚠️ Store persistence - Cart/Wishlist chưa lưu vào localStorage
 - ⚠️ Image fallback - Chưa có placeholder khi ảnh lỗi
 - ⚠️ Error boundaries - Chưa có error handling UI
 - ⚠️ 404 page - Chưa có page not found
 
 #### Performance Issues
+
 - ⚠️ Image optimization - Chưa có lazy loading
 - ⚠️ Code splitting - Chưa split routes
 - ⚠️ Bundle size - Chưa optimize
@@ -206,6 +224,7 @@
 ## 🎯 PRIORITY ORDER (Thứ tự ưu tiên)
 
 ### 🔥 HIGH PRIORITY - LÀM NGAY
+
 1. ✅ **Fix màu sắc** - Đổi sky-900 sang lighter colors
 2. **Backend API Integration** - Connect real data
 3. **Search Functionality** - Làm search hoạt động
@@ -213,6 +232,7 @@
 5. **Form Validation** - Validate tất cả forms
 
 ### 🟡 MEDIUM PRIORITY - LÀM SAU
+
 6. **Quick View Modal** - Product quick view
 7. **Image Zoom** - Zoom on hover/click
 8. **Mobile Menu** - Hamburger navigation
@@ -220,6 +240,7 @@
 10. **Error Handling** - Error boundaries
 
 ### 🔵 LOW PRIORITY - NẾU CÒN THỜI GIAN
+
 11. **Wishlist Page** - Full wishlist page
 12. **Order History** - User order history
 13. **Social Login** - Google/Facebook
@@ -236,6 +257,7 @@
 **Pending:** ~54 (69%)
 
 **Estimated Time:**
+
 - Color fixes: 2 hours ⏰ (ĐANG LÀM)
 - Backend integration: 8-12 hours
 - Missing features: 15-20 hours

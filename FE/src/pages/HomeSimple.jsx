@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import ProductCard from '../components/common/ProductCard';
+import FlashSaleSection from '../components/common/FlashSaleSection';
 import { mockProducts, mockTestimonials, mockCollections } from '../utils/mockData';
 
 const HomeSimple = () => {
@@ -59,6 +61,9 @@ const HomeSimple = () => {
           </div>
         </div>
       </section>
+
+      {/* Flash Sale Section */}
+      <FlashSaleSection products={mockProducts} />
 
       {/* Collections */}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">

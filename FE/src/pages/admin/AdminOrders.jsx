@@ -190,7 +190,7 @@ const AdminOrders = () => {
                     <div key={index} className="flex items-center gap-4 p-3 bg-luxury-pearl rounded">
                       {item.product?.images?.[0] && (
                         <img
-                          src={item.product.images[0]}
+                          src={item.product.images[0]?.url || item.product.images[0] || 'https://via.placeholder.com/100'}
                           alt={item.product.name}
                           className="w-16 h-16 object-cover rounded border border-luxury-platinum"
                         />

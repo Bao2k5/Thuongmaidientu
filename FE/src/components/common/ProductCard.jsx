@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import useWishlistStore from '../../store/wishlistStore';
 import useAuthStore from '../../store/authStore';
 
@@ -39,11 +40,17 @@ const ProductCard = ({ product, onQuickView }) => {
   };
 
   return (
-    <div className="group relative card-luxury">
+    <motion.div 
+      className="group relative card-luxury"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+    >
       <Link to={`/products/${product.id}`} className="block">
         <div className="aspect-square overflow-hidden bg-luxury-pearl">
           <img 
-            src={product.images?.[0] || product.img} 
+            src={product.images?.[0]?.url || product.img || 'https://via.placeholder.com/500'} 
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
@@ -69,6 +76,18 @@ const ProductCard = ({ product, onQuickView }) => {
           )}
         </div>
       </Link>
+      
+      {/* Discount Badge */}
+      {hasDiscount && (
+        <motion.div 
+          className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold"
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
+        >
+          -{Math.round(((product.price - product.priceSale) / product.price) * 100)}%
+        </motion.div>
+      )}
       
       {/* Wishlist Heart Button */}
       {user && (
@@ -111,10 +130,10 @@ const ProductCard = ({ product, onQuickView }) => {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
+          )}
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };
 

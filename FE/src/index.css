@@ -109,7 +109,7 @@
   }
 
   .bg-subtle {
-    @apply bg-luxury-pearl;
+    @apply bg-luxury-white;
   }
 
   .border-subtle {

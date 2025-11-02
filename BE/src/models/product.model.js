@@ -1,7 +1,8 @@
 // src/models/product.model.js
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema(
+{
   name: { type: String, required: true, trim: true },
   slug: { type: String, required: true, unique: true, index: true },
   description: { type: String, default: "" },
@@ -19,6 +20,6 @@ const productSchema = new mongoose.Schema({
   seller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   attributes: { type: Object },
   createdAt: { type: Date, default: Date.now }
-});
+}, { suppressReservedKeysWarning: true });
 
 module.exports = mongoose.model("Product", productSchema);

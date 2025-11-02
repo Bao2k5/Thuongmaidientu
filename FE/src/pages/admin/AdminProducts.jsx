@@ -161,7 +161,7 @@ const AdminProducts = () => {
                     <div className="flex items-center gap-3">
                       {product.images?.[0] && (
                         <img
-                          src={product.images[0]}
+                          src={product.images[0]?.url || product.images[0] || 'https://via.placeholder.com/100'}
                           alt={product.name}
                           className="w-12 h-12 object-cover rounded border border-luxury-platinum"
                         />

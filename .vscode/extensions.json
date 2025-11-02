@@ -1,0 +1,12 @@
+{
+  // Workspace extension recommendations. These are suggestions; VS Code won't auto-disable extensions.
+  "recommendations": [
+    "eamodio.gitlens",
+    "kisstkondoros.vscode-gutter-preview",
+    "kisstkondoros.vscode-code-outline",
+    "pflannery.vscode-versionlens"
+  ],
+  "unwantedRecommendations": [
+    "eamodio.gitlens"
+  ]
+}

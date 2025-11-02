@@ -5,6 +5,7 @@
 ### ✅ ĐÃ SỬA HOÀN TOÀN
 
 #### 1. **Đăng nhập Admin** ✅ FIXED
+
 - ✅ Sửa logic redirect dựa trên role trong `Login.jsx`
 - ✅ Thêm error handling và hiển thị lỗi chi tiết
 - ✅ Thêm loading states với disable button
@@ -12,12 +13,14 @@
 - ✅ Admin credentials: admin@example.com / admin123
 
 #### 2. **Social Login (Google & Facebook)** ✅ CLARIFIED
+
 - ✅ Thêm handler function cho social login buttons
 - ✅ Hiển thị thông báo rõ ràng: "Sẽ được triển khai sau"
 - ✅ Chuẩn bị structure cho OAuth integration tương lai
 - ⚠️ **Lưu ý**: Cần OAuth credentials để hoạt động đầy đủ
 
 #### 3. **Database MongoDB Logic** ✅ VERIFIED
+
 - ✅ Kiểm tra toàn bộ CRUD operations trong controllers
 - ✅ Verify database connection: Hoạt động tốt
 - ✅ User Model schema: Đúng và đầy đủ
@@ -25,20 +28,23 @@
 - ✅ Collections: 8 collections hoạt động bình thường
 
 #### 4. **Environment Variables** ✅ FIXED
+
 - ✅ Sửa `FRONTEND_URL` từ 3000 → 5174
 - ✅ Verify `VITE_API_URL` trong frontend
 - ✅ JWT_SECRET đủ mạnh (32+ ký tự)
 
 #### 5. **UX Improvements** ✅ ADDED
+
 - ✅ Error messages hiển thị rõ ràng
 - ✅ Loading states với spinner
 - ✅ Button disabled khi loading
 - ✅ Success/Error feedback
 
 **Test Results:**
+
 ```bash
 ✅ Backend API: http://localhost:3000 - Running
-✅ Frontend: http://localhost:5173 - Running  
+✅ Frontend: http://localhost:5173 - Running
 ✅ MongoDB: Connected successfully
 ✅ Admin Login Test: PASSED
 ✅ Database Operations: PASSED
@@ -49,35 +55,42 @@
 ## ✅ Đã sửa trước đó
 
 ### 1. **Cấu hình cơ bản**
+
 - ✅ MONGO_URI: Thêm database name `/thuongmaidientu`
 - ✅ Postman baseUrl: Đổi từ 5000 → 3000
 - ✅ JWT_SECRET: Đổi sang secret mạnh hơn (32+ ký tự)
 
 ### 2. **Models & Schema**
+
 - ✅ Product.images: Sửa schema khớp với controller (object có `url` và `public_id`)
 - ✅ Collection schema: Thêm `suppressReservedKeysWarning: true` để tắt warning
 
 ### 3. **Stripe Webhook Integration**
+
 - ✅ Di chuyển webhook route lên trước `express.json()` trong `app.js`
 - ✅ Stripe có thể verify signature với raw body
 - ✅ Comment route webhook trong `order.routes.js` (đã di chuyển)
 
 ### 4. **Stock Management**
+
 - ✅ Tránh giảm stock 2 lần:
   - `createOrder`: Chỉ giảm stock khi `!req.body.useStripe`
   - `webhook`: Giảm stock khi Stripe payment thành công
   - Dùng flag `order.stockAdjusted` để đảm bảo chỉ giảm 1 lần
 
 ### 5. **Error Handling**
+
 - ✅ AdminLog.create: Thêm `.catch()` để không block request nếu log fail
 - ✅ user.addresses update: Kiểm tra index hợp lệ trước khi update
 - ✅ Dùng `Object.assign()` thay vì spread operator với `_doc`
 
 ### 6. **Security & Performance**
+
 - ✅ Rate limiter: Flexible cho dev/prod (`isDev ? 1000 : 200`)
 - ✅ Env validation: Check `MONGO_URI` và `JWT_SECRET` length khi khởi động
 
 ### 7. **Cleanup Warnings**
+
 - ✅ Xóa deprecated MongoDB options (`useNewUrlParser`, `useUnifiedTopology`)
 - ✅ Không còn warning khi khởi động server
 
@@ -86,6 +99,7 @@
 ## 🎯 Cách chạy và kiểm tra
 
 ### 1. Khởi động server
+
 ```powershell
 # Cài dependencies (lần đầu)
 npm install
@@ -98,6 +112,7 @@ npm run dev
 ```
 
 ### 2. Test bằng Postman
+
 - Import `postman_collection.json`
 - Collection variables đã set đúng: `baseUrl = http://localhost:3000`
 - Login admin: POST `/api/auth/login`
@@ -110,6 +125,7 @@ npm run dev
 - Copy token từ response → Set vào biến `{{adminToken}}`
 
 ### 3. Test Stripe flow (nếu có STRIPE_SECRET)
+
 1. Thêm sản phẩm vào cart: POST `/api/cart`
 2. Tạo PaymentIntent: POST `/api/orders/create-payment-intent`
 3. Webhook sẽ tự động mark order paid khi payment thành công
@@ -151,11 +167,13 @@ npm run dev
 ## ⚠️ Lưu ý khi deploy production
 
 1. **Environment variables bắt buộc:**
+
    - `MONGO_URI` - MongoDB connection string
    - `JWT_SECRET` - Ít nhất 32 ký tự random
    - `NODE_ENV=production` - Để bật rate limiting nghiêm ngặt
 
 2. **Optional nhưng khuyến nghị:**
+
    - `SMTP_*` - Để gửi email thật (reset password, verify)
    - `CLOUDINARY_*` - Để upload ảnh sản phẩm
    - `STRIPE_*` - Để nhận thanh toán thật

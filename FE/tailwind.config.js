@@ -17,8 +17,8 @@ export default {
           lightGray: '#999999',
           silver: '#cccccc',
           platinum: '#e5e5e5',
-          pearl: '#f5f5f5',
-          ivory: '#fafafa',
+          pearl: '#FFFFFF',
+          ivory: '#FFFFFF',
         },
         // Subtle accent colors (rarely used, for special highlights)
         accent: {

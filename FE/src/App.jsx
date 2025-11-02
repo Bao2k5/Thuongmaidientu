@@ -4,6 +4,7 @@ import useAuthStore from './store/authStore';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ZaloChat from './components/common/ZaloChat';
+import ScrollToTop from './components/common/ScrollToTop';
 import HomeSimple from './pages/HomeSimple';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -15,6 +16,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Wishlist from './pages/Wishlist';
+import OrderHistory from './pages/OrderHistory';
+import OrderDetail from './pages/OrderDetail';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -43,6 +46,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Routes>
         {/* Admin Routes - No Header/Footer */}
         <Route path="/admin" element={<AdminDashboard />} />
@@ -165,7 +169,17 @@ function App() {
           <>
             <Header />
             <main className="flex-1 pt-24">
-              <ComingSoon title="Đơn Hàng" />
+              <OrderHistory />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/orders/:id" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-24">
+              <OrderDetail />
             </main>
             <Footer />
             <ZaloChat />

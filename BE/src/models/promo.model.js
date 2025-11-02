@@ -1,7 +1,8 @@
 // src/models/promo.model.js
 const mongoose = require('mongoose');
 
-const promoSchema = new mongoose.Schema({
+const promoSchema = new mongoose.Schema(
+{
   title: { type: String, required: true },
   type: { type: String, enum: ['product', 'collection', 'sitewide'], default: 'product' },
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
