@@ -7,30 +7,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Pure Luxury Color Palette - All White Theme inspired by Mộc Miên
+        // Mộc Miên Jewelry - Cream Milk Tea Palette (Kem Sữa Bò)
         luxury: {
-          white: '#FFFFFF',
-          black: '#000000',
-          charcoal: '#1a1a1a',
-          darkGray: '#333333',
-          gray: '#666666',
-          lightGray: '#999999',
-          silver: '#cccccc',
-          platinum: '#e5e5e5',
-          pearl: '#FFFFFF',
-          ivory: '#FFFFFF',
+          cream: '#F5F1ED',      // Kem nhạt (nền chính)
+          ivory: '#FAF7F2',      // Tivory (nền phụ)
+          sand: '#E8DFD3',       // Cát nhạt
+          beige: '#D9CCBE',      // Be da người
+          taupe: '#A89678',      // Taupe (text nhạt)
+          brown: '#5C4033',      // Nâu (text chính)
+          charcoal: '#2C2415',   // Charcoal tối (headings)
+          white: '#FFFFFF',      // Trắng tinh
+          black: '#1A1A1A',      // Đen (chỉ dùng khi cần)
         },
-        // Subtle accent colors (rarely used, for special highlights)
+        // Accent colors (tối giản)
         accent: {
-          gold: '#d4af37',
-          rose: '#e6b8af',
-          sage: '#b8c5b8',
+          silver: '#C0C0C0',     // Bạc 925
+          gold: '#D4AF37',       // Vàng (hiếm)
+          rose: '#E8CCBC',       // Hồng nhạt
         },
       },
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'serif'],
-        display: ['Cormorant Garamond', 'serif'], // For logo & elegant headings
+        sans: ['Open Sans', 'Segoe UI', 'sans-serif'],
+        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
+        display: ['Playfair Display', 'serif'], // Logo & elegant headings
       },
       letterSpacing: {
         widest: '0.2em',
