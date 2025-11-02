@@ -18,25 +18,25 @@ const Home = () => {
   const heroSlides = [
     {
       id: 1,
-      title: 'Bộ Sưu Tập Xuân Hè 2024',
-      subtitle: 'Tỏa sáng với phong cách riêng của bạn',
-      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1920&q=80',
+      title: 'Bộ Sưu Tập Mới 2024',
+      subtitle: 'Bạc 925 tinh tế & nhẹ nhàng',
+      image: '/images/hero-slide-1.jpg',  // Admin tự upload
       cta: 'Khám Phá Ngay',
       link: '/products',
     },
     {
       id: 2,
-      title: 'Nhẫn Kim Cương Sang Trọng',
+      title: 'Nhẫn Bạc 925 Sang Trọng',
       subtitle: 'Biểu tượng của tình yêu vĩnh cửu',
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1920&q=80',
+      image: '/images/hero-slide-2.jpg',
       cta: 'Xem Sản Phẩm',
       link: '/products',
     },
     {
       id: 3,
-      title: 'Dây Chuyền Cao Cấp',
+      title: 'Dây Chuyền Bạc 925 Cao Cấp',
       subtitle: 'Nâng tầm phong cách của bạn',
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1920&q=80',
+      image: '/images/hero-slide-3.jpg',
       cta: 'Mua Sắm Ngay',
       link: '/products',
     },
@@ -45,31 +45,31 @@ const Home = () => {
   const collections = [
     {
       id: 1,
-      name: 'Nhẫn Cưới',
-      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80',
+      name: 'Nhẫn Bạc 925',
+      image: '/images/placeholder-rings.jpg',  // Admin tự upload vào /public/images/
       count: 25,
-      link: '/products?category=rings',
+      link: '/products?category=nhẫn',
     },
     {
       id: 2,
-      name: 'Dây Chuyền',
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80',
+      name: 'Dây Chuyền Bạc 925',
+      image: '/images/placeholder-necklaces.jpg',
       count: 35,
-      link: '/products?category=necklaces',
+      link: '/products?category=dây chuyền',
     },
     {
       id: 3,
-      name: 'Bông Tai',
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80',
+      name: 'Bông Tai Bạc 925',
+      image: '/images/placeholder-earrings.jpg',
       count: 40,
-      link: '/products?category=earrings',
+      link: '/products?category=bông tai',
     },
     {
       id: 4,
-      name: 'Vòng Tay',
-      image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80',
+      name: 'Vòng Tay Bạc 925',
+      image: '/images/placeholder-bracelets.jpg',
       count: 30,
-      link: '/products?category=bracelets',
+      link: '/products?category=vòng tay',
     },
   ];
 

@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Mộc Miên Jewelry - Cream Milk Tea Palette (Kem Sữa Bò)
+        // Mộc Miên Jewelry - Cream Milk Tea Palette (Kem Sữa Bò) - NHẠT HƠN
         luxury: {
-          cream: '#F5F1ED',      // Kem nhạt (nền chính)
-          ivory: '#FAF7F2',      // Tivory (nền phụ)
-          sand: '#E8DFD3',       // Cát nhạt
-          beige: '#D9CCBE',      // Be da người
-          taupe: '#A89678',      // Taupe (text nhạt)
-          brown: '#5C4033',      // Nâu (text chính)
-          charcoal: '#2C2415',   // Charcoal tối (headings)
+          cream: '#F8F5F2',      // Kem rất nhạt (nền chính) - lightened from #F5F1ED
+          ivory: '#FCFAF8',      // Ivory rất nhạt (nền phụ) - lightened from #FAF7F2
+          sand: '#EDE6DC',       // Cát nhạt hơn - lightened from #E8DFD3
+          beige: '#E2D8CC',      // Be nhạt hơn - lightened from #D9CCBE
+          taupe: '#B8A890',      // Taupe nhạt hơn (text nhạt) - lightened from #A89678
+          brown: '#6B5845',      // Nâu nhạt hơn (text chính) - lightened from #5C4033
+          charcoal: '#3D3728',   // Charcoal nhạt hơn (headings) - lightened from #2C2415
           white: '#FFFFFF',      // Trắng tinh
           black: '#1A1A1A',      // Đen (chỉ dùng khi cần)
         },
@@ -24,6 +24,8 @@ export default {
           silver: '#C0C0C0',     // Bạc 925
           gold: '#D4AF37',       // Vàng (hiếm)
           rose: '#E8CCBC',       // Hồng nhạt
+          softPeach: '#F5E6D3',  // Mới: Đào nhạt - hợp với kem sữa (cho Product section)
+          lightRose: '#F0DFD2',  // Mới: Hồng nhạt - thay thế hồng cũ
         },
       },
       fontFamily: {
