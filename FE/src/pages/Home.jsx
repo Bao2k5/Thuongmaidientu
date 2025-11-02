@@ -9,6 +9,10 @@ import {
   FiChevronLeft,
   FiChevronRight
 } from 'react-icons/fi';
+import PartnerBanner from '../components/common/PartnerBanner';
+import BlogSection from '../components/common/BlogSection';
+import FlashSaleSection from '../components/common/FlashSaleSection';
+import ScrollToTop from '../components/common/ScrollToTop';
 import BlogSection from '../components/common/BlogSection';
 import FlashSaleSection from '../components/common/FlashSaleSection';
 
@@ -319,6 +323,9 @@ const Home = () => {
 
       {/* Flash Sale Section */}
       <FlashSaleSection />
+
+      {/* Partner Banner */}
+      <PartnerBanner />
 
       {/* Blog Section */}
       <BlogSection />

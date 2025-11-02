@@ -5,11 +5,13 @@
 ### ✅ Đã Hoàn Thành:
 
 1. **Tên Thương Hiệu**
+
    - ✅ Đổi tên từ "BTHN Jewelry" → "Hoàng My Jewelry"
    - ✅ Logo header: "HOÀNG MY" (Playfair Display font)
    - ✅ Tất cả pages cập nhật tên
 
 2. **Palette Màu Sắc - Kem Sữa Bò Nhẹ Nhàng**
+
    - **Nền Chính**: `#F8F5F2` (Cream rất nhạt)
    - **Nền Phụ**: `#FCFAF8` (Ivory rất nhạt)
    - **Cát Nhạt**: `#EDE6DC`
@@ -20,11 +22,13 @@
    - **Màu Mới - Đào Nhạt**: `#F5E6D3` (Product cards - softPeach)
 
 3. **Typography**
+
    - ✅ Serif: Playfair Display (headings, logo)
    - ✅ Sans: Open Sans (body text)
    - Import từ Google Fonts trong `FE/index.html`
 
 4. **Sản Phẩm Bạc 925**
+
    - ✅ 25 silver 925 products seeded trong database
    - ✅ Tất cả material = "Bạc 925"
    - ✅ Categories: Nhẫn, Dây chuyền, Vòng tay, Bông tai
@@ -44,24 +48,25 @@
 
 **Danh sách ảnh:**
 
-| Loại | Tên File | Kích Thước | Nội Dung |
-|------|----------|-----------|---------|
-| **Hero Banner** | `hero-slide-1.jpg` | 1920x600px | Bộ sưu tập mới 2024 |
-| | `hero-slide-2.jpg` | 1920x600px | Nhẫn Bạc 925 Sang Trọng |
-| | `hero-slide-3.jpg` | 1920x600px | Dây Chuyền Cao Cấp |
-| **Collection Cover** | `placeholder-rings.jpg` | 600x600px | Nhẫn Bạc 925 |
-| | `placeholder-necklaces.jpg` | 600x600px | Dây Chuyền Bạc 925 |
-| | `placeholder-earrings.jpg` | 600x600px | Bông Tai Bạc 925 |
-| | `placeholder-bracelets.jpg` | 600x600px | Vòng Tay Bạc 925 |
-| **Blog Posts** | `blog-why-silver.jpg` | 400x300px | Tại sao chọn bạc 925 |
-| | `blog-care-silver.jpg` | 400x300px | Cách chăm sóc bạc |
-| | `blog-history-silver.jpg` | 400x300px | Lịch sử bạc |
+| Loại                 | Tên File                    | Kích Thước | Nội Dung                |
+| -------------------- | --------------------------- | ---------- | ----------------------- |
+| **Hero Banner**      | `hero-slide-1.jpg`          | 1920x600px | Bộ sưu tập mới 2024     |
+|                      | `hero-slide-2.jpg`          | 1920x600px | Nhẫn Bạc 925 Sang Trọng |
+|                      | `hero-slide-3.jpg`          | 1920x600px | Dây Chuyền Cao Cấp      |
+| **Collection Cover** | `placeholder-rings.jpg`     | 600x600px  | Nhẫn Bạc 925            |
+|                      | `placeholder-necklaces.jpg` | 600x600px  | Dây Chuyền Bạc 925      |
+|                      | `placeholder-earrings.jpg`  | 600x600px  | Bông Tai Bạc 925        |
+|                      | `placeholder-bracelets.jpg` | 600x600px  | Vòng Tay Bạc 925        |
+| **Blog Posts**       | `blog-why-silver.jpg`       | 400x300px  | Tại sao chọn bạc 925    |
+|                      | `blog-care-silver.jpg`      | 400x300px  | Cách chăm sóc bạc       |
+|                      | `blog-history-silver.jpg`   | 400x300px  | Lịch sử bạc             |
 
 **Tổng: 10 ảnh**
 
 ### 📋 Quy Tắc Upload:
 
 1. **Tên file phải chính xác 100%** (case-sensitive)
+
    - ✅ `hero-slide-1.jpg` ✓
    - ❌ `Hero-Slide-1.jpg` ✗
    - ❌ `hero_slide_1.jpg` ✗
@@ -69,11 +74,13 @@
 2. **Định dạng ảnh**: JPG hoặc PNG (tối ưu hóa size)
 
 3. **Màu sắc phù hợp**:
+
    - Nền: Kem nhạt, trắng, hoặc sáng
    - Không dùng màu đậm, tối
    - Trang sức bạc 925 as main focus
 
 4. **Chất lượng cao**:
+
    - Hero: Ít nhất 1920x1080px
    - Collection: Ít nhất 600x600px
    - Blog: Ít nhất 400x300px
@@ -109,6 +116,7 @@ Database:
 ## 🚀 Cách Chạy Ứng Dụng
 
 ### Terminal 1 - Backend:
+
 ```bash
 cd BE
 npm run dev
@@ -116,6 +124,7 @@ npm run dev
 ```
 
 ### Terminal 2 - Frontend:
+
 ```bash
 cd FE
 npm run dev
@@ -123,6 +132,7 @@ npm run dev
 ```
 
 ### Truy cập:
+
 - **Web**: http://localhost:3003
 - **API**: http://localhost:3000
 
@@ -130,13 +140,13 @@ npm run dev
 
 ## 📝 Danh Sách Commits Phase 5
 
-| Commit | Mô Tả |
-|--------|-------|
+| Commit    | Mô Tả                                                   |
+| --------- | ------------------------------------------------------- |
 | `c3aafd4` | Lighter palette, remove hardcoded images, add softPeach |
-| `a7f7a78` | Update Footer - dark charcoal theme |
-| `31637ab` | BlogSection component, update Home page |
-| `0b20d99` | Header update - Hoàng My, UserAvatar, cream/brown |
-| `6ec84b6` | Redesign - 20 silver 925 products, fonts, palette |
+| `a7f7a78` | Update Footer - dark charcoal theme                     |
+| `31637ab` | BlogSection component, update Home page                 |
+| `0b20d99` | Header update - Hoàng My, UserAvatar, cream/brown       |
+| `6ec84b6` | Redesign - 20 silver 925 products, fonts, palette       |
 
 ---
 
@@ -158,14 +168,17 @@ npm run dev
 ### Sau khi upload ảnh:
 
 1. **Test tất cả pages**:
+
    - Home → Collections → Products → Checkout → Orders
    - Verify colors, fonts, responsive
 
 2. **Kiểm tra Admin**:
+
    - Admin dashboard hoạt động?
    - Có thể edit products, add categories?
 
 3. **Mobile testing**:
+
    - Responsive design ok?
    - Touch interactions smooth?
 
@@ -178,6 +191,7 @@ npm run dev
 ## 📞 Liên Hệ Hỗ Trợ
 
 **Nếu có vấn đề:**
+
 - Check `/FE/public/images/README.md` để xem danh sách file cần upload
 - Verify tên file chính xác (case-sensitive)
 - Refresh trình duyệt sau khi upload ảnh
