@@ -1,50 +1,28 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAuthStore from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 // API calls
 const fetchPartners = async () => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/partners/admin/all`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  if (!response.ok) throw new Error('Lỗi tải partners');
-  return response.json();
+  const response = await api.get('/partners/admin/all');
+  return response.data;
 };
 
 const createPartner = async (partnerData) => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/partners/admin/create`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(partnerData),
-  });
-  if (!response.ok) throw new Error('Lỗi tạo partner');
-  return response.json();
+  const response = await api.post('/partners/admin/create', partnerData);
+  return response.data;
 };
 
 const updatePartner = async ({ id, data }) => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/partners/admin/update/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error('Lỗi cập nhật partner');
-  return response.json();
+  const response = await api.put(`/partners/admin/update/${id}`, data);
+  return response.data;
 };
 
 const deletePartner = async (id) => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/partners/admin/delete/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  if (!response.ok) throw new Error('Lỗi xóa partner');
-  return response.json();
+  const response = await api.delete(`/partners/admin/delete/${id}`);
+  return response.data;
 };
 
 const AdminPartners = () => {
@@ -295,7 +273,7 @@ const AdminPartners = () => {
                   <td className="px-4 py-3 text-center space-x-2">
                     <button
                       onClick={() => handleEdit(partner)}
-                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition text-sm"
+                      className="px-3 py-1 bg-luxury-sand text-luxury-brown rounded hover:bg-luxury-beige transition text-sm"
                     >
                       Sửa
                     </button>
