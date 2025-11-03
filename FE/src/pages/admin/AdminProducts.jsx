@@ -146,7 +146,7 @@ const AdminProducts = () => {
         const formDataUpload = new FormData();
         formDataUpload.append('image', file);
 
-        const response = await api.post('/api/upload/image', formDataUpload, {
+        const response = await api.post('/upload/image', formDataUpload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
 
