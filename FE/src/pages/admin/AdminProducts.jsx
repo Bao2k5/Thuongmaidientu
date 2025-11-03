@@ -383,19 +383,15 @@ const AdminProducts = () => {
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
                   Chất Liệu *
                 </label>
-                <select
-                  required
-                  value={formData.material}
-                  onChange={(e) => setFormData({ ...formData, material: e.target.value })}
-                  className="input-luxury w-full"
-                >
-                  <option value="Vàng 18K">Vàng 18K</option>
-                  <option value="Vàng trắng 18K">Vàng trắng 18K</option>
-                  <option value="Bạch kim">Bạch kim</option>
-                  <option value="Bạch kim 950">Bạch kim 950</option>
-                  <option value="Bạc 925">Bạc 925</option>
-                  <option value="Bạc Ý">Bạc Ý</option>
-                </select>
+                  <select
+                    required
+                    value={formData.material}
+                    onChange={(e) => setFormData({ ...formData, material: e.target.value })}
+                    className="input-luxury w-full"
+                  >
+                    <option value="Bạc 925">Bạc 925</option>
+                    <option value="Bạc Ý">Bạc Ý</option>
+                  </select>
               </div>
 
               <div>

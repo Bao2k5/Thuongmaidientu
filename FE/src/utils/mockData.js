@@ -208,7 +208,7 @@ export const mockTestimonials = [
     id: 1,
     name: 'Nguyễn Thị Mai',
     role: 'Khách hàng thân thiết',
-    content: 'Tôi đã mua nhiều trang sức tại đây và luôn hài lòng với chất lượng cũng như dịch vụ. BTHN là nơi tôi tin tưởng nhất.',
+    content: 'Tôi đã mua nhiều trang sức tại đây và luôn hài lòng với chất lượng cũng như dịch vụ. Hoàng My là nơi tôi tin tưởng nhất.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80'
   },
@@ -258,4 +258,4 @@ export const mockCollections = [
 ];
 
 export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Vòng Tay'];
-export const materials = ['Vàng 18K', 'Vàng trắng 18K', 'Bạch kim'];
+export const materials = ['Bạc 925', 'Bạc Ý'];
