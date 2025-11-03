@@ -1,20 +1,36 @@
 import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/layout/AdminLayout';
 import { api } from '../../services/api';
+import useAuthStore from '../../store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 const AdminProducts = () => {
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
+
+  // Redirect if not admin
+  useEffect(() => {
+    if (!user?.role === 'admin') {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [uploadingImages, setUploadingImages] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     price: '',
     priceSale: '',
-    category: 'Nhẫn',
-    material: 'Vàng 18K',
+    category: '',
+    material: '',
     description: '',
     stock: '',
+    images: [],
     specifications: {
       material: '',
       gemstone: '',
@@ -40,25 +56,40 @@ const AdminProducts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
+      // Upload images first if any
+      let uploadedImages = [];
+      if (selectedFiles.length > 0) {
+        uploadedImages = await uploadImages();
+      }
+
       const data = {
-        ...formData,
+        name: formData.name,
         price: parseFloat(formData.price),
         priceSale: formData.priceSale ? parseFloat(formData.priceSale) : null,
-        stock: parseInt(formData.stock)
+        category: formData.category,
+        material: formData.material,
+        description: formData.description,
+        stock: parseInt(formData.stock),
+        specifications: formData.specifications,
+        images: [...formData.images, ...uploadedImages] // Combine existing and new images
       };
+
+      console.log('Submitting product data:', data); // Debug log
 
       if (editingProduct) {
         await api.put(`/products/${editingProduct._id}`, data);
       } else {
         await api.post('/products', data);
       }
-      
+
       setShowModal(false);
       resetForm();
       loadProducts();
     } catch (error) {
       console.error('Error saving product:', error);
+      console.error('Error response:', error.response); // Debug log
       alert('Lỗi khi lưu sản phẩm: ' + (error.response?.data?.message || error.message));
     }
   };
@@ -83,6 +114,7 @@ const AdminProducts = () => {
       material: product.material,
       description: product.description,
       stock: product.stock,
+      images: product.images || [],
       specifications: product.specifications || {
         material: '',
         gemstone: '',
@@ -90,19 +122,73 @@ const AdminProducts = () => {
         size: ''
       }
     });
-    setShowModal(true);
+    setSelectedFiles([]);
+    setImagePreviews([]);
+  };
+
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
+    
+    // Create previews
+    const previews = files.map(file => URL.createObjectURL(file));
+    setImagePreviews(previews);
+  };
+
+  const uploadImages = async () => {
+    if (selectedFiles.length === 0) return [];
+
+    setUploadingImages(true);
+    const uploadedImages = [];
+
+    try {
+      for (const file of selectedFiles) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('image', file);
+
+        const response = await api.post('/api/upload/image', formDataUpload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        uploadedImages.push({
+          url: response.data.url,
+          public_id: response.data.public_id
+        });
+      }
+
+      return uploadedImages;
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      // If Cloudinary not configured, show warning but don't fail
+      if (error.response?.data?.error?.includes('Cloudinary credentials not set')) {
+        alert('⚠️ Image upload sẽ sử dụng local storage (không cần tài khoản Cloudinary).\n\nSản phẩm sẽ được tạo với ảnh được lưu trên server local.');
+        return []; // Return empty array, product will be created without images
+      }
+      alert('Lỗi khi upload ảnh: ' + error.message);
+      return [];
+    } finally {
+      setUploadingImages(false);
+    }
+  };
+
+  const removeImage = (index) => {
+    const newFiles = selectedFiles.filter((_, i) => i !== index);
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    
+    setSelectedFiles(newFiles);
+    setImagePreviews(newPreviews);
   };
 
   const resetForm = () => {
-    setEditingProduct(null);
     setFormData({
       name: '',
       price: '',
       priceSale: '',
-      category: 'Nhẫn',
-      material: 'Vàng 18K',
+      category: '',
+      material: '',
       description: '',
       stock: '',
+      images: [],
       specifications: {
         material: '',
         gemstone: '',
@@ -110,6 +196,9 @@ const AdminProducts = () => {
         size: ''
       }
     });
+    setEditingProduct(null);
+    setSelectedFiles([]);
+    setImagePreviews([]);
   };
 
   if (loading) {
@@ -187,7 +276,7 @@ const AdminProducts = () => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleEdit(product)}
-                        className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                        className="text-luxury-brown hover:text-luxury-charcoal text-sm font-medium"
                       >
                         Sửa
                       </button>
@@ -304,6 +393,8 @@ const AdminProducts = () => {
                   <option value="Vàng trắng 18K">Vàng trắng 18K</option>
                   <option value="Bạch kim">Bạch kim</option>
                   <option value="Bạch kim 950">Bạch kim 950</option>
+                  <option value="Bạc 925">Bạc 925</option>
+                  <option value="Bạc Ý">Bạc Ý</option>
                 </select>
               </div>
 
@@ -319,6 +410,53 @@ const AdminProducts = () => {
                   rows="3"
                   placeholder="Mô tả chi tiết sản phẩm..."
                 />
+              </div>
+
+              {/* Image Upload */}
+              <div>
+                <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
+                  Hình Ảnh Sản Phẩm
+                </label>
+
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="input-luxury w-full"
+                  />
+
+                  {imagePreviews.length > 0 && (
+                    <div>
+                      <h4 className="text-sm text-luxury-gray mb-2">Ảnh mới sẽ upload:</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {imagePreviews.map((preview, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={preview}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-20 object-cover rounded border border-luxury-platinum"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {uploadingImages && (
+                    <div className="text-sm text-luxury-brown">
+                      Đang upload ảnh...
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="border-t border-luxury-platinum pt-4 mt-4">
