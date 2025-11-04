@@ -32,6 +32,9 @@ connectDB();
 const apiRouter = require('./routes/index');
 app.use('/api', apiRouter);
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
+
 // 404 handler - must be before error handler
 app.use((req, res, next) => {
   res.status(404).json({ error: 'Route not found', path: req.path });

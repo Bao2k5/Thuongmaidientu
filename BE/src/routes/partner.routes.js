@@ -1,13 +1,13 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
   getPartners,
   getAllPartners,
   createPartner,
   updatePartner,
   deletePartner,
   bulkUpdatePosition,
-} from '../controllers/partner.controller.js';
-import { protect, admin } from '../middleware/auth.middleware.js';
+} = require('../controllers/partner.controller');
+const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
@@ -15,10 +15,10 @@ const router = express.Router();
 router.get('/', getPartners);
 
 // Admin routes
-router.get('/admin/all', protect, admin, getAllPartners);
-router.post('/admin/create', protect, admin, createPartner);
-router.put('/admin/update/:id', protect, admin, updatePartner);
-router.delete('/admin/delete/:id', protect, admin, deletePartner);
-router.put('/admin/bulk-position', protect, admin, bulkUpdatePosition);
+router.get('/admin/all', verifyToken, isAdmin, getAllPartners);
+router.post('/admin/create', verifyToken, isAdmin, createPartner);
+router.put('/admin/update/:id', verifyToken, isAdmin, updatePartner);
+router.delete('/admin/delete/:id', verifyToken, isAdmin, deletePartner);
+router.put('/admin/bulk-position', verifyToken, isAdmin, bulkUpdatePosition);
 
-export default router;
+module.exports = router;

@@ -6,7 +6,7 @@ const ZaloChat = () => {
         href="https://zalo.me/0375225749"
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center justify-center w-14 h-14 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+        className="group flex items-center justify-center w-14 h-14 bg-luxury-taupe hover:bg-luxury-brown rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
         aria-label="Chat qua Zalo"
       >
         <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 48 48">

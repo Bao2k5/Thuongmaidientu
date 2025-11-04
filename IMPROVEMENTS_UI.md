@@ -174,7 +174,7 @@
 
 ## Conclusion
 
-This Phase 4 update significantly enhances the visual appeal and user experience of the BTHN Jewelry store by:
+This Phase 4 update significantly enhances the visual appeal and user experience of the Hoàng My Jewelry store by:
 
 - Adding professional animations and transitions
 - Implementing a prominent flash sale section

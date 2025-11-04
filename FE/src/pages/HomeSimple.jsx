@@ -1,11 +1,35 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import ProductCard from '../components/common/ProductCard';
 import FlashSaleSection from '../components/common/FlashSaleSection';
-import { mockProducts, mockTestimonials, mockCollections } from '../utils/mockData';
+import api from '../services/api';
 
 const HomeSimple = () => {
-  const featuredProducts = mockProducts.slice(0, 8);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [testimonials] = useState([
+    { id: 1, name: 'Khách hàng A', role: 'Khách hàng', content: 'Sản phẩm rất đẹp', rating: 5 },
+    { id: 2, name: 'Khách hàng B', role: 'Khách hàng', content: 'Dịch vụ tốt', rating: 5 }
+  ]);
+
+  useEffect(() => {
+    const fetchHome = async () => {
+      try {
+        const p = await api.get('/products', { params: { limit: 12 } });
+        setFeaturedProducts((p.data.products || []).slice(0,8).map(x => ({ id: x._id, name: x.name, price: x.price, images: (x.images||[]).map(i => i.url||i) })));
+      } catch (err) {
+        console.error('Failed to load featured products', err);
+      }
+      try {
+        const c = await api.get('/collections');
+        setCollections(c.data || []);
+      } catch (err) {
+        console.error('Failed to load collections', err);
+      }
+    };
+    fetchHome();
+  }, []);
 
   return (
     <div className="min-h-screen bg-luxury-white">
@@ -13,7 +37,7 @@ const HomeSimple = () => {
       <section className="relative h-[700px] w-full overflow-hidden">
         <img 
           src="/bthn-hero.jpg" 
-          alt="BTHN Jewelry"
+          alt="Hoàng My Jewelry"
           className="w-full h-full object-cover object-top"
         />
       </section>
@@ -63,7 +87,7 @@ const HomeSimple = () => {
       </section>
 
       {/* Flash Sale Section */}
-      <FlashSaleSection products={mockProducts} />
+  <FlashSaleSection products={featuredProducts} />
 
       {/* Collections */}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
@@ -75,7 +99,7 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-            {mockCollections.map((item) => (
+            {collections.map((item) => (
               <Link
                 key={item.id}
                 to="/products"
@@ -107,15 +131,15 @@ const HomeSimple = () => {
             <div className="aspect-[4/5] bg-luxury-platinum overflow-hidden border-1 border-luxury-platinum">
               <img 
                 src="/bthn-hero.jpg" 
-                alt="About BTHN Jewelry"
+                alt="About Hoàng My Jewelry"
                 className="w-full h-full object-cover"
               />
             </div>
             <div>
-              <h2 className="font-serif text-5xl font-light mb-8 text-luxury-black tracking-wide">Về BTHN Jewelry</h2>
+              <h2 className="font-serif text-5xl font-light mb-8 text-luxury-black tracking-wide">Về Hoàng My Jewelry</h2>
               <div className="space-y-6 text-luxury-gray text-base leading-relaxed font-light">
                 <p>
-                  BTHN Jewelry là thương hiệu trang sức cao cấp, được thành lập với sứ mệnh mang đến những sản phẩm 
+                  Hoàng My Jewelry là thương hiệu trang sức cao cấp, được thành lập với sứ mệnh mang đến những sản phẩm 
                   trang sức tinh tế, sang trọng và đầy ý nghĩa cho khách hàng.
                 </p>
                 <p>
@@ -176,7 +200,7 @@ const HomeSimple = () => {
       <section className="section-luxury bg-luxury-pearl border-t border-luxury-platinum">
         <div className="container-luxury">
           <div className="text-center mb-20">
-            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">@BTHN.Jewelry</h2>
+            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">@HoangMy.Jewelry</h2>
             <div className="w-16 h-px bg-luxury-gray mx-auto mb-6"></div>
             <p className="text-luxury-gray text-base font-light tracking-wide">Theo dõi chúng tôi trên Instagram</p>
           </div>
@@ -221,12 +245,12 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* Newsletter - Light Sky Blue Background (Ocean Water) */}
-      <section className="section-luxury bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50">
+      {/* Newsletter - Light Ivory Background */}
+      <section className="section-luxury bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
         <div className="container-luxury">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-serif text-5xl font-light mb-6 tracking-wide text-sky-800">Đăng Ký Nhận Ưu Đãi</h2>
-            <p className="text-sky-700 text-base font-light mb-10 tracking-wide">
+            <h2 className="font-serif text-5xl font-light mb-6 tracking-wide text-luxury-charcoal">Đăng Ký Nhận Ưu Đãi</h2>
+            <p className="text-luxury-brown text-base font-light mb-10 tracking-wide">
               Nhận ngay mã giảm giá 10% cho đơn hàng đầu tiên và cập nhật về bộ sưu tập mới nhất
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
@@ -235,7 +259,7 @@ const HomeSimple = () => {
                 placeholder="Địa chỉ email của bạn"
                 className="input-luxury flex-1 text-luxury-darkGray bg-white"
               />
-              <button type="submit" className="bg-sky-500 text-white hover:bg-sky-600 px-10 py-3 border-2 border-sky-500 hover:border-sky-600 font-medium uppercase tracking-widest transition-all duration-300 whitespace-nowrap">
+              <button type="submit" className="bg-luxury-taupe text-white hover:bg-luxury-brown px-10 py-3 border-2 border-luxury-taupe hover:border-luxury-brown font-medium uppercase tracking-widest transition-all duration-300 whitespace-nowrap">
                 ĐĂNG KÝ
               </button>
             </form>

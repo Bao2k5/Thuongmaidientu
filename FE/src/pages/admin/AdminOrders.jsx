@@ -41,7 +41,7 @@ const AdminOrders = () => {
   const getStatusBadge = (status) => {
     const statusConfig = {
       pending: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'Chờ Xử Lý' },
-      processing: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Đang Xử Lý' },
+      processing: { bg: 'bg-luxury-sand', text: 'text-luxury-brown', label: 'Đang Xử Lý' },
       shipping: { bg: 'bg-purple-100', text: 'text-purple-700', label: 'Đang Giao' },
       completed: { bg: 'bg-green-100', text: 'text-green-700', label: 'Hoàn Thành' },
       cancelled: { bg: 'bg-red-100', text: 'text-red-700', label: 'Đã Hủy' }
@@ -110,7 +110,7 @@ const AdminOrders = () => {
                   <td className="px-6 py-4">
                     <button
                       onClick={() => viewOrderDetails(order)}
-                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      className="text-luxury-brown hover:text-luxury-charcoal text-sm font-medium"
                     >
                       Chi Tiết
                     </button>

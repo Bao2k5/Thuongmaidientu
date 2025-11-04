@@ -12,7 +12,7 @@ export const CATEGORIES = [
 // Order Status
 export const ORDER_STATUS = {
   PENDING: { value: 'pending', label: 'Chờ xử lý', color: 'yellow' },
-  PAID: { value: 'paid', label: 'Đã thanh toán', color: 'blue' },
+  PAID: { value: 'paid', label: 'Đã thanh toán', color: 'luxury-brown' },
   PROCESSING: { value: 'processing', label: 'Đang xử lý', color: 'indigo' },
   SHIPPED: { value: 'shipped', label: 'Đang giao hàng', color: 'purple' },
   COMPLETED: { value: 'completed', label: 'Hoàn thành', color: 'green' },
@@ -40,16 +40,16 @@ export const SORT_OPTIONS = [
 
 // Social Links
 export const SOCIAL_LINKS = {
-  facebook: 'https://facebook.com/jewelrybthn',
-  instagram: 'https://instagram.com/jewelrybthn',
-  tiktok: 'https://tiktok.com/@jewelrybthn',
-  zalo: 'https://zalo.me/jewelrybthn',
+  facebook: 'https://facebook.com/jewelryhoangmy',
+  instagram: 'https://instagram.com/jewelryhoangmy',
+  tiktok: 'https://tiktok.com/@jewelryhoangmy',
+  zalo: 'https://zalo.me/jewelryhoangmy',
 };
 
 // Contact Info
 export const CONTACT_INFO = {
   phone: '0965990895',
-  email: 'contact@jewelrybthn.com',
+  email: 'contact@jewelryhoangmy.com',
   address: '123 Nguyễn Trãi, Quận 1, TP.HCM',
 };
 

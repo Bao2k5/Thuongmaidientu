@@ -52,44 +52,44 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Page Header */}
-      <div className="bg-gradient-to-b from-sky-50 to-white py-20">
+      <div className="bg-gradient-to-b from-luxury-ivory to-luxury-cream py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-5xl font-light mb-4 text-sky-900 tracking-wide text-center">THANH TOÁN</h1>
-          <div className="w-20 h-1 bg-sky-500 mx-auto mb-8"></div>
+          <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">THANH TOÁN</h1>
+          <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-8"></div>
 
           {/* Progress Steps */}
           <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto">
             <div className="flex items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-sky-900 text-white' : 'bg-sky-100 text-sky-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-luxury-charcoal text-white' : 'bg-luxury-sand text-luxury-brown'}`}>
                 {step > 1 ? (
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 ) : '1'}
               </div>
-              <span className="ml-2 text-sky-700 font-light">Giao hàng</span>
+              <span className="ml-2 text-luxury-brown font-light">Giao hàng</span>
             </div>
 
-            <div className="w-12 h-0.5 bg-sky-200"></div>
+            <div className="w-12 h-0.5 bg-luxury-beige"></div>
 
             <div className="flex items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-sky-900 text-white' : 'bg-sky-100 text-sky-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-luxury-charcoal text-white' : 'bg-luxury-sand text-luxury-brown'}`}>
                 {step > 2 ? (
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 ) : '2'}
               </div>
-              <span className="ml-2 text-sky-700 font-light">Thanh toán</span>
+              <span className="ml-2 text-luxury-brown font-light">Thanh toán</span>
             </div>
 
-            <div className="w-12 h-0.5 bg-sky-200"></div>
+            <div className="w-12 h-0.5 bg-luxury-beige"></div>
 
             <div className="flex items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-sky-900 text-white' : 'bg-sky-100 text-sky-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-luxury-charcoal text-white' : 'bg-luxury-sand text-luxury-brown'}`}>
                 3
               </div>
-              <span className="ml-2 text-sky-700 font-light">Xác nhận</span>
+              <span className="ml-2 text-luxury-brown font-light">Xác nhận</span>
             </div>
           </div>
         </div>
@@ -102,97 +102,97 @@ const Checkout = () => {
             {/* Step 1: Shipping Info */}
             {step === 1 && (
               <form onSubmit={handleShippingSubmit} className="space-y-6">
-                <div className="bg-white border border-sky-100 p-8">
-                  <h2 className="text-2xl font-light text-sky-900 mb-6 tracking-wide">THÔNG TIN GIAO HÀNG</h2>
+                <div className="bg-white border border-luxury-sand p-8">
+                  <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">THÔNG TIN GIAO HÀNG</h2>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sky-900 font-light mb-2">Họ và tên *</label>
+                      <label className="block text-luxury-charcoal font-light mb-2">Họ và tên *</label>
                       <input
                         type="text"
                         required
                         value={shippingInfo.fullName}
                         onChange={(e) => setShippingInfo({...shippingInfo, fullName: e.target.value})}
-                        className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                        className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sky-900 font-light mb-2">Email *</label>
+                        <label className="block text-luxury-charcoal font-light mb-2">Email *</label>
                         <input
                           type="email"
                           required
                           value={shippingInfo.email}
                           onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})}
-                          className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                         />
                       </div>
                       <div>
-                        <label className="block text-sky-900 font-light mb-2">Số điện thoại *</label>
+                        <label className="block text-luxury-charcoal font-light mb-2">Số điện thoại *</label>
                         <input
                           type="tel"
                           required
                           value={shippingInfo.phone}
                           onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
-                          className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sky-900 font-light mb-2">Địa chỉ *</label>
+                      <label className="block text-luxury-charcoal font-light mb-2">Địa chỉ *</label>
                       <input
                         type="text"
                         required
                         value={shippingInfo.address}
                         onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
                         placeholder="Số nhà, tên đường"
-                        className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                        className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
-                        <label className="block text-sky-900 font-light mb-2">Tỉnh/Thành phố *</label>
+                        <label className="block text-luxury-charcoal font-light mb-2">Tỉnh/Thành phố *</label>
                         <input
                           type="text"
                           required
                           value={shippingInfo.city}
                           onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}
-                          className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                         />
                       </div>
                       <div>
-                        <label className="block text-sky-900 font-light mb-2">Quận/Huyện *</label>
+                        <label className="block text-luxury-charcoal font-light mb-2">Quận/Huyện *</label>
                         <input
                           type="text"
                           required
                           value={shippingInfo.district}
                           onChange={(e) => setShippingInfo({...shippingInfo, district: e.target.value})}
-                          className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                         />
                       </div>
                       <div>
-                        <label className="block text-sky-900 font-light mb-2">Phường/Xã *</label>
+                        <label className="block text-luxury-charcoal font-light mb-2">Phường/Xã *</label>
                         <input
                           type="text"
                           required
                           value={shippingInfo.ward}
                           onChange={(e) => setShippingInfo({...shippingInfo, ward: e.target.value})}
-                          className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sky-900 font-light mb-2">Ghi chú</label>
+                      <label className="block text-luxury-charcoal font-light mb-2">Ghi chú</label>
                       <textarea
                         rows="3"
                         value={shippingInfo.note}
                         onChange={(e) => setShippingInfo({...shippingInfo, note: e.target.value})}
                         placeholder="Ghi chú về đơn hàng (tùy chọn)"
-                        className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light resize-none"
+                        className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light resize-none"
                       ></textarea>
                     </div>
                   </div>
@@ -201,13 +201,13 @@ const Checkout = () => {
                 <div className="flex gap-4">
                   <Link
                     to="/cart"
-                    className="border-2 border-sky-900 text-sky-900 px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-900 hover:text-white transition-all duration-300"
+                    className="border-2 border-luxury-charcoal text-luxury-charcoal px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300"
                   >
                     QUAY LẠI GIỎ HÀNG
                   </Link>
                   <button
                     type="submit"
-                    className="flex-1 bg-sky-900 text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300"
+                    className="flex-1 bg-luxury-charcoal text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300"
                   >
                     TIẾP TỤC
                   </button>
@@ -218,67 +218,67 @@ const Checkout = () => {
             {/* Step 2: Payment Method */}
             {step === 2 && (
               <form onSubmit={handlePaymentSubmit} className="space-y-6">
-                <div className="bg-white border border-sky-100 p-8">
-                  <h2 className="text-2xl font-light text-sky-900 mb-6 tracking-wide">PHƯƠNG THỨC THANH TOÁN</h2>
+                <div className="bg-white border border-luxury-sand p-8">
+                  <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">PHƯƠNG THỨC THANH TOÁN</h2>
 
                   <div className="space-y-4">
-                    <label className="flex items-start gap-4 p-4 border-2 border-sky-100 cursor-pointer hover:border-sky-400 transition">
+                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
                       <input
                         type="radio"
                         name="payment"
                         value="cod"
                         checked={paymentMethod === 'cod'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-1 w-5 h-5 text-sky-600"
+                        className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-sky-900 mb-1">Thanh toán khi nhận hàng (COD)</div>
-                        <p className="text-sm text-sky-600 font-light">Thanh toán bằng tiền mặt khi nhận hàng</p>
+                        <div className="font-light text-luxury-charcoal mb-1">Thanh toán khi nhận hàng (COD)</div>
+                        <p className="text-sm text-luxury-brown font-light">Thanh toán bằng tiền mặt khi nhận hàng</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-sky-100 cursor-pointer hover:border-sky-400 transition">
+                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
                       <input
                         type="radio"
                         name="payment"
                         value="bank"
                         checked={paymentMethod === 'bank'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-1 w-5 h-5 text-sky-600"
+                        className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-sky-900 mb-1">Chuyển khoản ngân hàng</div>
-                        <p className="text-sm text-sky-600 font-light">Chuyển khoản qua tài khoản ngân hàng</p>
+                        <div className="font-light text-luxury-charcoal mb-1">Chuyển khoản ngân hàng</div>
+                        <p className="text-sm text-luxury-brown font-light">Chuyển khoản qua tài khoản ngân hàng</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-sky-100 cursor-pointer hover:border-sky-400 transition">
+                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
                       <input
                         type="radio"
                         name="payment"
                         value="momo"
                         checked={paymentMethod === 'momo'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-1 w-5 h-5 text-sky-600"
+                        className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-sky-900 mb-1">Ví MoMo</div>
-                        <p className="text-sm text-sky-600 font-light">Thanh toán qua ví điện tử MoMo</p>
+                        <div className="font-light text-luxury-charcoal mb-1">Ví MoMo</div>
+                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua ví điện tử MoMo</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-sky-100 cursor-pointer hover:border-sky-400 transition">
+                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
                       <input
                         type="radio"
                         name="payment"
                         value="vnpay"
                         checked={paymentMethod === 'vnpay'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-1 w-5 h-5 text-sky-600"
+                        className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-sky-900 mb-1">VNPay</div>
-                        <p className="text-sm text-sky-600 font-light">Thanh toán qua cổng VNPay</p>
+                        <div className="font-light text-luxury-charcoal mb-1">VNPay</div>
+                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua cổng VNPay</p>
                       </div>
                     </label>
                   </div>
@@ -288,13 +288,13 @@ const Checkout = () => {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="border-2 border-sky-900 text-sky-900 px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-900 hover:text-white transition-all duration-300"
+                    className="border-2 border-luxury-charcoal text-luxury-charcoal px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300"
                   >
                     QUAY LẠI
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-sky-900 text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300"
+                    className="flex-1 bg-luxury-charcoal text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300"
                   >
                     TIẾP TỤC
                   </button>
@@ -305,16 +305,16 @@ const Checkout = () => {
             {/* Step 3: Review Order */}
             {step === 3 && (
               <div className="space-y-6">
-                <div className="bg-white border border-sky-100 p-8">
-                  <h2 className="text-2xl font-light text-sky-900 mb-6 tracking-wide">XÁC NHẬN ĐƠN HÀNG</h2>
+                <div className="bg-white border border-luxury-sand p-8">
+                  <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">XÁC NHẬN ĐƠN HÀNG</h2>
 
                   {/* Shipping Info Review */}
-                  <div className="mb-8 pb-8 border-b border-sky-100">
+                  <div className="mb-8 pb-8 border-b border-luxury-beige">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-light text-sky-900">Thông tin giao hàng</h3>
-                      <button onClick={() => setStep(1)} className="text-sm text-sky-600 hover:text-sky-900">Chỉnh sửa</button>
+                      <h3 className="text-lg font-light text-luxury-charcoal">Thông tin giao hàng</h3>
+                      <button onClick={() => setStep(1)} className="text-sm text-luxury-taupe hover:text-luxury-charcoal">Chỉnh sửa</button>
                     </div>
-                    <div className="space-y-2 text-sky-700 font-light">
+                    <div className="space-y-2 text-luxury-brown font-light">
                       <p>{shippingInfo.fullName}</p>
                       <p>{shippingInfo.email} | {shippingInfo.phone}</p>
                       <p>{shippingInfo.address}</p>
@@ -324,12 +324,12 @@ const Checkout = () => {
                   </div>
 
                   {/* Payment Method Review */}
-                  <div className="mb-8 pb-8 border-b border-sky-100">
+                  <div className="mb-8 pb-8 border-b border-luxury-beige">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-light text-sky-900">Phương thức thanh toán</h3>
-                      <button onClick={() => setStep(2)} className="text-sm text-sky-600 hover:text-sky-900">Chỉnh sửa</button>
+                      <h3 className="text-lg font-light text-luxury-charcoal">Phương thức thanh toán</h3>
+                      <button onClick={() => setStep(2)} className="text-sm text-luxury-taupe hover:text-luxury-charcoal">Chỉnh sửa</button>
                     </div>
-                    <p className="text-sky-700 font-light">
+                    <p className="text-luxury-brown font-light">
                       {paymentMethod === 'cod' && 'Thanh toán khi nhận hàng (COD)'}
                       {paymentMethod === 'bank' && 'Chuyển khoản ngân hàng'}
                       {paymentMethod === 'momo' && 'Ví MoMo'}
@@ -339,7 +339,7 @@ const Checkout = () => {
 
                   {/* Order Items */}
                   <div>
-                    <h3 className="text-lg font-light text-sky-900 mb-4">Sản phẩm đặt mua</h3>
+                    <h3 className="text-lg font-light text-luxury-charcoal mb-4">Sản phẩm đặt mua</h3>
                     <div className="space-y-4">
                       {cartItems.map(item => (
                         <div key={item.id} className="flex gap-4">
@@ -348,10 +348,10 @@ const Checkout = () => {
                           </div>
                           <div className="flex-1 flex justify-between">
                             <div>
-                              <p className="font-light text-sky-900">{item.name}</p>
-                              <p className="text-sm text-sky-600 font-light">Số lượng: {item.quantity}</p>
+                              <p className="font-light text-luxury-charcoal">{item.name}</p>
+                              <p className="text-sm text-luxury-brown font-light">Số lượng: {item.quantity}</p>
                             </div>
-                            <p className="font-light text-sky-900">{formatPrice(item.price * item.quantity)}</p>
+                            <p className="font-light text-luxury-charcoal">{formatPrice(item.price * item.quantity)}</p>
                           </div>
                         </div>
                       ))}
@@ -363,13 +363,13 @@ const Checkout = () => {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="border-2 border-sky-900 text-sky-900 px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-900 hover:text-white transition-all duration-300"
+                    className="border-2 border-luxury-charcoal text-luxury-charcoal px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300"
                   >
                     QUAY LẠI
                   </button>
                   <button
                     onClick={handlePlaceOrder}
-                    className="flex-1 bg-sky-900 text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300"
+                    className="flex-1 bg-luxury-charcoal text-white px-8 py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300"
                   >
                     ĐẶT HÀNG
                   </button>
@@ -380,42 +380,42 @@ const Checkout = () => {
 
           {/* Order Summary Sidebar */}
           <div>
-            <div className="sticky top-24 bg-sky-50 border border-sky-100 p-8">
-              <h2 className="text-2xl font-light text-sky-900 mb-8 tracking-wide">ĐƠN HÀNG</h2>
+            <div className="sticky top-24 bg-luxury-ivory border border-luxury-beige p-8">
+              <h2 className="text-2xl font-light text-luxury-charcoal mb-8 tracking-wide">ĐƠN HÀNG</h2>
 
               <div className="space-y-4 mb-8">
                 {cartItems.map(item => (
                   <div key={item.id} className="flex gap-3">
-                    <div className="w-16 h-16 bg-white border border-sky-100 flex-shrink-0 relative">
+                    <div className="w-16 h-16 bg-white border border-luxury-beige flex-shrink-0 relative">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                      <span className="absolute -top-2 -right-2 bg-sky-900 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      <span className="absolute -top-2 -right-2 bg-luxury-charcoal text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                         {item.quantity}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-light text-sky-900 truncate">{item.name}</p>
-                      <p className="text-sm text-sky-600 font-light">{formatPrice(item.price)}</p>
+                      <p className="text-sm font-light text-luxury-charcoal truncate">{item.name}</p>
+                      <p className="text-sm text-luxury-brown font-light">{formatPrice(item.price)}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-3 mb-6 pb-6 border-b border-sky-200">
+              <div className="space-y-3 mb-6 pb-6 border-b border-luxury-beige">
                 <div className="flex justify-between">
-                  <span className="text-sky-700 font-light">Tạm tính</span>
-                  <span className="text-sky-900 font-light">{formatPrice(subtotal)}</span>
+                  <span className="text-luxury-brown font-light">Tạm tính</span>
+                  <span className="text-luxury-charcoal font-light">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sky-700 font-light">Phí vận chuyển</span>
-                  <span className="text-sky-900 font-light">
+                  <span className="text-luxury-brown font-light">Phí vận chuyển</span>
+                  <span className="text-luxury-charcoal font-light">
                     {shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}
                   </span>
                 </div>
               </div>
 
               <div className="flex justify-between text-xl mb-6">
-                <span className="font-light text-sky-900">Tổng cộng</span>
-                <span className="font-light text-sky-900">{formatPrice(total)}</span>
+                <span className="font-light text-luxury-charcoal">Tổng cộng</span>
+                <span className="font-light text-luxury-charcoal">{formatPrice(total)}</span>
               </div>
             </div>
           </div>

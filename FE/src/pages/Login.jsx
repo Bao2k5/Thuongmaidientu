@@ -43,17 +43,17 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-luxury-ivory to-white flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-light text-sky-900 mb-4 tracking-wide">ĐĂNG NHẬP</h1>
-          <div className="w-20 h-1 bg-sky-500 mx-auto mb-6"></div>
-          <p className="text-sky-700 font-light">Chào mừng bạn quay trở lại</p>
+          <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">ĐĂNG NHẬP</h1>
+          <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-6"></div>
+          <p className="text-luxury-brown font-light">Chào mừng bạn quay trở lại</p>
         </div>
 
         {/* Form */}
-        <div className="bg-white border border-sky-100 p-8 shadow-lg">
+        <div className="bg-white border border-luxury-beige p-8 shadow-lg">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
               {error}
@@ -62,32 +62,32 @@ const Login = () => {
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sky-900 font-light mb-2">Email</label>
+              <label className="block text-luxury-charcoal font-light mb-2">Email</label>
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full border border-sky-200 px-4 py-3 focus:outline-none focus:border-sky-500 font-light"
+                className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
                 placeholder="example@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-sky-900 font-light mb-2">Mật khẩu</label>
+              <label className="block text-luxury-charcoal font-light mb-2">Mật khẩu</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full border border-sky-200 px-4 py-3 pr-12 focus:outline-none focus:border-sky-500 font-light"
+                  className="w-full border border-luxury-beige px-4 py-3 pr-12 focus:outline-none focus:border-luxury-taupe font-light"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sky-400 hover:text-sky-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-luxury-taupe hover:text-luxury-brown"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,10 +105,10 @@ const Login = () => {
 
             <div className="flex items-center justify-between">
               <label className="flex items-center cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 text-sky-600 border-sky-300 focus:ring-sky-500" />
-                <span className="ml-2 text-sm text-sky-700 font-light">Ghi nhớ đăng nhập</span>
+                <input type="checkbox" className="w-4 h-4 text-luxury-taupe border-luxury-beige focus:ring-luxury-taupe" />
+                <span className="ml-2 text-sm text-luxury-brown font-light">Ghi nhớ đăng nhập</span>
               </label>
-              <Link to="/forgot-password" className="text-sm text-sky-600 hover:text-sky-900 font-light">
+              <Link to="/forgot-password" className="text-sm text-luxury-taupe hover:text-luxury-charcoal font-light">
                 Quên mật khẩu?
               </Link>
             </div>
@@ -116,7 +116,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full bg-sky-900 text-white py-4 text-sm font-light tracking-wider hover:bg-sky-800 transition-all duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {loading ? 'ĐANG ĐĂNG NHẬP...' : 'ĐĂNG NHẬP'}
             </button>
@@ -126,10 +126,10 @@ const Login = () => {
           <div className="mt-8">
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-sky-200"></div>
+                <div className="w-full border-t border-luxury-beige"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-sky-600 font-light">Hoặc đăng nhập với</span>
+                <span className="px-4 bg-white text-luxury-taupe font-light">Hoặc đăng nhập với</span>
               </div>
             </div>
 
@@ -137,7 +137,7 @@ const Login = () => {
               <button 
                 type="button"
                 onClick={() => handleSocialLogin('Google')}
-                className="flex items-center justify-center gap-2 border border-sky-200 py-3 text-sm font-light text-sky-700 hover:bg-sky-50 transition"
+                className="flex items-center justify-center gap-2 border border-luxury-beige py-3 text-sm font-light text-luxury-brown hover:bg-luxury-ivory transition"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -150,7 +150,7 @@ const Login = () => {
               <button 
                 type="button"
                 onClick={() => handleSocialLogin('Facebook')}
-                className="flex items-center justify-center gap-2 border border-sky-200 py-3 text-sm font-light text-sky-700 hover:bg-sky-50 transition"
+                className="flex items-center justify-center gap-2 border border-luxury-beige py-3 text-sm font-light text-luxury-brown hover:bg-luxury-ivory transition"
               >
                 <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -162,9 +162,9 @@ const Login = () => {
 
           {/* Register Link */}
           <div className="mt-8 text-center">
-            <p className="text-sky-700 font-light">
+            <p className="text-luxury-brown font-light">
               Chưa có tài khoản?{' '}
-              <Link to="/register" className="text-sky-900 hover:text-sky-600 font-normal">
+              <Link to="/register" className="text-luxury-charcoal hover:text-luxury-taupe font-normal">
                 Đăng ký ngay
               </Link>
             </p>
@@ -173,7 +173,7 @@ const Login = () => {
 
         {/* Back to Home */}
         <div className="mt-8 text-center">
-          <Link to="/" className="text-sm text-sky-600 hover:text-sky-900 font-light">
+          <Link to="/" className="text-sm text-luxury-taupe hover:text-luxury-charcoal font-light">
             ← Quay về trang chủ
           </Link>
         </div>

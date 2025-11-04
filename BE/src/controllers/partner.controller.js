@@ -1,10 +1,10 @@
-import Partner from '../models/partner.model.js';
-import asyncHandler from 'express-async-handler';
+const Partner = require('../models/partner.model');
+const asyncHandler = require('express-async-handler');
 
 // @desc    Get all active partners (for frontend display)
 // @route   GET /api/partners
 // @access  Public
-export const getPartners = asyncHandler(async (req, res) => {
+const getPartners = asyncHandler(async (req, res) => {
   const now = new Date();
   
   // Lấy partners có displayFrom <= ngày hôm nay && (displayTo = null hoặc displayTo >= ngày hôm nay)
@@ -28,7 +28,7 @@ export const getPartners = asyncHandler(async (req, res) => {
 // @desc    Get all partners (admin view)
 // @route   GET /api/admin/partners
 // @access  Admin
-export const getAllPartners = asyncHandler(async (req, res) => {
+const getAllPartners = asyncHandler(async (req, res) => {
   const partners = await Partner.find()
     .populate('createdBy', 'name email')
     .sort({ position: 1 });
@@ -42,7 +42,7 @@ export const getAllPartners = asyncHandler(async (req, res) => {
 // @desc    Create partner
 // @route   POST /api/admin/partners
 // @access  Admin
-export const createPartner = asyncHandler(async (req, res) => {
+const createPartner = asyncHandler(async (req, res) => {
   const { name, logo, url, description, displayFrom, displayTo, isActive, position } = req.body;
 
   // Validation
@@ -77,7 +77,7 @@ export const createPartner = asyncHandler(async (req, res) => {
 // @desc    Update partner
 // @route   PUT /api/admin/partners/:id
 // @access  Admin
-export const updatePartner = asyncHandler(async (req, res) => {
+const updatePartner = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { name, logo, url, description, displayFrom, displayTo, isActive, position } = req.body;
 
@@ -112,7 +112,7 @@ export const updatePartner = asyncHandler(async (req, res) => {
 // @desc    Delete partner
 // @route   DELETE /api/admin/partners/:id
 // @access  Admin
-export const deletePartner = asyncHandler(async (req, res) => {
+const deletePartner = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const partner = await Partner.findByIdAndDelete(id);
@@ -134,7 +134,7 @@ export const deletePartner = asyncHandler(async (req, res) => {
 // @desc    Bulk update partners position
 // @route   PUT /api/admin/partners/bulk-position
 // @access  Admin
-export const bulkUpdatePosition = asyncHandler(async (req, res) => {
+const bulkUpdatePosition = asyncHandler(async (req, res) => {
   const { partners } = req.body;
 
   if (!Array.isArray(partners)) {
@@ -156,3 +156,12 @@ export const bulkUpdatePosition = asyncHandler(async (req, res) => {
     message: 'Cập nhật vị trí thành công',
   });
 });
+
+module.exports = {
+  getPartners,
+  getAllPartners,
+  createPartner,
+  updatePartner,
+  deletePartner,
+  bulkUpdatePosition,
+};

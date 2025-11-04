@@ -1,7 +1,22 @@
 import { Link } from 'react-router-dom';
-import { mockCollections } from '../utils/mockData';
+import { useEffect, useState } from 'react';
+import api from '../services/api';
 
 const Collections = () => {
+  const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      try {
+        const res = await api.get('/collections');
+        setCollections(res.data || []);
+      } catch (err) {
+        console.error('Failed to load collections', err);
+      }
+    };
+    fetchCollections();
+  }, []);
+
   return (
     <div className="min-h-screen bg-luxury-white">
       {/* Hero Section */}
@@ -21,10 +36,10 @@ const Collections = () => {
       <section className="section-luxury">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {mockCollections.map((collection) => (
+            {collections.map((collection) => (
               <Link
                 key={collection.id}
-                to={`/products?collection=${collection.name}`}
+                to={`/products?collection=${collection._id || collection.name}`}
                 className="group"
               >
                 <div className="card-luxury overflow-hidden">

@@ -23,7 +23,7 @@ const AdminLayout = ({ children }) => {
       <aside className="w-64 bg-luxury-white border-r border-luxury-platinum fixed h-full">
         <div className="p-6 border-b border-luxury-platinum">
           <h1 className="font-display text-2xl text-luxury-black tracking-wide">Admin Panel</h1>
-          <p className="text-xs text-luxury-gray mt-1 uppercase tracking-widest">BTHN Jewelry</p>
+          <p className="text-xs text-luxury-gray mt-1 uppercase tracking-widest">Hoàng My Jewelry</p>
         </div>
         <nav className="p-4">
           {menuItems.map((item) => {

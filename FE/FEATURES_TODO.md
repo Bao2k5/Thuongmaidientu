@@ -1,4 +1,4 @@
-# 🎨 BTHN Jewelry - Features & Improvements TODO
+# 🎨 Hoàng My Jewelry - Features & Improvements TODO
 
 ## ✅ ĐÃ HOÀN THÀNH (Completed)
 

@@ -1,4 +1,4 @@
-# CÁC CHỨC NĂNG CỦA HỆ THỐNG BTHN JEWELRY
+# CÁC CHỨC NĂNG CỦA HỆ THỐNG HOÀNG MY JEWELRY
 
 ## 📋 MỤC LỤC
 

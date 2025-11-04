@@ -32,10 +32,10 @@ export default function OrderDetail() {
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Chi tiết đơn #{order._id}</h2>
-        <Link to="/orders" className="text-sky-700">← Quay lại</Link>
+        <Link to="/orders" className="text-luxury-brown">← Quay lại</Link>
       </div>
 
-      <div className="bg-white border border-sky-100 p-4 rounded-md">
+      <div className="bg-white border border-luxury-beige p-4 rounded-md">
         <div className="mb-3">Trạng thái: <strong>{order.status}</strong></div>
         <div className="mb-3">Tổng: <strong>{order.total?.toLocaleString?.() ?? order.total} VND</strong></div>
         <div className="mb-3">Ngày: {new Date(order.createdAt).toLocaleString()}</div>
@@ -56,7 +56,7 @@ export default function OrderDetail() {
 
         {order.payment?.status !== 'paid' && (
           <div className="mt-4">
-            <button className="px-4 py-2 bg-sky-900 text-white rounded" onClick={async () => {
+            <button className="px-4 py-2 bg-luxury-charcoal text-white rounded" onClick={async () => {
               try {
                 await orderService.mockPayment(order._id);
                 const updated = await orderService.getOrderById(order._id);

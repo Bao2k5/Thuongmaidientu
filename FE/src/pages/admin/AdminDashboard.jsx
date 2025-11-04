@@ -37,7 +37,7 @@ const AdminDashboard = () => {
         {/* Header */}
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Dashboard</h1>
-          <p className="text-luxury-gray">Tổng quan hệ thống BTHN Jewelry</p>
+          <p className="text-luxury-gray">Tổng quan hệ thống Hoàng My Jewelry</p>
         </div>
 
         {/* Stats Grid */}
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
                     <p className="text-sm font-medium text-luxury-black">{(order.total / 1000000).toFixed(1)}M đ</p>
                     <span className={`text-xs px-2 py-1 rounded ${
                       order.status === 'completed' ? 'bg-green-100 text-green-700' :
-                      order.status === 'processing' ? 'bg-blue-100 text-blue-700' :
+                      order.status === 'processing' ? 'bg-luxury-sand text-luxury-brown' :
                       order.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
                       'bg-gray-100 text-gray-700'
                     }`}>

@@ -26,12 +26,12 @@ import AdminUsers from './pages/admin/AdminUsers';
 
 // Temporary placeholder component
 const ComingSoon = ({ title }) => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100">
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
     <div className="text-center max-w-lg p-8">
-      <h1 className="text-6xl font-serif font-bold text-blue-600 mb-4">💎</h1>
-      <h2 className="text-4xl font-serif font-bold text-blue-800 mb-2">Jewelry BTHN</h2>
+      <h1 className="text-6xl font-serif font-bold text-luxury-taupe mb-4">💎</h1>
+      <h2 className="text-4xl font-serif font-bold text-luxury-charcoal mb-2">Jewelry Hoàng My</h2>
       <p className="text-xl text-gray-600 mb-8">{title}</p>
-      <p className="text-blue-600 font-medium">Đang xây dựng...</p>
+      <p className="text-luxury-brown font-medium">Đang xây dựng...</p>
     </div>
   </div>
 );
