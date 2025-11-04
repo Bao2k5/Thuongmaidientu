@@ -71,7 +71,8 @@ exports.uploadImage = async (req, res) => {
     } else {
       // Use local storage
       const filename = req.file.filename;
-      const url = `${process.env.BACKEND_URL || 'http://localhost:3000'}/uploads/${filename}`;
+      // Return relative URL without full domain for easier deployment
+      const url = `/uploads/${filename}`;
 
       res.json({
         url: url,
