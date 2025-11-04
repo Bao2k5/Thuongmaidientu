@@ -101,7 +101,7 @@ const HomeSimple = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
             {collections.map((item) => (
               <Link
-                key={item.id}
+                key={item._id || item.id}
                 to="/products"
                 className="group block relative"
               >
