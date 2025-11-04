@@ -1,53 +1,115 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useCartStore from '../store/cartStore';
+import useAuthStore from '../store/authStore';
+import cartService from '../services/cartService';
 
 const Cart = () => {
-  // Mock cart data (sẽ dùng cartStore sau)
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Nhẫn Kim Cương Soleste',
-      price: 15000000,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&q=80',
-      material: 'Vàng trắng 18K'
-    },
-    {
-      id: 2,
-      name: 'Dây Chuyền Vàng Trắng',
-      price: 12500000,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=400&fit=crop&q=80',
-      material: 'Vàng trắng 18K'
-    },
-    {
-      id: 3,
-      name: 'Bông Tai Ngọc Trai',
-      price: 8900000,
-      quantity: 2,
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=400&fit=crop&q=80',
-      material: 'Bạch kim'
-    }
-  ]);
+  const { user } = useAuthStore();
+  const { items, updateQuantity: updateCartQuantity, removeFromCart, clearCart } = useCartStore();
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load cart from API if user is logged in
+  useEffect(() => {
+    const loadCart = async () => {
+      setLoading(true);
+      try {
+        if (user) {
+          const data = await cartService.getCart();
+          // Map API cart to local format
+          const mappedItems = (data.items || []).map(item => ({
+            id: item.product._id || item.product.id,
+            name: item.product.name,
+            price: item.product.priceSale || item.product.price,
+            quantity: item.qty,
+            image: item.product.images?.[0]?.url || item.product.images?.[0] || 'https://via.placeholder.com/400',
+            material: item.product.attributes?.material || item.product.material || ''
+          }));
+          setCartItems(mappedItems);
+        } else {
+          // Use local cart store for guests
+          setCartItems(items.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.priceSale || item.price,
+            quantity: item.quantity,
+            image: item.images?.[0]?.url || item.images?.[0] || item.image || 'https://via.placeholder.com/400',
+            material: item.material || ''
+          })));
+        }
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        // Fallback to local cart
+        setCartItems(items);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadCart();
+  }, [user, items]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
 
-  const updateQuantity = (id, newQuantity) => {
+  const updateQuantity = async (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
+    
+    try {
+      if (user) {
+        // Update on server
+        await cartService.updateCartItem(id, newQuantity);
+      }
+      
+      // Update local state
+      setCartItems(cartItems.map(item => 
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      ));
+      
+      // Update cart store
+      updateCartQuantity(id, newQuantity);
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      alert('Không thể cập nhật số lượng. Vui lòng thử lại!');
+    }
   };
 
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
+  const removeItem = async (id) => {
+    try {
+      if (user) {
+        // Remove from server
+        await cartService.removeFromCart(id);
+      }
+      
+      // Remove from local state
+      setCartItems(cartItems.filter(item => item.id !== id));
+      
+      // Remove from cart store
+      removeFromCart(id);
+      
+      alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
+    } catch (error) {
+      console.error('Error removing from cart:', error);
+      alert('Không thể xóa sản phẩm. Vui lòng thử lại!');
+    }
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal >= 500000 ? 0 : 50000;
   const total = subtotal + shipping;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-charcoal mx-auto mb-4"></div>
+          <p className="text-luxury-gray">Đang tải giỏ hàng...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
