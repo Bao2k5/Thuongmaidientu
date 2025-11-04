@@ -23,7 +23,7 @@ const HomeSimple = () => {
       }
       try {
         const c = await api.get('/collections');
-        setCollections(c.data || []);
+        setCollections(c.data.collections || c.data || []);
       } catch (err) {
         console.error('Failed to load collections', err);
       }
