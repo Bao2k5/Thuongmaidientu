@@ -8,6 +8,8 @@ import api from '../services/api';
 const HomeSimple = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [heroBanners, setHeroBanners] = useState([]);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [testimonials] = useState([
     { id: 1, name: 'Khách hàng A', role: 'Khách hàng', content: 'Sản phẩm rất đẹp', rating: 5 },
     { id: 2, name: 'Khách hàng B', role: 'Khách hàng', content: 'Dịch vụ tốt', rating: 5 }
@@ -34,20 +36,99 @@ const HomeSimple = () => {
       } catch (err) {
         console.error('Failed to load collections', err);
       }
+      try {
+        const h = await api.get('/hero-banners/active');
+        setHeroBanners(h.data.data || []);
+      } catch (err) {
+        console.error('Failed to load hero banners', err);
+      }
     };
     fetchHome();
   }, []);
 
+  // Auto rotate banners if multiple
+  useEffect(() => {
+    if (heroBanners.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentBannerIndex((prev) => (prev + 1) % heroBanners.length);
+      }, 5000); // Change every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [heroBanners.length]);
+
   return (
     <div className="min-h-screen bg-luxury-white">
-      {/* Hero Section - Full Width Image Banner */}
-      <section className="relative h-[700px] w-full overflow-hidden">
-        <img 
-          src="/bthn-hero.jpg" 
-          alt="Hoàng My Jewelry"
-          className="w-full h-full object-cover object-top"
-        />
-      </section>
+      {/* Hero Section - Dynamic Banners */}
+      {heroBanners.length > 0 ? (
+        <section className="relative h-[700px] w-full overflow-hidden">
+          {heroBanners.map((banner, index) => (
+            <div
+              key={banner._id}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentBannerIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <img 
+                src={banner.image} 
+                alt={banner.title}
+                className="w-full h-full object-cover object-center"
+              />
+              {/* Text Overlay */}
+              <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                <div className="text-center text-white max-w-3xl px-8">
+                  {banner.title && (
+                    <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 tracking-wide">
+                      {banner.title}
+                    </h1>
+                  )}
+                  {banner.subtitle && (
+                    <p className="text-xl md:text-2xl font-light mb-6">
+                      {banner.subtitle}
+                    </p>
+                  )}
+                  {banner.description && (
+                    <p className="text-lg mb-8 max-w-2xl mx-auto">
+                      {banner.description}
+                    </p>
+                  )}
+                  {banner.buttonText && banner.buttonLink && (
+                    <Link
+                      to={banner.buttonLink}
+                      className="inline-block bg-white text-luxury-black px-8 py-3 rounded-lg hover:bg-luxury-pearl transition-colors font-medium tracking-wide"
+                    >
+                      {banner.buttonText}
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {/* Banner Indicators */}
+          {heroBanners.length > 1 && (
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+              {heroBanners.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentBannerIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentBannerIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      ) : (
+        // Fallback to original static hero
+        <section className="relative h-[700px] w-full overflow-hidden">
+          <img 
+            src="/bthn-hero.jpg" 
+            alt="Hoàng My Jewelry"
+            className="w-full h-full object-cover object-top"
+          />
+        </section>
+      )}
 
       {/* Features */}
       <section className="section-luxury bg-luxury-white">

@@ -12,6 +12,7 @@ const orderRoutes = require("./order.routes");
 const adminRoutes = require('./admin.routes');
 const uploadRoutes = require('./upload.routes');
 const partnerRoutes = require('./partner.routes');
+const heroBannerRoutes = require('./heroBanner.routes');
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
@@ -23,5 +24,6 @@ router.use("/orders", orderRoutes);
 router.use('/admin', adminRoutes);
 router.use('/upload', uploadRoutes);
 router.use('/partners', partnerRoutes);
+router.use('/hero-banners', heroBannerRoutes);
 
 module.exports = router;

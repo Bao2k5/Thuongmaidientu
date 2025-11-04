@@ -24,6 +24,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminCollections from './pages/admin/AdminCollections';
+import AdminHeroBanners from './pages/admin/AdminHeroBanners';
 
 // Temporary placeholder component
 const ComingSoon = ({ title }) => (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/collections" element={<AdminCollections />} />
+        <Route path="/admin/hero-banners" element={<AdminHeroBanners />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/users" element={<AdminUsers />} />
 
