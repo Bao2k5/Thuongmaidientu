@@ -124,6 +124,7 @@ const AdminProducts = () => {
     });
     setSelectedFiles([]);
     setImagePreviews([]);
+    setShowModal(true); // Mở modal khi edit
   };
 
   const handleFileSelect = (e) => {
@@ -428,6 +429,37 @@ const AdminProducts = () => {
                 </label>
 
                 <div className="space-y-2">
+                  {/* Existing images (when editing) */}
+                  {editingProduct && formData.images.length > 0 && (
+                    <div>
+                      <h4 className="text-sm text-luxury-gray mb-2">Ảnh hiện tại:</h4>
+                      <div className="grid grid-cols-4 gap-2 mb-3">
+                        {formData.images.map((img, index) => {
+                          const imgUrl = typeof img === 'string' ? img : img.url;
+                          return (
+                            <div key={index} className="relative group">
+                              <img
+                                src={imgUrl}
+                                alt={`Current ${index + 1}`}
+                                className="w-full h-20 object-cover rounded border border-luxury-platinum"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newImages = formData.images.filter((_, i) => i !== index);
+                                  setFormData({ ...formData, images: newImages });
+                                }}
+                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   <input
                     type="file"
                     multiple
