@@ -1,15 +1,17 @@
 // src/controllers/product.controller.js
 const Product = require("../models/product.model");
 const { uploadImage, deleteImage } = require('../utils/cloudinary');
+const { slugify } = require('../utils/helpers');
 
 // list products with simple pagination
 exports.listProducts = async (req, res) => {
   try {
-    let { page = 1, limit = 12, q, collection, tag, minPrice, maxPrice, flash } = req.query;
+    let { page = 1, limit = 12, q, collection, category, tag, minPrice, maxPrice, flash } = req.query;
     page = parseInt(page); limit = parseInt(limit);
     const filter = {};
     if (q) filter.name = { $regex: q, $options: "i" };
     if (collection) filter.collection = collection;
+    if (category) filter.category = category;
     if (tag) filter.tags = tag;
     if (minPrice || maxPrice) filter.price = {};
     if (minPrice) filter.price.$gte = parseFloat(minPrice);
@@ -56,6 +58,10 @@ exports.getProductBySlug = async (req, res) => {
 exports.createProduct = async (req, res) => {
   try {
     const body = req.body;
+    // Auto-generate slug from name if not provided
+    if (!body.slug && body.name) {
+      body.slug = slugify(body.name);
+    }
     const newP = await Product.create(body);
     res.status(201).json(newP);
   } catch (err) {
