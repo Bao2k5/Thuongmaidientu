@@ -2,25 +2,25 @@ import api from './api';
 
 // Get all products with filters
 export const getProducts = async (params = {}) => {
-  const response = await api.get('/api/products', { params });
+  const response = await api.get('/products', { params });
   return response.data;
 };
 
 // Get product by ID
 export const getProductById = async (id) => {
-  const response = await api.get(`/api/products/${id}`);
+  const response = await api.get(`/products/${id}`);
   return response.data;
 };
 
 // Get product by slug
 export const getProductBySlug = async (slug) => {
-  const response = await api.get(`/api/products/slug/${slug}`);
+  const response = await api.get(`/products/slug/${slug}`);
   return response.data;
 };
 
 // Search products
 export const searchProducts = async (query) => {
-  const response = await api.get('/api/products', {
+  const response = await api.get('/products', {
     params: { search: query },
   });
   return response.data;
@@ -28,13 +28,13 @@ export const searchProducts = async (query) => {
 
 // Get product reviews
 export const getProductReviews = async (productId) => {
-  const response = await api.get(`/api/products/${productId}/reviews`);
+  const response = await api.get(`/products/${productId}/reviews`);
   return response.data;
 };
 
 // Create product review
 export const createReview = async (productId, reviewData) => {
-  const response = await api.post(`/api/products/${productId}/reviews`, reviewData);
+  const response = await api.post(`/products/${productId}/reviews`, reviewData);
   return response.data;
 };
 
