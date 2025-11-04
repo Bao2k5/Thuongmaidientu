@@ -12,7 +12,21 @@ const paymentController = require('./controllers/payment.controller');
 app.post('/api/orders/webhook', express.raw({ type: 'application/json' }), paymentController.webhook);
 
 app.use(express.json());
-app.use(helmet());
+
+// Configure Helmet with more permissive settings for development
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "http://localhost:3000", "https:"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    }
+  }
+}));
+
 // Disable security middleware causing Node.js compatibility issues
 // app.use(mongoSanitize()); // Error: Cannot set property query
 // app.use(xss()); // Error: Cannot set property query  
