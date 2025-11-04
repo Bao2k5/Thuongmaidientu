@@ -7,7 +7,15 @@ const hpp = require('hpp');
 
 function corsMiddleware() {
   const allowed = (process.env.CORS_ORIGIN || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const opts = allowed.length ? { origin: allowed } : {};
+  // Default to allow localhost for development
+  const defaultOrigins = ['http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3001'];
+  const origins = allowed.length ? allowed : defaultOrigins;
+  const opts = {
+    origin: origins,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  };
   return cors(opts);
 }
 
