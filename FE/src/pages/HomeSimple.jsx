@@ -169,7 +169,7 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {mockTestimonials.map((testimonial) => (
+            {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="card-luxury p-8">
                 <div className="flex items-center mb-4">
                   {[...Array(5)].map((_, i) => (

@@ -86,3 +86,9 @@ export const PAYMENT_METHODS = [
   { id: 'cod', name: 'Thanh toán khi nhận hàng (COD)', icon: '💵' },
   { id: 'stripe', name: 'Thanh toán online (Thẻ/QR)', icon: '💳' },
 ];
+
+// Product categories (simple array for filters)
+export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Vòng Tay'];
+
+// Product materials (simple array for filters)
+export const materials = ['Bạc 925', 'Bạc Ý'];

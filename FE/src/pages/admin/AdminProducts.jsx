@@ -146,10 +146,14 @@ const AdminProducts = () => {
         const formDataUpload = new FormData();
         formDataUpload.append('image', file);
 
+        console.log('📤 Uploading:', file.name, 'to', api.defaults.baseURL + '/upload/image');
+        
         const response = await api.post('/upload/image', formDataUpload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
 
+        console.log('✅ Upload response:', response.data);
+        
         uploadedImages.push({
           url: response.data.url,
           public_id: response.data.public_id
@@ -158,13 +162,22 @@ const AdminProducts = () => {
 
       return uploadedImages;
     } catch (error) {
-      console.error('Error uploading images:', error);
+      console.error('❌ Upload error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: error.config?.url,
+        baseURL: error.config?.baseURL
+      });
+      
       // If Cloudinary not configured, show warning but don't fail
       if (error.response?.data?.error?.includes('Cloudinary credentials not set')) {
         alert('⚠️ Image upload sẽ sử dụng local storage (không cần tài khoản Cloudinary).\n\nSản phẩm sẽ được tạo với ảnh được lưu trên server local.');
         return []; // Return empty array, product will be created without images
       }
-      alert('Lỗi khi upload ảnh: ' + error.message);
+      
+      const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message;
+      alert(`Lỗi khi upload ảnh: ${errorMsg}\n\nURL: ${error.config?.baseURL || api.defaults.baseURL}/upload/image\nStatus: ${error.response?.status || 'Network Error'}`);
       return [];
     } finally {
       setUploadingImages(false);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/common/ProductCard';
-import { categories, materials } from '../utils/mockData';
+import { categories, materials } from '../utils/constants';
 import api from '../services/api';
 
 const Products = () => {
