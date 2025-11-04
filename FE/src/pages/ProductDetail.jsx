@@ -3,17 +3,52 @@ import { useParams, Link } from 'react-router-dom';
 import ProductCard from '../components/common/ProductCard';
 import ReviewCard from '../components/common/ReviewCard';
 import api from '../services/api';
+import useCartStore from '../store/cartStore';
+import useAuthStore from '../store/authStore';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { user } = useAuthStore();
+  const { addToCart } = useCartStore();
+  
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [addingToCart, setAddingToCart] = useState(false);
 
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [productReviews, setProductReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+    
+    setAddingToCart(true);
+    try {
+      // If user is logged in, call API
+      if (user) {
+        await api.post('/cart', { 
+          productId: product.id, 
+          qty: quantity 
+        });
+      }
+      
+      // Add to local cart store
+      addToCart(product, quantity);
+      
+      // Show success notification
+      alert(`✅ Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
+      
+      // Reset quantity
+      setQuantity(1);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+    } finally {
+      setAddingToCart(false);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -197,11 +232,24 @@ const ProductDetail = () => {
 
             {/* Action Buttons */}
             <div className="space-y-4 mb-8">
-              <button className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2" disabled={!inStock}>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                THÊM VÀO GIỎ HÀNG
+              <button 
+                onClick={handleAddToCart}
+                className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+                disabled={!inStock || addingToCart}
+              >
+                {addingToCart ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    ĐANG THÊM...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    THÊM VÀO GIỎ HÀNG
+                  </>
+                )}
               </button>
               <button className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
