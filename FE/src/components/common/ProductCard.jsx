@@ -50,7 +50,11 @@ const ProductCard = ({ product, onQuickView }) => {
       <Link to={`/products/${product.id}`} className="block">
         <div className="aspect-square overflow-hidden bg-luxury-pearl">
           <img 
-            src={product.images?.[0]?.url || product.img || 'https://via.placeholder.com/500'} 
+            src={
+              product.images?.[0] 
+                ? (typeof product.images[0] === 'string' ? product.images[0] : product.images[0].url)
+                : product.img || 'https://via.placeholder.com/500'
+            } 
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

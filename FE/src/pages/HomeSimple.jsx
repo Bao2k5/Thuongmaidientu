@@ -17,7 +17,14 @@ const HomeSimple = () => {
     const fetchHome = async () => {
       try {
         const p = await api.get('/products', { params: { limit: 12 } });
-        setFeaturedProducts((p.data.products || []).slice(0,8).map(x => ({ id: x._id, name: x.name, price: x.price, images: (x.images||[]).map(i => i.url||i) })));
+        setFeaturedProducts((p.data.products || []).slice(0,8).map(x => ({ 
+          id: x._id, 
+          name: x.name, 
+          price: x.price,
+          priceSale: x.priceSale,
+          category: x.category,
+          images: (x.images||[]).map(i => typeof i === 'string' ? i : (i.url || i))
+        })));
       } catch (err) {
         console.error('Failed to load featured products', err);
       }

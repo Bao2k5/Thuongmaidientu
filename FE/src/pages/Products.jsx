@@ -75,7 +75,7 @@ const Products = () => {
           name: p.name,
           price: p.price,
           priceSale: p.priceSale,
-          images: (p.images || []).map(i => (i.url || i)),
+          images: (p.images || []).map(i => typeof i === 'string' ? i : (i.url || i)),
           category: p.category || (p.collection && p.collection.name) || '',
           material: p.attributes?.material || '',
           rating: p.ratingsAvg || 0,
