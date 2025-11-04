@@ -3,13 +3,13 @@ import { storage } from '../utils/helpers';
 
 // Register
 export const register = async (userData) => {
-  const response = await api.post('/api/auth/register', userData);
+  const response = await api.post('/auth/register', userData);
   return response.data;
 };
 
 // Login
 export const login = async (credentials) => {
-  const response = await api.post('/api/auth/login', credentials);
+  const response = await api.post('/auth/login', credentials);
   if (response.data.token) {
     storage.set('token', response.data.token);
     storage.set('user', response.data.user);
@@ -25,7 +25,7 @@ export const logout = () => {
 
 // Forgot Password
 export const forgotPassword = async (email) => {
-  const response = await api.post('/api/auth/forgot-password', { email });
+  const response = await api.post('/auth/forgot-password', { email });
   return response.data;
 };
 
