@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../components/common/ProductCard';
 import { categories, materials } from '../utils/constants';
 import api from '../services/api';
+import useCartStore from '../store/cartStore';
+import useAuthStore from '../store/authStore';
 
 const Products = () => {
+  const { user } = useAuthStore();
+  const { addToCart } = useCartStore();
+  
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('newest');
   const [priceRange, setPriceRange] = useState([0, 50000000]);
@@ -14,6 +19,36 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [addingToCart, setAddingToCart] = useState(false);
+
+  const handleQuickAddToCart = async () => {
+    if (!showQuickView) return;
+    
+    setAddingToCart(true);
+    try {
+      // If user is logged in, call API
+      if (user) {
+        await api.post('/cart', { 
+          productId: showQuickView.id, 
+          qty: 1 
+        });
+      }
+      
+      // Add to local cart store
+      addToCart(showQuickView, 1);
+      
+      // Show success notification
+      alert(`✅ Đã thêm ${showQuickView.name} vào giỏ hàng!`);
+      
+      // Close modal
+      setShowQuickView(null);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+    } finally {
+      setAddingToCart(false);
+    }
+  };
 
   const toggleCategory = (cat) => {
     setSelectedCategories(prev => 
@@ -321,8 +356,24 @@ const Products = () => {
                     >
                       XEM CHI TIẾT
                     </Link>
-                    <button className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300">
-                      THÊM VÀO GIỎ HÀNG
+                    <button 
+                      onClick={handleQuickAddToCart}
+                      disabled={addingToCart}
+                      className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {addingToCart ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current"></div>
+                          ĐANG THÊM...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                          THÊM VÀO GIỎ HÀNG
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
