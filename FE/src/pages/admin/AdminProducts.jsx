@@ -73,10 +73,8 @@ const AdminProducts = () => {
         description: formData.description,
         stock: parseInt(formData.stock),
         specifications: formData.specifications,
-        images: [...formData.images, ...uploadedImages] // Combine existing and new images
+        images: [...formData.images, ...uploadedImages]
       };
-
-      console.log('Submitting product data:', data); // Debug log
 
       if (editingProduct) {
         await api.put(`/products/${editingProduct._id}`, data);
@@ -89,7 +87,6 @@ const AdminProducts = () => {
       loadProducts();
     } catch (error) {
       console.error('Error saving product:', error);
-      console.error('Error response:', error.response); // Debug log
       alert('Lỗi khi lưu sản phẩm: ' + (error.response?.data?.message || error.message));
     }
   };
@@ -124,14 +121,13 @@ const AdminProducts = () => {
     });
     setSelectedFiles([]);
     setImagePreviews([]);
-    setShowModal(true); // Mở modal khi edit
+    setShowModal(true);
   };
 
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
     
-    // Create previews
     const previews = files.map(file => URL.createObjectURL(file));
     setImagePreviews(previews);
   };
@@ -146,14 +142,10 @@ const AdminProducts = () => {
       for (const file of selectedFiles) {
         const formDataUpload = new FormData();
         formDataUpload.append('image', file);
-
-        console.log('📤 Uploading:', file.name, 'to', api.defaults.baseURL + '/upload/image');
         
         const response = await api.post('/upload/image', formDataUpload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-
-        console.log('✅ Upload response:', response.data);
         
         uploadedImages.push({
           url: response.data.url,
@@ -163,22 +155,15 @@ const AdminProducts = () => {
 
       return uploadedImages;
     } catch (error) {
-      console.error('❌ Upload error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        url: error.config?.url,
-        baseURL: error.config?.baseURL
-      });
+      console.error('Upload error:', error);
       
-      // If Cloudinary not configured, show warning but don't fail
       if (error.response?.data?.error?.includes('Cloudinary credentials not set')) {
-        alert('⚠️ Image upload sẽ sử dụng local storage (không cần tài khoản Cloudinary).\n\nSản phẩm sẽ được tạo với ảnh được lưu trên server local.');
-        return []; // Return empty array, product will be created without images
+        alert('Image upload sẽ sử dụng local storage.\n\nSản phẩm sẽ được tạo với ảnh được lưu trên server local.');
+        return [];
       }
       
       const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message;
-      alert(`Lỗi khi upload ảnh: ${errorMsg}\n\nURL: ${error.config?.baseURL || api.defaults.baseURL}/upload/image\nStatus: ${error.response?.status || 'Network Error'}`);
+      alert(`Lỗi khi upload ảnh: ${errorMsg}`);
       return [];
     } finally {
       setUploadingImages(false);
@@ -228,7 +213,6 @@ const AdminProducts = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Quản Lý Sản Phẩm</h1>
@@ -241,11 +225,10 @@ const AdminProducts = () => {
             }}
             className="btn-luxury px-6 py-3"
           >
-            + Thêm Sản Phẩm
+            Thêm Sản Phẩm
           </button>
         </div>
 
-        {/* Products Table */}
         <div className="card-luxury overflow-hidden">
           <table className="w-full">
             <thead className="bg-luxury-pearl border-b border-luxury-platinum">
@@ -309,7 +292,6 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      {/* Modal Form */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-luxury-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -322,7 +304,7 @@ const AdminProducts = () => {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                  Tên Sản Phẩm *
+                  Tên Sản Phẩm
                 </label>
                 <input
                   type="text"
@@ -336,7 +318,7 @@ const AdminProducts = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                    Giá *
+                    Giá
                   </label>
                   <input
                     type="number"
@@ -364,7 +346,7 @@ const AdminProducts = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                    Danh Mục *
+                    Danh Mục
                   </label>
                   <select
                     required
@@ -380,7 +362,7 @@ const AdminProducts = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                    Số Lượng *
+                    Số Lượng
                   </label>
                   <input
                     type="number"
@@ -395,7 +377,7 @@ const AdminProducts = () => {
 
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                  Chất Liệu *
+                  Chất Liệu
                 </label>
                   <select
                     required
@@ -410,7 +392,7 @@ const AdminProducts = () => {
 
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
-                  Mô Tả *
+                  Mô Tả
                 </label>
                 <textarea
                   required
@@ -422,14 +404,12 @@ const AdminProducts = () => {
                 />
               </div>
 
-              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
                   Hình Ảnh Sản Phẩm
                 </label>
 
                 <div className="space-y-2">
-                  {/* Existing images (when editing) */}
                   {editingProduct && formData.images.length > 0 && (
                     <div>
                       <h4 className="text-sm text-luxury-gray mb-2">Ảnh hiện tại:</h4>

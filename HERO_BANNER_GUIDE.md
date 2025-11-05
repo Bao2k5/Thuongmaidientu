@@ -7,6 +7,7 @@ Hệ thống Hero Banner cho phép admin quản lý banner lớn (hình ảnh đ
 ## Tính Năng
 
 ### 1. **Quản Lý Banner Đa Dạng**
+
 - Tạo nhiều banner khác nhau cho các sự kiện khác nhau
 - Mỗi banner có thể bao gồm:
   - **Tiêu đề** (Title): Tiêu đề chính của banner
@@ -19,15 +20,18 @@ Hệ thống Hero Banner cho phép admin quản lý banner lớn (hình ảnh đ
   - **Thời gian hoạt động**: Ngày bắt đầu và kết thúc (tùy chọn)
 
 ### 2. **Bật/Tắt Banner Dễ Dàng**
+
 - Toggle trạng thái active/inactive ngay trên danh sách
 - Chỉ banner được đánh dấu "Active" mới hiển thị trên trang chủ
 
 ### 3. **Lên Lịch Banner**
+
 - Đặt ngày bắt đầu và kết thúc cho banner
 - Banner tự động hiển thị/ẩn theo lịch đã đặt
 - Không cần ngày = hiển thị vô thời hạn (cho đến khi tắt)
 
 ### 4. **Carousel Tự Động**
+
 - Nếu có nhiều banner active, tự động xoay vòng hiển thị
 - Thay đổi mỗi 5 giây
 - Có indicator (dấu chấm) để biết đang xem banner nào
@@ -112,23 +116,27 @@ Active: ✓
 ## Lưu Ý Quan Trọng
 
 ### Kích Thước Ảnh
+
 - **Khuyến nghị**: 1920x700 pixels
 - **Tỷ lệ**: 2.74:1 (wide landscape)
 - **Dung lượng**: Tối đa 5MB
 - **Format**: JPG, PNG, WebP
 
 ### Thứ Tự Hiển Thị
+
 - Banner có số thứ tự **nhỏ hơn** hiển thị **trước**
 - VD: order=0 hiển thị trước order=1
 - Nếu nhiều banner cùng order, banner mới tạo hiển thị trước
 
 ### Thời Gian Hoạt Động
+
 - **Không set thời gian** = banner hiển thị cho đến khi tắt
 - **Có startDate** = banner bắt đầu hiển thị từ ngày đó
 - **Có endDate** = banner tự động ẩn sau ngày đó
 - **Cả hai** = banner chỉ hiển thị trong khoảng thời gian đó
 
 ### Text Overlay
+
 - Text màu trắng với nền mờ đen (30% opacity)
 - Đảm bảo text đọc được trên ảnh nền
 - Nếu ảnh quá sáng, cân nhắc tối ảnh trước khi upload
@@ -136,12 +144,14 @@ Active: ✓
 ## API Endpoints
 
 ### Public
+
 ```
 GET /api/hero-banners/active
 → Lấy danh sách banner đang active và trong thời gian hiển thị
 ```
 
 ### Admin (Cần token)
+
 ```
 GET    /api/hero-banners/admin       # Lấy tất cả banners
 GET    /api/hero-banners/:id         # Lấy 1 banner theo ID
@@ -176,6 +186,7 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
 ### Chuẩn Bị Sự Kiện Tết
 
 **1 tuần trước Tết:**
+
 1. Thiết kế ảnh banner Tết (1920x700px)
 2. Upload banner qua admin panel
 3. Điền thông tin:
@@ -185,13 +196,16 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
    - **Chưa kích hoạt** (để test trước)
 
 **3 ngày trước Tết:**
+
 - Kích hoạt banner → Test trên trang chủ
 - Kiểm tra responsive trên mobile
 
 **Ngày 29/01:**
+
 - Banner tự động hiển thị (vì đã set startDate)
 
 **Ngày 10/02:**
+
 - Banner tự động ẩn (endDate)
 
 ### Thay Đổi Nhanh Trong Ngày
@@ -214,6 +228,7 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
 ### Banner Không Hiển Thị
 
 **Kiểm tra:**
+
 1. ✓ Banner có status "Đang hiển thị" (màu xanh)?
 2. ✓ Thời gian hiện tại có nằm trong startDate → endDate?
 3. ✓ Ảnh có load được không? (kiểm tra Network tab)
@@ -222,6 +237,7 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
 ### Ảnh Bị Vỡ/Méo
 
 **Giải pháp:**
+
 - Resize ảnh về đúng tỷ lệ 1920x700px trước khi upload
 - Dùng tool online: photopea.com, canva.com
 - Crop theo tỷ lệ 2.74:1
@@ -229,6 +245,7 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
 ### Text Không Đọc Được
 
 **Giải pháp:**
+
 - Chọn ảnh nền tối màu
 - Hoặc tối ảnh trước khi upload (giảm brightness 20-30%)
 - Hoặc để trống subtitle/description, chỉ giữ title
@@ -244,6 +261,7 @@ PATCH  /api/hero-banners/:id/toggle  # Bật/tắt banner
 ## Kết Luận
 
 Hệ thống Hero Banner giúp bạn:
+
 - ✅ Thay đổi banner trang chủ trong vài phút
 - ✅ Không cần developer để update
 - ✅ Lên lịch trước cho các sự kiện
