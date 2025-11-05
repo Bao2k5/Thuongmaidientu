@@ -245,12 +245,17 @@ const AdminProducts = () => {
                 <tr key={product._id} className="hover:bg-luxury-pearl transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      {product.images?.[0] && (
+                      {product.images && product.images.length > 0 ? (
                         <img
-                          src={product.images[0]?.url || product.images[0] || 'https://via.placeholder.com/100'}
+                          src={typeof product.images[0] === 'string' ? product.images[0] : (product.images[0]?.url || 'https://via.placeholder.com/100')}
                           alt={product.name}
                           className="w-12 h-12 object-cover rounded border border-luxury-platinum"
+                          onError={(e) => { e.target.src = 'https://via.placeholder.com/100?text=No+Image' }}
                         />
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-200 rounded border border-luxury-platinum flex items-center justify-center text-xs text-gray-400">
+                          No Image
+                        </div>
                       )}
                       <span className="text-sm font-medium text-luxury-black">{product.name}</span>
                     </div>
