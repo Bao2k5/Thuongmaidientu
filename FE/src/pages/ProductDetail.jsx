@@ -136,6 +136,10 @@ const ProductDetail = () => {
                 src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'} 
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                onError={(e) => { 
+                  e.target.onerror = null; 
+                  e.target.src = 'https://via.placeholder.com/500?text=Image+Not+Found';
+                }}
               />
             </div>
             <div className="grid grid-cols-4 gap-4">
@@ -147,7 +151,15 @@ const ProductDetail = () => {
                     selectedImage === i ? 'border-luxury-charcoal' : 'border-gray-200 hover:border-luxury-taupe'
                   }`}
                 >
-                  <img src={img?.url || img || 'https://via.placeholder.com/500'} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                  <img 
+                    src={img?.url || img || 'https://via.placeholder.com/500'} 
+                    alt={`${product.name} ${i + 1}`} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => { 
+                      e.target.onerror = null; 
+                      e.target.src = 'https://via.placeholder.com/500?text=No+Image';
+                    }}
+                  />
                 </button>
               ))}
             </div>
