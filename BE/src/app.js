@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
+const path = require('path');
 const connectDB = require('./config/db');
 const { corsMiddleware, basicLimiter, authLimiter, forgotLimiter, mongoSanitize, xss, hpp } = require('./middleware/security.middleware');
 
@@ -20,9 +21,12 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "http://localhost:3000", "https:"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "http://localhost:3000", "https:", "https://res.cloudinary.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
+      connectSrc: ["'self'", "http://localhost:3000", "https://res.cloudinary.com", "https://api.cloudinary.com"],
+      frameSrc: ["'self'", "https:"],
+      frameAncestors: ["'self'", "https:"],
     }
   }
 }));
@@ -47,7 +51,9 @@ const apiRouter = require('./routes/index');
 app.use('/api', apiRouter);
 
 // Serve static files from uploads directory
-app.use('/uploads', express.static('uploads'));
+const uploadsPath = path.join(__dirname, '..', 'uploads');
+console.log('📁 Serving static files from:', uploadsPath);
+app.use('/uploads', express.static(uploadsPath));
 
 // 404 handler - must be before error handler
 app.use((req, res, next) => {
