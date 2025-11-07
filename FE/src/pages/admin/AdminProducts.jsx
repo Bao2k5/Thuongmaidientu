@@ -231,9 +231,9 @@ const AdminProducts = () => {
           </button>
         </div>
 
-        <div className="card-luxury overflow-auto max-h-[600px]">
+        <div className="card-luxury overflow-visible">
           <table className="w-full">
-            <thead className="bg-luxury-pearl border-b border-luxury-platinum sticky top-0">
+            <thead className="bg-luxury-pearl border-b border-luxury-platinum">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-medium text-luxury-darkGray uppercase tracking-widest">Sản Phẩm</th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-luxury-darkGray uppercase tracking-widest">Danh Mục</th>
