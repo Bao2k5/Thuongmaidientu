@@ -26,7 +26,7 @@ const AdminProducts = () => {
     name: '',
     price: '',
     priceSale: '',
-    category: 'Nhẫn',
+    category: '',
     material: '',
     description: '',
     stock: '',
@@ -183,7 +183,7 @@ const AdminProducts = () => {
       name: '',
       price: '',
       priceSale: '',
-      category: 'Nhẫn',
+      category: '',
       material: '',
       description: '',
       stock: '',
@@ -359,6 +359,7 @@ const AdminProducts = () => {
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="input-luxury w-full"
                   >
+                    <option value="">-- Chọn danh mục --</option>
                     <option value="Nhẫn">Nhẫn</option>
                     <option value="Dây Chuyền">Dây Chuyền</option>
                     <option value="Bông Tai">Bông Tai</option>
