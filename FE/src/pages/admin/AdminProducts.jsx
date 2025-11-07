@@ -46,7 +46,9 @@ const AdminProducts = () => {
   const loadProducts = async () => {
     try {
       const response = await api.get('/products');
-      setProducts(response.data.products || response.data);
+      const productsData = response.data.products || response.data;
+      // Đảo ngược thứ tự - sản phẩm mới nhất lên đầu
+      setProducts(productsData.reverse());
     } catch (error) {
       console.error('Error loading products:', error);
     } finally {
@@ -229,9 +231,9 @@ const AdminProducts = () => {
           </button>
         </div>
 
-        <div className="card-luxury overflow-hidden">
+        <div className="card-luxury overflow-auto max-h-[600px]">
           <table className="w-full">
-            <thead className="bg-luxury-pearl border-b border-luxury-platinum">
+            <thead className="bg-luxury-pearl border-b border-luxury-platinum sticky top-0">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-medium text-luxury-darkGray uppercase tracking-widest">Sản Phẩm</th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-luxury-darkGray uppercase tracking-widest">Danh Mục</th>
