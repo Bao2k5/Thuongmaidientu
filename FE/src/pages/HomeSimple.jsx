@@ -303,7 +303,7 @@ const HomeSimple = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {featuredProducts
               .filter(p => p.category === 'Dây Chuyền')
-              .slice(0, 8)
+              .slice(0, 4)
               .map((product) => (
                 <Link
                   key={product._id}
@@ -366,7 +366,7 @@ const HomeSimple = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {featuredProducts
               .filter(p => p.category === 'Nhẫn')
-              .slice(0, 8)
+              .slice(0, 4)
               .map((product) => (
                 <Link
                   key={product._id}
@@ -429,7 +429,7 @@ const HomeSimple = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {featuredProducts
               .filter(p => p.category === 'Vòng Tay')
-              .slice(0, 8)
+              .slice(0, 4)
               .map((product) => (
                 <Link
                   key={product._id}
@@ -478,7 +478,7 @@ const HomeSimple = () => {
         <div className="container-luxury">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Hoa Tai</h2>
+              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Bông Tai</h2>
               <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
             <Link
@@ -492,7 +492,7 @@ const HomeSimple = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {featuredProducts
               .filter(p => p.category === 'Bông Tai')
-              .slice(0, 8)
+              .slice(0, 4)
               .map((product) => (
                 <Link
                   key={product._id}

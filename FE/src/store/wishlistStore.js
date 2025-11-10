@@ -29,7 +29,7 @@ const useWishlistStore = create((set, get) => ({
   addToWishlist: async (product) => {
     set({ loading: true, error: null });
     try {
-      await api.post(`/api/users/wishlist/${product._id}`);
+      await api.post('/api/users/wishlist', { productId: product._id });
       const { items } = get();
       const exists = items.find(item => item.product._id === product._id);
       

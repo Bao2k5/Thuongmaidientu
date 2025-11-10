@@ -48,6 +48,7 @@ const Register = () => {
         name: formData.fullName,
         email: formData.email,
         password: formData.password,
+        phone: formData.phone,
       };
 
       const res = await registerFn(payload);

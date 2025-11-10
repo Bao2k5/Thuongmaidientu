@@ -289,7 +289,7 @@ function App() {
           <Route index element={<AccountInfo />} />
           <Route path="orders" element={<AccountOrders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
-          <Route path="addresses" element={<ComingSoon title="Sổ địa chỉ" />} />
+          <Route path="addresses" element={<Address />} />
           <Route path="settings" element={<ComingSoon title="Cài đặt tài khoản" />} />
         </Route>
         <Route path="/orders" element={

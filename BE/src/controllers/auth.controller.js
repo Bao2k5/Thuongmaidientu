@@ -15,7 +15,7 @@ const signToken = (user) => {
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
     if (!email || !password || !name) return res.status(400).json({ msg: "Missing fields" });
 
     const existing = await User.findOne({ email });
@@ -24,7 +24,12 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({ name, email, password: hashed });
+    const newUser = await User.create({ 
+      name, 
+      email, 
+      password: hashed,
+      phone: phone || ''
+    });
     const token = signToken(newUser);
 
     res.status(201).json({ message: "Registered", user: { id: newUser._id, name: newUser.name, email: newUser.email }, token });

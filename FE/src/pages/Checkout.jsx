@@ -5,6 +5,7 @@ import useAuthStore from '../store/authStore';
 import cartService from '../services/cartService';
 import orderService from '../services/orderService';
 import paymentService from '../services/paymentService';
+import addressService from '../services/addressService';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const Checkout = () => {
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [loading, setLoading] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState('');
 
   const { user } = useAuthStore();
   const { items: localItems } = useCartStore();
@@ -63,6 +66,46 @@ const Checkout = () => {
 
     loadCart();
   }, [user, localItems]);
+
+  // Fetch saved addresses
+  useEffect(() => {
+    const loadAddresses = async () => {
+      if (user) {
+        try {
+          const response = await addressService.getAddresses();
+          const addresses = response.data || [];
+          setSavedAddresses(addresses);
+          
+          // Auto-select default address if available
+          const defaultAddr = addresses.find(addr => addr.isDefault);
+          if (defaultAddr) {
+            setSelectedAddressId(defaultAddr._id);
+            handleAddressSelect(defaultAddr._id, addresses);
+          }
+        } catch (err) {
+          console.error('Error loading addresses:', err);
+        }
+      }
+    };
+    loadAddresses();
+  }, [user]);
+
+  // Handle address selection
+  const handleAddressSelect = (addressId, addresses = savedAddresses) => {
+    const selected = addresses.find(addr => addr._id === addressId);
+    if (selected) {
+      setSelectedAddressId(addressId);
+      setShippingInfo({
+        ...shippingInfo,
+        fullName: selected.fullName || '',
+        phone: selected.phone || '',
+        address: selected.address || '',
+        city: selected.province || '',
+        district: selected.district || '',
+        ward: selected.ward || ''
+      });
+    }
+  };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal >= 500000 ? 0 : 50000;
@@ -188,6 +231,34 @@ const Checkout = () => {
                   <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">THÔNG TIN GIAO HÀNG</h2>
 
                   <div className="space-y-6">
+                    {/* Saved Addresses Selector */}
+                    {user && savedAddresses.length > 0 && (
+                      <div className="bg-luxury-cream/30 p-4 border border-luxury-sage/20">
+                        <div className="flex items-center justify-between mb-3">
+                          <label className="block text-luxury-charcoal font-light">Chọn địa chỉ đã lưu</label>
+                          <Link
+                            to="/account/addresses"
+                            className="text-luxury-sage hover:text-luxury-charcoal text-sm transition-colors"
+                          >
+                            Quản lý địa chỉ →
+                          </Link>
+                        </div>
+                        <select
+                          value={selectedAddressId}
+                          onChange={(e) => handleAddressSelect(e.target.value)}
+                          className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light bg-white"
+                        >
+                          <option value="">-- Nhập địa chỉ mới --</option>
+                          {savedAddresses.map(addr => (
+                            <option key={addr._id} value={addr._id}>
+                              {addr.fullName} - {addr.phone} - {addr.address}, {addr.ward}, {addr.district}, {addr.province}
+                              {addr.isDefault ? ' (Mặc định)' : ''}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
                     <div>
                       <label className="block text-luxury-charcoal font-light mb-2">Họ và tên *</label>
                       <input
