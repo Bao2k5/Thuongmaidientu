@@ -10,7 +10,8 @@ const VNPAY_CONFIG = {
   tmnCode: process.env.VNPAY_TMN_CODE || 'DEMOSHOP',
   hashSecret: process.env.VNPAY_HASH_SECRET || 'TESTDEMOSHOPSECRET',
   url: process.env.VNPAY_URL || 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
-  returnUrl: process.env.VNPAY_RETURN_URL || 'http://localhost:5000/api/payment/vnpay/return',
+  // SANDBOX: Redirect to simulator page instead of direct callback
+  returnUrl: process.env.VNPAY_RETURN_URL || 'http://localhost:5173/payment/vnpay/simulator',
   ipnUrl: process.env.VNPAY_IPN_URL || 'http://localhost:5000/api/payment/vnpay/ipn',
 };
 
@@ -287,5 +288,114 @@ exports.ipnCallback = async (req, res) => {
   } catch (err) {
     console.error('[VNPay IPN] Error:', err);
     res.status(200).json({ RspCode: '99', Message: 'Unknown error' });
+  }
+};
+
+// SANDBOX ONLY: Simulate VNPay callback from frontend
+exports.simulateCallback = async (req, res) => {
+  try {
+    const { orderId, txnRef, amount, responseCode, transactionStatus } = req.body;
+    
+    console.log('[VNPay Simulator] Simulating callback for order:', orderId);
+    
+    // Find order
+    const order = await Order.findById(orderId).populate('items.product');
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Build fake IPN data that matches real VNPay format
+    const fakeTransactionNo = `VNPAY_SIMULATE_${Date.now()}`;
+    const vnpAmount = amount || (Math.round(order.total * 100)).toString();
+    
+    const ipnData = {
+      vnp_TmnCode: VNPAY_CONFIG.tmnCode,
+      vnp_TxnRef: txnRef || orderId.toString(),
+      vnp_Amount: vnpAmount,
+      vnp_OrderInfo: `Payment for order ${orderId}`,
+      vnp_ResponseCode: responseCode || '00',
+      vnp_TransactionNo: fakeTransactionNo,
+      vnp_BankCode: 'VNBANK',
+      vnp_PayDate: new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14),
+      vnp_TransactionStatus: transactionStatus || '00',
+      // Note: Signature validation skipped in simulator
+    };
+
+    // Process the simulated callback
+    if (ipnData.vnp_ResponseCode === '00' && ipnData.vnp_TransactionStatus === '00') {
+      // Check idempotency
+      if (order.paymentEvents?.some(e => e.provider === 'vnpay' && e.transactionId === fakeTransactionNo)) {
+        console.log('[VNPay Simulator] Duplicate transaction - idempotency caught');
+        return res.status(200).json({ 
+          success: true, 
+          message: 'Duplicate transaction (idempotency)', 
+          order 
+        });
+      }
+
+      // Validate amount
+      const expectedAmount = Math.round(order.total * 100);
+      const receivedAmount = parseInt(vnpAmount);
+      if (expectedAmount !== receivedAmount) {
+        console.log('[VNPay Simulator] Amount mismatch:', { expectedAmount, receivedAmount });
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Amount mismatch' 
+        });
+      }
+
+      // Log event
+      if (!order.paymentEvents) order.paymentEvents = [];
+      order.paymentEvents.push({
+        eventType: 'ipn',
+        provider: 'vnpay',
+        transactionId: fakeTransactionNo,
+        resultCode: ipnData.vnp_ResponseCode,
+        rawData: ipnData
+      });
+
+      // Update order status
+      order.payment.status = 'paid';
+      order.payment.transactionId = fakeTransactionNo;
+      order.payment.paidAt = new Date();
+      order.status = 'processing';
+
+      // Decrement stock if not already done
+      if (!order.stockAdjusted) {
+        for (const item of order.items) {
+          const product = await Product.findById(item.product);
+          if (product) {
+            product.stock -= item.quantity;
+            if (product.stock < 0) product.stock = 0;
+            await product.save();
+          }
+        }
+        order.stockAdjusted = true;
+      }
+
+      await order.save();
+      
+      console.log('[VNPay Simulator] Payment successful, order updated');
+      return res.json({ 
+        success: true, 
+        message: 'Payment simulated successfully', 
+        order 
+      });
+    } else {
+      // Failed payment
+      order.payment.status = 'failed';
+      order.status = 'cancelled';
+      await order.save();
+      
+      console.log('[VNPay Simulator] Payment failed simulation');
+      return res.json({ 
+        success: true, 
+        message: 'Payment failure simulated', 
+        order 
+      });
+    }
+  } catch (err) {
+    console.error('[VNPay Simulator] Error:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 };

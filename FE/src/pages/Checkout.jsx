@@ -103,18 +103,20 @@ const Checkout = () => {
         // COD - order created, show success
         navigate(`/payment/success?orderId=${order._id}&method=cod`);
       } else if (paymentMethod === 'momo') {
-        // MoMo - redirect to MoMo payment
+        // MoMo - redirect to simulator page for sandbox testing
         const momoResult = await paymentService.createMomoPayment(order._id);
-        if (momoResult.success && momoResult.payUrl) {
-          window.location.href = momoResult.payUrl;
+        if (momoResult.success && momoResult.requestId) {
+          // Redirect to simulator page instead of real MoMo
+          navigate(`/payment/momo/simulator?orderId=${order._id}&requestId=${momoResult.requestId}&amount=${Math.round(order.total)}`);
         } else {
           throw new Error('Không thể tạo thanh toán MoMo');
         }
       } else if (paymentMethod === 'vnpay') {
-        // VNPay - redirect to VNPay payment
+        // VNPay - redirect to simulator page for sandbox testing
         const vnpayResult = await paymentService.createVNPayPayment(order._id);
-        if (vnpayResult.success && vnpayResult.payUrl) {
-          window.location.href = vnpayResult.payUrl;
+        if (vnpayResult.success) {
+          // Redirect to simulator page
+          navigate(`/payment/vnpay/simulator?orderId=${order._id}&vnp_TxnRef=${order._id}&vnp_Amount=${Math.round(order.total * 100)}`);
         } else {
           throw new Error('Không thể tạo thanh toán VNPay');
         }

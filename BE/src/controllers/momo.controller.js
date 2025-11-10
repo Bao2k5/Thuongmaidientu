@@ -12,7 +12,8 @@ const MOMO_CONFIG = {
   accessKey: process.env.MOMO_ACCESS_KEY || 'klm05TvNBzhg7h7j',
   secretKey: process.env.MOMO_SECRET_KEY || 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
   endpoint: process.env.MOMO_ENDPOINT || 'https://test-payment.momo.vn/v2/gateway/api/create',
-  redirectUrl: process.env.MOMO_REDIRECT_URL || 'http://localhost:5173/payment/momo/callback',
+  // SANDBOX: Redirect to simulator page instead of direct callback
+  redirectUrl: process.env.MOMO_REDIRECT_URL || 'http://localhost:5173/payment/momo/simulator',
   ipnUrl: process.env.MOMO_IPN_URL || 'http://localhost:5000/api/payment/momo/ipn',
 };
 
@@ -320,5 +321,124 @@ exports.handleCallback = async (req, res) => {
     }
   } catch (err) {
     res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/payment/error?msg=${encodeURIComponent(err.message)}`);
+  }
+};
+
+// SANDBOX ONLY: Simulate MoMo callback from frontend
+exports.simulateCallback = async (req, res) => {
+  try {
+    const { orderId, requestId, amount, resultCode, message } = req.body;
+    
+    console.log('[MoMo Simulator] Simulating callback for order:', orderId);
+    
+    // Find order
+    const order = await Order.findById(orderId).populate('items.product');
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Build fake IPN data that matches real MoMo format
+    const fakeTransId = `MOMO_SIMULATE_${Date.now()}`;
+    const ipnData = {
+      partnerCode: MOMO_CONFIG.partnerCode,
+      orderId: orderId.toString(),
+      requestId: requestId || `${orderId}_${Date.now()}`,
+      amount: amount || Math.round(order.total).toString(),
+      orderInfo: `Payment for order ${orderId}`,
+      orderType: 'momo_wallet',
+      transId: fakeTransId,
+      resultCode: parseInt(resultCode) || 0,
+      message: message || 'Successful.',
+      payType: 'qr',
+      responseTime: Date.now(),
+      extraData: '',
+      // Note: Signature validation skipped in simulator
+    };
+
+    // Call the IPN handler directly
+    // Create a mock request/response to pass to ipnCallback
+    const mockReq = { body: ipnData };
+    const mockRes = {
+      status: (code) => ({
+        json: (data) => {
+          console.log('[MoMo Simulator] IPN handler response:', code, data);
+          return { code, data };
+        },
+        send: () => {
+          console.log('[MoMo Simulator] IPN handler response:', code);
+          return { code };
+        }
+      }),
+      sendStatus: (code) => {
+        console.log('[MoMo Simulator] IPN handler sendStatus:', code);
+        return { code };
+      }
+    };
+
+    // Process the simulated callback
+    if (ipnData.resultCode === 0) {
+      // Check idempotency
+      if (order.paymentEvents?.some(e => e.provider === 'momo' && e.transactionId === fakeTransId)) {
+        console.log('[MoMo Simulator] Duplicate transaction - idempotency caught');
+        return res.status(200).json({ 
+          success: true, 
+          message: 'Duplicate transaction (idempotency)', 
+          order 
+        });
+      }
+
+      // Log event
+      if (!order.paymentEvents) order.paymentEvents = [];
+      order.paymentEvents.push({
+        eventType: 'ipn',
+        provider: 'momo',
+        transactionId: fakeTransId,
+        resultCode: '0',
+        rawData: ipnData
+      });
+
+      // Update order status
+      order.payment.status = 'paid';
+      order.payment.transactionId = fakeTransId;
+      order.payment.paidAt = new Date();
+      order.status = 'processing';
+
+      // Decrement stock if not already done
+      if (!order.stockAdjusted) {
+        for (const item of order.items) {
+          const product = await Product.findById(item.product);
+          if (product) {
+            product.stock -= item.quantity;
+            if (product.stock < 0) product.stock = 0;
+            await product.save();
+          }
+        }
+        order.stockAdjusted = true;
+      }
+
+      await order.save();
+      
+      console.log('[MoMo Simulator] Payment successful, order updated');
+      return res.json({ 
+        success: true, 
+        message: 'Payment simulated successfully', 
+        order 
+      });
+    } else {
+      // Failed payment
+      order.payment.status = 'failed';
+      order.status = 'cancelled';
+      await order.save();
+      
+      console.log('[MoMo Simulator] Payment failed simulation');
+      return res.json({ 
+        success: true, 
+        message: 'Payment failure simulated', 
+        order 
+      });
+    }
+  } catch (err) {
+    console.error('[MoMo Simulator] Error:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 };
