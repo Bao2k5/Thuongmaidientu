@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { paymentService } from '../services/api';
+import paymentService from '../services/paymentService';
 
 const MomoSimulator = () => {
   const [searchParams] = useSearchParams();
