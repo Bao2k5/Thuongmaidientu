@@ -302,7 +302,12 @@ const Checkout = () => {
                   <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">PHƯƠNG THỨC THANH TOÁN</h2>
 
                   <div className="space-y-4">
-                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
+                    {/* COD */}
+                    <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
+                      paymentMethod === 'cod' 
+                        ? 'border-luxury-charcoal bg-luxury-cream/30' 
+                        : 'border-luxury-sand hover:border-luxury-taupe'
+                    }`}>
                       <input
                         type="radio"
                         name="payment"
@@ -312,12 +317,22 @@ const Checkout = () => {
                         className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-luxury-charcoal mb-1">Thanh toán khi nhận hàng (COD)</div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <svg className="w-6 h-6 text-luxury-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                          <span className="font-medium text-luxury-charcoal">Thanh toán khi nhận hàng (COD)</span>
+                        </div>
                         <p className="text-sm text-luxury-brown font-light">Thanh toán bằng tiền mặt khi nhận hàng</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
+                    {/* Bank Transfer */}
+                    <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
+                      paymentMethod === 'bank' 
+                        ? 'border-luxury-charcoal bg-luxury-cream/30' 
+                        : 'border-luxury-sand hover:border-luxury-taupe'
+                    }`}>
                       <input
                         type="radio"
                         name="payment"
@@ -327,12 +342,22 @@ const Checkout = () => {
                         className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-luxury-charcoal mb-1">Chuyển khoản ngân hàng</div>
-                        <p className="text-sm text-luxury-brown font-light">Chuyển khoản qua tài khoản ngân hàng</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <svg className="w-6 h-6 text-luxury-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                          </svg>
+                          <span className="font-medium text-luxury-charcoal">Chuyển khoản ngân hàng</span>
+                        </div>
+                        <p className="text-sm text-luxury-brown font-light">Chuyển khoản qua tài khoản ngân hàng (Sẽ nhận thông tin sau khi đặt hàng)</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
+                    {/* MoMo */}
+                    <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
+                      paymentMethod === 'momo' 
+                        ? 'border-luxury-charcoal bg-luxury-cream/30' 
+                        : 'border-luxury-sand hover:border-luxury-taupe'
+                    }`}>
                       <input
                         type="radio"
                         name="payment"
@@ -342,12 +367,23 @@ const Checkout = () => {
                         className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-luxury-charcoal mb-1">Ví MoMo</div>
-                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua ví điện tử MoMo</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">M</span>
+                          </div>
+                          <span className="font-medium text-luxury-charcoal">Ví MoMo</span>
+                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Nhanh chóng</span>
+                        </div>
+                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua ví điện tử MoMo - Quét mã QR hoặc liên kết ví</p>
                       </div>
                     </label>
 
-                    <label className="flex items-start gap-4 p-4 border-2 border-luxury-sand cursor-pointer hover:border-luxury-taupe transition">
+                    {/* VNPay */}
+                    <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
+                      paymentMethod === 'vnpay' 
+                        ? 'border-luxury-charcoal bg-luxury-cream/30' 
+                        : 'border-luxury-sand hover:border-luxury-taupe'
+                    }`}>
                       <input
                         type="radio"
                         name="payment"
@@ -357,8 +393,14 @@ const Checkout = () => {
                         className="mt-1 w-5 h-5 text-luxury-taupe"
                       />
                       <div className="flex-1">
-                        <div className="font-light text-luxury-charcoal mb-1">VNPay</div>
-                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua cổng VNPay</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">VP</span>
+                          </div>
+                          <span className="font-medium text-luxury-charcoal">VNPay</span>
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">An toàn</span>
+                        </div>
+                        <p className="text-sm text-luxury-brown font-light">Thanh toán qua cổng VNPay - Hỗ trợ thẻ ATM, Visa, MasterCard</p>
                       </div>
                     </label>
                   </div>
