@@ -27,6 +27,8 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import MomoSimulator from './pages/MomoSimulator';
 import VnpaySimulator from './pages/VnpaySimulator';
+import ResetPassword from './pages/ResetPassword';
+import AuthCallback from './pages/AuthCallback';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -232,6 +234,17 @@ function App() {
             <ZaloChat />
           </>
         } />
+        <Route path="/reset-password" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <ResetPassword />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/profile" element={
           <>
             <Header />

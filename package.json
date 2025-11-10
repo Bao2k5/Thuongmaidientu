@@ -26,6 +26,7 @@
     "express-async-handler": "^1.2.0",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.7.0",
+    "express-session": "^1.18.2",
     "express-validator": "^7.0.1",
     "form-data": "^4.0.4",
     "helmet": "^8.1.0",
@@ -34,6 +35,9 @@
     "mongoose": "^8.18.2",
     "multer": "^2.0.2",
     "nodemailer": "^6.9.4",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "stripe": "^12.9.0",
     "xss-clean": "^0.1.1"
   },

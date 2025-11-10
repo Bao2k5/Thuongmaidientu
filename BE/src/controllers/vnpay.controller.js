@@ -15,16 +15,6 @@ const VNPAY_CONFIG = {
   ipnUrl: process.env.VNPAY_IPN_URL || 'http://localhost:5000/api/payment/vnpay/ipn',
 };
 
-// Sort object keys for signature
-function sortObject(obj) {
-  const sorted = {};
-  const keys = Object.keys(obj).sort();
-  keys.forEach((key) => {
-    sorted[key] = encodeURIComponent(obj[key]).replace(/%20/g, '+');
-  });
-  return sorted;
-}
-
 // Create VNPay payment
 exports.createPayment = async (req, res) => {
   try {

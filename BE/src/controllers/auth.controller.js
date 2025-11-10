@@ -132,3 +132,23 @@ exports.verifyEmail = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// OAuth callbacks
+exports.googleCallback = async (req, res) => {
+  try {
+    const token = signToken(req.user);
+    // Redirect to frontend with token
+    res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+  } catch (err) {
+    res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed`);
+  }
+};
+
+exports.facebookCallback = async (req, res) => {
+  try {
+    const token = signToken(req.user);
+    res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+  } catch (err) {
+    res.redirect(`${process.env.FRONTEND_URL}/login?error=oauth_failed`);
+  }
+};

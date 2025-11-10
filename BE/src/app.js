@@ -5,12 +5,26 @@ const compression = require('compression');
 const path = require('path');
 const connectDB = require('./config/db');
 const { corsMiddleware, basicLimiter, authLimiter, forgotLimiter, mongoSanitize, xss, hpp } = require('./middleware/security.middleware');
+const passport = require('./middleware/passport');
+const session = require('express-session');
 
 const app = express();
 app.use(corsMiddleware());
 
 // Enable compression for all responses
 app.use(compression());
+
+// Session for OAuth (only used during OAuth flow, not for JWT)
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'default-session-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Stripe webhook needs raw body BEFORE express.json()
 const paymentController = require('./controllers/payment.controller');

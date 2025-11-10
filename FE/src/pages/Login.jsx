@@ -39,7 +39,13 @@ const Login = () => {
   };
 
   const handleSocialLogin = (provider) => {
-    alert(`Đăng nhập ${provider} sẽ được triển khai trong phiên bản tiếp theo.\n\nHiện tại vui lòng sử dụng đăng nhập bằng email và mật khẩu.`);
+    // Redirect to backend OAuth endpoint
+    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    if (provider === 'Google') {
+      window.location.href = `${backendUrl}/api/auth/google`;
+    } else if (provider === 'Facebook') {
+      window.location.href = `${backendUrl}/api/auth/facebook`;
+    }
   };
 
   return (
