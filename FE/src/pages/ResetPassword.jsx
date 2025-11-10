@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import api from '../services/api';
 
 const ResetPassword = () => {
@@ -16,7 +15,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!formData.email || !formData.token) {
-      toast.error('Link không hợp lệ');
+      alert('Link không hợp lệ');
       navigate('/login');
     }
   }, [formData.email, formData.token, navigate]);
@@ -29,12 +28,12 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
-      toast.error('Mật khẩu xác nhận không khớp!');
+      alert('Mật khẩu xác nhận không khớp!');
       return;
     }
 
     if (formData.newPassword.length < 6) {
-      toast.error('Mật khẩu phải có ít nhất 6 ký tự!');
+      alert('Mật khẩu phải có ít nhất 6 ký tự!');
       return;
     }
 
@@ -46,10 +45,10 @@ const ResetPassword = () => {
         newPassword: formData.newPassword,
       });
 
-      toast.success(response.data.message || 'Đặt lại mật khẩu thành công!');
+      alert(response.data.message || 'Đặt lại mật khẩu thành công!');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      toast.error(err.response?.data?.msg || 'Đặt lại mật khẩu thất bại!');
+      alert(err.response?.data?.msg || 'Đặt lại mật khẩu thất bại!');
     } finally {
       setLoading(false);
     }

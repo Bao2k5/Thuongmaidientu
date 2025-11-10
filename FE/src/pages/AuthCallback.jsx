@@ -1,21 +1,19 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../store/authSlice';
-import { toast } from 'react-toastify';
+import useAuthStore from '../store/authStore';
 import api from '../services/api';
 
 const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { setUser, setToken } = useAuthStore();
 
   useEffect(() => {
     const token = searchParams.get('token');
     const error = searchParams.get('error');
 
     if (error) {
-      toast.error('Đăng nhập OAuth thất bại!');
+      alert('Đăng nhập OAuth thất bại!');
       navigate('/login');
       return;
     }
@@ -23,25 +21,26 @@ const AuthCallback = () => {
     if (token) {
       // Save token to localStorage
       localStorage.setItem('token', token);
+      setToken(token);
       
       // Fetch user profile with the new token
       api.get('/user/profile', {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((response) => {
-          dispatch(setCredentials({ user: response.data, token }));
-          toast.success('Đăng nhập thành công!');
+          setUser(response.data);
+          alert('Đăng nhập thành công!');
           navigate('/');
         })
         .catch(() => {
-          toast.error('Không thể lấy thông tin người dùng!');
+          alert('Không thể lấy thông tin người dùng!');
           navigate('/login');
         });
     } else {
-      toast.error('Không tìm thấy token!');
+      alert('Không tìm thấy token!');
       navigate('/login');
     }
-  }, [searchParams, navigate, dispatch]);
+  }, [searchParams, navigate, setUser, setToken]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-purple-100">

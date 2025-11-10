@@ -73,6 +73,19 @@ function mongoSanitize() {
   };
 }
 
+// Wrap xss-clean to avoid crashing with read-only properties
+function xssClean() {
+  const x = xss();
+  return function (req, res, next) {
+    try {
+      return x(req, res, next);
+    } catch (err) {
+      console.warn('[security.middleware] xss-clean threw, skipping sanitize for request:', err && err.message ? err.message : err);
+      return next();
+    }
+  };
+}
+
 module.exports = { 
   corsMiddleware, 
   basicLimiter, 
@@ -81,6 +94,6 @@ module.exports = {
   uploadLimiter,
   paymentLimiter,
   mongoSanitize, 
-  xss, 
+  xss: xssClean, 
   hpp 
 };
