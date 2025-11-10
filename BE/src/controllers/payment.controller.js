@@ -54,23 +54,46 @@ exports.webhook = async (req, res) => {
       // find order by transaction id
       const order = await Order.findOne({ 'payment.transactionId': pi.id });
       if (order) {
+        // Idempotency check - prevent double processing
+        const existingEvent = order.paymentEvents?.find(
+          e => e.provider === 'stripe' && e.transactionId === pi.id
+        );
+        if (existingEvent) {
+          console.log('[Stripe Webhook] Duplicate event ignored:', pi.id);
+          return res.json({ received: true });
+        }
+
+        // Log payment event for idempotency
+        order.paymentEvents = order.paymentEvents || [];
+        order.paymentEvents.push({
+          eventType: 'webhook',
+          provider: 'stripe',
+          transactionId: pi.id,
+          resultCode: 'succeeded',
+          receivedAt: new Date(),
+          rawData: { paymentIntentId: pi.id, amount: pi.amount, status: pi.status }
+        });
+
         if (!order.stockAdjusted) {
           // decrement stock
           for (const it of order.items) {
             await Product.findByIdAndUpdate(it.product, { $inc: { stock: -it.qty } });
           }
           order.stockAdjusted = true;
+          console.log('[Stripe Webhook] Stock adjusted for order:', order._id);
         }
         order.payment.status = 'paid';
+        order.payment.paidAt = new Date();
         order.status = 'paid';
         await order.save();
+        console.log('[Stripe Webhook] Order updated successfully:', order._id);
         // clear cart of user as safety
         await Cart.findOneAndDelete({ user: order.user });
       }
     }
     res.json({ received: true });
   } catch (err) {
-    console.error('Webhook error', err.message);
+    console.error('[Stripe Webhook] Error:', err.message);
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
 };

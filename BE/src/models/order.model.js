@@ -33,6 +33,15 @@ const orderSchema = new mongoose.Schema(
     ipnReceived: { type: Boolean, default: false },
     ipnReceivedAt: { type: Date }
   },
+  // Idempotency guard: log all IPN/webhook events to prevent double-processing
+  paymentEvents: [{
+    eventType: { type: String }, // 'ipn', 'webhook', 'query'
+    provider: { type: String }, // 'momo', 'vnpay', 'stripe'
+    transactionId: { type: String },
+    resultCode: { type: String },
+    receivedAt: { type: Date, default: Date.now },
+    rawData: { type: Object } // Store full event for debugging
+  }],
   stockAdjusted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });

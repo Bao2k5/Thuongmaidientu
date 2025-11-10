@@ -4,6 +4,7 @@ const https = require('https');
 const Order = require('../models/order.model');
 const Cart = require('../models/cart.model');
 const Product = require('../models/product.model');
+const { buildMomoSignature, verifyMomoIpnSignature } = require('../utils/momo');
 
 // MoMo configuration (replace with your credentials)
 const MOMO_CONFIG = {
@@ -31,14 +32,20 @@ exports.createPayment = async (req, res) => {
     const amount = order.total.toString();
     const orderIdStr = orderId.toString();
 
-    // Create raw signature
-    const rawSignature = `accessKey=${MOMO_CONFIG.accessKey}&amount=${amount}&extraData=&ipnUrl=${MOMO_CONFIG.ipnUrl}&orderId=${orderIdStr}&orderInfo=${orderInfo}&partnerCode=${MOMO_CONFIG.partnerCode}&redirectUrl=${MOMO_CONFIG.redirectUrl}&requestId=${requestId}&requestType=captureWallet`;
-    
-    // Generate signature using HMAC SHA256
-    const signature = crypto
-      .createHmac('sha256', MOMO_CONFIG.secretKey)
-      .update(rawSignature)
-      .digest('hex');
+    // Build signature using utility function
+    const payload = {
+      accessKey: MOMO_CONFIG.accessKey,
+      amount: amount,
+      extraData: '',
+      ipnUrl: MOMO_CONFIG.ipnUrl,
+      orderId: orderIdStr,
+      orderInfo: orderInfo,
+      partnerCode: MOMO_CONFIG.partnerCode,
+      redirectUrl: MOMO_CONFIG.redirectUrl,
+      requestId: requestId,
+      requestType: 'captureWallet',
+    };
+    const signature = buildMomoSignature(payload, MOMO_CONFIG.secretKey);
 
     // Request body
     const requestBody = {
@@ -125,26 +132,59 @@ exports.ipnCallback = async (req, res) => {
       signature,
     } = req.body;
 
-    // Verify signature
-    const rawSignature = `accessKey=${MOMO_CONFIG.accessKey}&amount=${amount}&extraData=${extraData}&message=${message}&orderId=${orderId}&orderInfo=${orderInfo}&orderType=${orderType}&partnerCode=${partnerCode}&payType=${payType}&requestId=${requestId}&responseTime=${responseTime}&resultCode=${resultCode}&transId=${transId}`;
-    
-    const expectedSignature = crypto
-      .createHmac('sha256', MOMO_CONFIG.secretKey)
-      .update(rawSignature)
-      .digest('hex');
-
-    if (signature !== expectedSignature) {
+    // 1. Verify signature using utility function
+    const isValidSignature = verifyMomoIpnSignature(req.body, MOMO_CONFIG.secretKey);
+    if (!isValidSignature) {
+      console.error('[MoMo IPN] Invalid signature');
       return res.status(400).json({ msg: 'Invalid signature' });
     }
 
-    // Update order status
+    // 2. Find order
     const order = await Order.findById(orderId);
-    if (!order) return res.status(404).json({ msg: 'Order not found' });
+    if (!order) {
+      console.error('[MoMo IPN] Order not found:', orderId);
+      return res.status(404).json({ msg: 'Order not found' });
+    }
 
+    // 3. Idempotency check - prevent double processing
+    const existingEvent = order.paymentEvents?.find(
+      e => e.provider === 'momo' && e.transactionId === transId
+    );
+    if (existingEvent) {
+      console.log('[MoMo IPN] Duplicate event ignored:', transId);
+      return res.status(204).end(); // Already processed
+    }
+
+    // 4. Amount validation - CRITICAL security check
+    const expectedAmount = Math.round(order.total);
+    const receivedAmount = parseInt(amount);
+    if (receivedAmount !== expectedAmount) {
+      console.error('[MoMo IPN] Amount mismatch:', {
+        expected: expectedAmount,
+        received: receivedAmount,
+        orderId
+      });
+      return res.status(400).json({ msg: 'Amount mismatch' });
+    }
+
+    // 5. Log payment event for idempotency
+    order.paymentEvents = order.paymentEvents || [];
+    order.paymentEvents.push({
+      eventType: 'ipn',
+      provider: 'momo',
+      transactionId: transId,
+      resultCode: String(resultCode),
+      receivedAt: new Date(),
+      rawData: req.body
+    });
+
+    // 6. Update order status based on result
     if (resultCode === 0) {
       // Payment successful
       order.payment.status = 'paid';
       order.payment.transactionId = transId;
+      order.payment.gatewayTransactionId = transId;
+      order.payment.paidAt = new Date();
       order.status = 'paid';
       
       // Decrement stock if not already done
@@ -153,18 +193,21 @@ exports.ipnCallback = async (req, res) => {
           await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.qty } });
         }
         order.stockAdjusted = true;
+        console.log('[MoMo IPN] Stock adjusted for order:', orderId);
       }
     } else {
       // Payment failed
       order.payment.status = 'failed';
       order.status = 'cancelled';
+      console.log('[MoMo IPN] Payment failed:', { orderId, resultCode, message });
     }
 
     await order.save();
+    console.log('[MoMo IPN] Order updated successfully:', orderId);
     
     res.status(204).end(); // MoMo expects 204 No Content
   } catch (err) {
-    console.error('MoMo IPN error:', err);
+    console.error('[MoMo IPN] Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
