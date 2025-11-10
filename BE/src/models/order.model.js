@@ -20,9 +20,18 @@ const orderSchema = new mongoose.Schema(
     cost: { type: Number, default: 0 }
   },
   payment: {
-    method: { type: String },
-    status: { type: String, enum: ['pending','paid','failed'], default: 'pending' },
-    transactionId: { type: String }
+    method: { type: String, enum: ['stripe', 'momo', 'vnpay', 'cod', 'momo-manual'], required: true },
+    status: { type: String, enum: ['pending','paid','failed','refunded'], default: 'pending' },
+    transactionId: { type: String },
+    gateway: { type: String, enum: ['stripe', 'momo', 'vnpay', 'manual', 'none'], default: 'none' },
+    gatewayOrderId: { type: String }, // MoMo orderId, VNPay vnp_TxnRef
+    gatewayTransactionId: { type: String }, // MoMo transId, VNPay vnp_TransactionNo
+    paidAt: { type: Date },
+    amount: { type: Number },
+    currency: { type: String, default: 'VND' },
+    gatewayResponse: { type: Object }, // Store raw gateway response for debugging
+    ipnReceived: { type: Boolean, default: false },
+    ipnReceivedAt: { type: Date }
   },
   stockAdjusted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }

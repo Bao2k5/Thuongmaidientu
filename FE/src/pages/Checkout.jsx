@@ -22,6 +22,7 @@ const Checkout = () => {
   });
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [loading, setLoading] = useState(false);
 
   const { user } = useAuthStore();
   const { items: localItems } = useCartStore();
@@ -83,7 +84,7 @@ const Checkout = () => {
 
   const handlePlaceOrder = async () => {
     try {
-      setLoadingCart(true);
+      setLoading(true);
 
       // Create order first
       const orderData = {
@@ -92,6 +93,7 @@ const Checkout = () => {
         email: shippingInfo.email,
         fullName: shippingInfo.fullName,
         note: shippingInfo.note,
+        paymentMethod: paymentMethod,
       };
 
       const order = await orderService.createOrder(orderData);
@@ -99,15 +101,14 @@ const Checkout = () => {
       // Handle payment based on method
       if (paymentMethod === 'cod') {
         // COD - order created, show success
-        alert('Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.');
-        navigate(`/payment/success?orderId=${order._id}`);
+        navigate(`/payment/success?orderId=${order._id}&method=cod`);
       } else if (paymentMethod === 'momo') {
         // MoMo - redirect to MoMo payment
         const momoResult = await paymentService.createMomoPayment(order._id);
         if (momoResult.success && momoResult.payUrl) {
           window.location.href = momoResult.payUrl;
         } else {
-          alert('Không thể tạo thanh toán MoMo. Vui lòng thử lại!');
+          throw new Error('Không thể tạo thanh toán MoMo');
         }
       } else if (paymentMethod === 'vnpay') {
         // VNPay - redirect to VNPay payment
@@ -115,18 +116,16 @@ const Checkout = () => {
         if (vnpayResult.success && vnpayResult.payUrl) {
           window.location.href = vnpayResult.payUrl;
         } else {
-          alert('Không thể tạo thanh toán VNPay. Vui lòng thử lại!');
+          throw new Error('Không thể tạo thanh toán VNPay');
         }
       } else if (paymentMethod === 'bank') {
         // Bank transfer - show instructions
-        alert('Đặt hàng thành công! Vui lòng chuyển khoản theo thông tin được gửi qua email.');
-        navigate(`/payment/success?orderId=${order._id}`);
+        navigate(`/payment/success?orderId=${order._id}&method=bank`);
       }
     } catch (error) {
       console.error('Place order error:', error);
-      alert('Đặt hàng thất bại. Vui lòng thử lại!');
-    } finally {
-      setLoadingCart(false);
+      alert(error.message || 'Đặt hàng thất bại. Vui lòng thử lại!');
+      setLoading(false);
     }
   };
 

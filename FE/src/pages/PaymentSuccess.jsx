@@ -1,31 +1,64 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import orderService from '../services/orderService';
+import paymentService from '../services/paymentService';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('orderId');
+  const method = searchParams.get('method');
+  const resultCode = searchParams.get('resultCode'); // MoMo
+  const vnpResponseCode = searchParams.get('vnp_ResponseCode'); // VNPay
+  
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [verifying, setVerifying] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('success');
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      if (orderId) {
-        try {
-          const data = await orderService.getOrderById(orderId);
-          setOrder(data);
-        } catch (error) {
-          console.error('Error fetching order:', error);
-        } finally {
-          setLoading(false);
+    const verifyAndFetchOrder = async () => {
+      if (!orderId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // If we have payment gateway params, verify payment first
+        if (resultCode) {
+          // MoMo callback
+          setVerifying(true);
+          const verifyResult = await paymentService.queryMomoPayment(orderId);
+          if (verifyResult.success && verifyResult.resultCode === 0) {
+            setPaymentStatus('success');
+          } else {
+            setPaymentStatus('failed');
+          }
+          setVerifying(false);
+        } else if (vnpResponseCode) {
+          // VNPay callback
+          setVerifying(true);
+          const verifyResult = await paymentService.queryVNPayPayment(orderId);
+          if (verifyResult.success && verifyResult.vnp_ResponseCode === '00') {
+            setPaymentStatus('success');
+          } else {
+            setPaymentStatus('failed');
+          }
+          setVerifying(false);
         }
-      } else {
+
+        // Fetch order details
+        const data = await orderService.getOrderById(orderId);
+        setOrder(data);
+      } catch (error) {
+        console.error('Error:', error);
+        setPaymentStatus('failed');
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchOrder();
-  }, [orderId]);
+    verifyAndFetchOrder();
+  }, [orderId, resultCode, vnpResponseCode]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);

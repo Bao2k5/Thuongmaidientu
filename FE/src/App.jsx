@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import useAuthStore from './store/authStore';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -54,6 +55,30 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <ScrollToTop />
       <Routes>
         {/* Admin Routes - No Header/Footer */}
