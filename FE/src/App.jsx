@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Wishlist from './pages/Wishlist';
+import Address from './pages/Address';
 import OrderHistory from './pages/OrderHistory';
 import OrderDetail from './pages/OrderDetail';
 import AccountLayout from './pages/AccountLayout';
@@ -260,6 +261,16 @@ function App() {
             <Header />
             <main className="flex-1 pt-32">
               <Wishlist />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/address" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <Address />
             </main>
             <Footer />
             <ZaloChat />

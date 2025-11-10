@@ -14,6 +14,7 @@ const uploadRoutes = require('./upload.routes');
 const partnerRoutes = require('./partner.routes');
 const heroBannerRoutes = require('./heroBanner.routes');
 const paymentRoutes = require('./payment.routes');
+const addressRoutes = require('./address.routes');
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
@@ -27,5 +28,6 @@ router.use('/upload', uploadRoutes);
 router.use('/partners', partnerRoutes);
 router.use('/hero-banners', heroBannerRoutes);
 router.use('/payment', paymentRoutes);
+router.use('/address', addressRoutes);
 
 module.exports = router;
