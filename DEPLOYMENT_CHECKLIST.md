@@ -1,6 +1,7 @@
 # 🚀 Deployment & Production Checklist
 
 ## ✅ Đã hoàn thành
+
 - [x] Tích hợp MoMo payment gateway (sandbox)
 - [x] Tích hợp VNPay payment gateway (sandbox)
 - [x] Payment result pages (Success/Cancel)
@@ -20,6 +21,7 @@
 ### A. Cấu hình Environment Variables
 
 #### Backend (.env)
+
 ```env
 # Server
 PORT=3000
@@ -67,11 +69,13 @@ VNPAY_RETURN_URL=http://localhost:5173/payment/vnpay/callback
 ```
 
 #### Frontend (.env)
+
 ```env
 VITE_API_URL=http://localhost:3000/api
 ```
 
 **🔧 Action Items:**
+
 1. Copy `.env.example` → `.env` (cả BE và FE)
 2. Điền tất cả các keys thật (MoMo, VNPay, Stripe, Cloudinary, SMTP)
 3. Test từng service một (email, upload ảnh, thanh toán)
@@ -81,22 +85,25 @@ VITE_API_URL=http://localhost:3000/api
 ### B. Stripe Webhook Setup
 
 **Vấn đề hiện tại:**
+
 - Code webhook đã có trong `payment.controller.js`
 - Nhưng route cần đặt TRƯỚC `express.json()` để nhận raw body
 
 **Fix cần làm:**
 
 File: `BE/src/app.js`
+
 ```javascript
-const express = require('express');
+const express = require("express");
 const app = express();
 
 // Import payment controller
-const paymentController = require('./controllers/payment.controller');
+const paymentController = require("./controllers/payment.controller");
 
 // ⚠️ QUAN TRỌNG: Route webhook phải ĐẶT TRƯỚC express.json()
-app.post('/api/orders/webhook', 
-  express.raw({ type: 'application/json' }), 
+app.post(
+  "/api/orders/webhook",
+  express.raw({ type: "application/json" }),
   paymentController.webhook
 );
 
@@ -108,30 +115,34 @@ app.use(express.urlencoded({ extended: true }));
 ```
 
 **Cấu hình Stripe Dashboard:**
+
 1. Vào https://dashboard.stripe.com/webhooks
 2. Add endpoint: `http://localhost:3000/api/orders/webhook` (dev) hoặc `https://yourdomain.com/api/orders/webhook` (production)
 3. Chọn events: `payment_intent.succeeded`, `payment_intent.payment_failed`
-4. Copy `Signing secret` (whsec_...) → `.env` → `STRIPE_WEBHOOK_SECRET`
+4. Copy `Signing secret` (whsec\_...) → `.env` → `STRIPE_WEBHOOK_SECRET`
 
 ---
 
 ### C. Chuẩn hóa Checkout Flow
 
 **Cần làm:**
+
 1. **UI chọn payment gateway** trong `Checkout.jsx`:
+
    - Radio buttons: Stripe / MoMo / VNPay / COD
    - Hiển thị logo và mô tả ngắn
 
 2. **Logic xử lý từng gateway:**
+
    ```javascript
    // Stripe: dùng @stripe/react-stripe-js
-   if (paymentMethod === 'stripe') {
+   if (paymentMethod === "stripe") {
      const { clientSecret } = await orderService.createPaymentIntent(orderData);
      // confirmPayment với Stripe Elements
    }
-   
+
    // MoMo/VNPay: redirect
-   if (paymentMethod === 'momo') {
+   if (paymentMethod === "momo") {
      const { payUrl } = await paymentService.createMomoPayment(orderData);
      window.location.href = payUrl;
    }
@@ -144,6 +155,7 @@ app.use(express.urlencoded({ extended: true }));
    - Update order status
 
 **Files cần chỉnh:**
+
 - `FE/src/pages/Checkout.jsx`
 - `FE/src/pages/PaymentSuccess.jsx`
 - `FE/src/pages/PaymentCancel.jsx`
@@ -153,11 +165,13 @@ app.use(express.urlencoded({ extended: true }));
 ### D. Email Production
 
 **Hiện trạng:**
+
 - Code email đã có trong `BE/src/utils/mailer.js`
 - Dev mode: trả token trong response thay vì gửi email
 - Production: cần SMTP thật
 
 **Setup SMTP Gmail:**
+
 1. Bật 2-Step Verification trong Google Account
 2. Tạo App Password tại https://myaccount.google.com/apppasswords
 3. Thêm vào `.env`:
@@ -169,6 +183,7 @@ app.use(express.urlencoded({ extended: true }));
    ```
 
 **Test:**
+
 ```bash
 # Trong BE, test gửi email
 node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p>Hello</p>')"
@@ -179,6 +194,7 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
 ### E. Cloudinary Setup
 
 **Cần làm:**
+
 1. Đăng ký Cloudinary (free tier): https://cloudinary.com/users/register_free
 2. Copy credentials vào `.env`
 3. Test upload trong Admin Products
@@ -195,6 +211,7 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
 **Hardening cần làm:**
 
 1. **Rà soát admin routes:**
+
    ```javascript
    // Đảm bảo TẤT CẢ admin routes có middleware
    router.put('/orders/:id/status', authMiddleware, isAdmin, ...);
@@ -202,6 +219,7 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
    ```
 
 2. **Rate limiting:**
+
    ```javascript
    // Đã có trong app.js, nhưng cần điều chỉnh limits
    const limiter = rateLimit({
@@ -211,10 +229,11 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
    ```
 
 3. **CORS production:**
+
    ```javascript
    // app.js - chỉ cho phép domain thật
    const corsOptions = {
-     origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+     origin: process.env.FRONTEND_URL || "http://localhost:5173",
      credentials: true,
    };
    app.use(cors(corsOptions));
@@ -231,18 +250,21 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
 **Test Coverage cần bổ sung:**
 
 1. **Auth Tests** (`tests/auth.test.js` - đã có, cần mở rộng):
+
    - Register validation
    - Login với sai password
    - JWT expiration
    - Refresh token flow
 
 2. **Product Tests** (tạo mới `tests/product.test.js`):
+
    - List products với filter
    - Create product (admin only)
    - Update product
    - Upload images
 
 3. **Cart & Order Tests** (`tests/order.test.js`):
+
    - Add to cart
    - Create order
    - Payment intent
@@ -254,6 +276,7 @@ node -e "require('./src/utils/mailer').sendEmail('test@example.com', 'Test', '<p
    - Mock callback responses
 
 **Chạy tests:**
+
 ```bash
 npm test
 npm run test:coverage
@@ -293,6 +316,7 @@ Theo `IMPROVEMENTS_UI.md`:
 ## 📋 Checklist Deploy Production
 
 ### Pre-deployment:
+
 - [ ] Tất cả ENV vars đã điền đủ (production keys)
 - [ ] SMTP hoạt động (test gửi email)
 - [ ] Cloudinary upload hoạt động
@@ -303,6 +327,7 @@ Theo `IMPROVEMENTS_UI.md`:
 - [ ] MoMo/VNPay IPN endpoint public
 
 ### Code:
+
 - [ ] Remove console.logs
 - [ ] Set NODE_ENV=production
 - [ ] Build FE: `npm run build`
@@ -310,6 +335,7 @@ Theo `IMPROVEMENTS_UI.md`:
 - [ ] Git tag version: `git tag v1.0.0`
 
 ### Monitoring:
+
 - [ ] Error tracking (Sentry/LogRocket)
 - [ ] Uptime monitoring (UptimeRobot)
 - [ ] Performance monitoring (New Relic/PM2)
@@ -320,29 +346,36 @@ Theo `IMPROVEMENTS_UI.md`:
 ## 🚀 Deployment Options
 
 ### Option 1: VPS (Recommended)
+
 **Backend:**
+
 - Deploy: Ubuntu VPS (DigitalOcean, Vultr, etc.)
 - Process manager: PM2
 - Reverse proxy: Nginx
 - Database: MongoDB Atlas hoặc local MongoDB
 
 **Frontend:**
+
 - Build: `npm run build`
 - Serve: Nginx static files
 - CDN: Cloudflare (optional)
 
 ### Option 2: Platform-as-a-Service
+
 **Backend:**
+
 - Render.com (free tier)
 - Railway.app
 - Heroku (paid)
 
 **Frontend:**
+
 - Vercel (recommended)
 - Netlify
 - Cloudflare Pages
 
 ### Option 3: Docker
+
 - Containerize BE + FE
 - Docker Compose setup
 - Deploy to any cloud provider
@@ -352,18 +385,22 @@ Theo `IMPROVEMENTS_UI.md`:
 ## 📞 Support & Resources
 
 **MoMo:**
+
 - Docs: https://developers.momo.vn
 - Register: https://business.momo.vn
 
 **VNPay:**
+
 - Docs: https://sandbox.vnpayment.vn/apis/docs
 - Register: https://vnpay.vn/dang-ky-merchant
 
 **Stripe:**
+
 - Docs: https://stripe.com/docs
 - Dashboard: https://dashboard.stripe.com
 
 **Cloudinary:**
+
 - Docs: https://cloudinary.com/documentation
 - Dashboard: https://console.cloudinary.com
 
@@ -377,6 +414,7 @@ Theo `IMPROVEMENTS_UI.md`:
 - **Priority 4 (LOW):** Advanced features - Sau khi ổn định
 
 **Estimated timeline:**
+
 - Priority 1: 2-3 days
 - Priority 2: 3-4 days
 - Priority 3: 1 week

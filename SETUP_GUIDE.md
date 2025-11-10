@@ -1,6 +1,7 @@
 # 🚀 Quick Setup Guide
 
 ## Prerequisites
+
 - Node.js 16+ installed
 - MongoDB running locally or MongoDB Atlas account
 - Git installed
@@ -31,6 +32,7 @@ cp .env.example .env
 ```
 
 Edit `BE/.env` and fill in:
+
 - `JWT_SECRET` - Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
 - MongoDB connection string
 - SMTP credentials (Gmail recommended)
@@ -45,6 +47,7 @@ cp .env.example .env
 ```
 
 Should contain:
+
 ```
 VITE_API_URL=http://localhost:3000/api
 ```
@@ -67,6 +70,7 @@ node scripts/reset_admin.js
 ## 4. Run Development Servers
 
 ### Terminal 1 - Backend
+
 ```bash
 cd BE
 npm run dev
@@ -74,6 +78,7 @@ npm run dev
 ```
 
 ### Terminal 2 - Frontend
+
 ```bash
 cd FE
 npm run dev
@@ -87,18 +92,21 @@ npm run dev
 - **Admin Panel:** http://localhost:5173/admin
 
 ### Default Admin Credentials
+
 - Email: `admin@hoangmyjewelry.com`
 - Password: `admin123`
 
 ## 6. Test Payment Gateways
 
 ### MoMo Test
+
 1. Register sandbox account at https://developers.momo.vn
 2. Get test credentials
 3. Add to `BE/.env`
 4. Test at checkout
 
 ### VNPay Test
+
 1. Register sandbox at https://sandbox.vnpayment.vn
 2. Get test credentials
 3. Add to `BE/.env`
@@ -107,6 +115,7 @@ npm run dev
 ## 7. Common Issues & Solutions
 
 ### Port Already in Use
+
 ```bash
 # Find and kill process on port 3000
 netstat -ano | findstr :3000
@@ -117,6 +126,7 @@ PORT=3001
 ```
 
 ### MongoDB Connection Failed
+
 ```bash
 # Check MongoDB is running
 mongod --version
@@ -126,6 +136,7 @@ mongod --version
 ```
 
 ### Module Not Found
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules package-lock.json
@@ -133,6 +144,7 @@ npm install
 ```
 
 ### CORS Errors
+
 - Check `FRONTEND_URL` in `BE/.env` matches your frontend URL
 - Restart backend server after changing .env
 

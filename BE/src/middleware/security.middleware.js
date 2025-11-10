@@ -20,9 +20,44 @@ function corsMiddleware() {
 }
 
 const isDev = process.env.NODE_ENV !== 'production';
-const basicLimiter = rateLimit({ windowMs: 15*60*1000, max: isDev ? 1000 : 200 });
-const authLimiter = rateLimit({ windowMs: 15*60*1000, max: isDev ? 100 : 10, message: 'Too many attempts, try later' });
-const forgotLimiter = rateLimit({ windowMs: 60*60*1000, max: isDev ? 20 : 5, message: 'Too many password reset attempts, try later' });
+
+// Basic API rate limiter
+const basicLimiter = rateLimit({ 
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: isDev ? 1000 : 200, // 200 requests per 15 minutes in production
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Strict limiter for authentication endpoints
+const authLimiter = rateLimit({ 
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: isDev ? 100 : 10, // 10 login attempts per 15 minutes in production
+  message: 'Too many authentication attempts, please try again later.',
+  skipSuccessfulRequests: true, // Don't count successful logins
+});
+
+// Very strict limiter for password reset
+const forgotLimiter = rateLimit({ 
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isDev ? 20 : 5, // 5 password reset attempts per hour in production
+  message: 'Too many password reset attempts, please try again later.',
+});
+
+// Strict limiter for file uploads
+const uploadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: isDev ? 100 : 30, // 30 uploads per 15 minutes in production
+  message: 'Too many upload requests, please try again later.',
+});
+
+// Moderate limiter for payment operations
+const paymentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: isDev ? 100 : 50, // 50 payment requests per 15 minutes in production
+  message: 'Too many payment requests, please slow down.',
+});
 
 // Wrap express-mongo-sanitize to avoid crashing when req.query is read-only in some environments
 function mongoSanitize() {
@@ -38,4 +73,14 @@ function mongoSanitize() {
   };
 }
 
-module.exports = { corsMiddleware, basicLimiter, authLimiter, forgotLimiter, mongoSanitize, xss, hpp };
+module.exports = { 
+  corsMiddleware, 
+  basicLimiter, 
+  authLimiter, 
+  forgotLimiter, 
+  uploadLimiter,
+  paymentLimiter,
+  mongoSanitize, 
+  xss, 
+  hpp 
+};

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
+const compression = require('compression');
 const path = require('path');
 const connectDB = require('./config/db');
 const { corsMiddleware, basicLimiter, authLimiter, forgotLimiter, mongoSanitize, xss, hpp } = require('./middleware/security.middleware');
@@ -8,11 +9,15 @@ const { corsMiddleware, basicLimiter, authLimiter, forgotLimiter, mongoSanitize,
 const app = express();
 app.use(corsMiddleware());
 
+// Enable compression for all responses
+app.use(compression());
+
 // Stripe webhook needs raw body BEFORE express.json()
 const paymentController = require('./controllers/payment.controller');
 app.post('/api/orders/webhook', express.raw({ type: 'application/json' }), paymentController.webhook);
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Configure Helmet with more permissive settings for development
 app.use(helmet({
@@ -31,10 +36,10 @@ app.use(helmet({
   }
 }));
 
-// Disable security middleware causing Node.js compatibility issues
-// app.use(mongoSanitize()); // Error: Cannot set property query
-// app.use(xss()); // Error: Cannot set property query  
-// app.use(hpp()); // Error: Cannot set property query
+// Security middleware - now with proper error handling
+app.use(mongoSanitize()); // Sanitize data to prevent MongoDB Operator Injection
+app.use(xss()); // Sanitize user input to prevent XSS attacks
+app.use(hpp()); // Protect against HTTP Parameter Pollution attacks
 app.use(basicLimiter);
 
 // Add request logging middleware
