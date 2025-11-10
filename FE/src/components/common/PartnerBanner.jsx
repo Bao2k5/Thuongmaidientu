@@ -28,7 +28,7 @@ const PartnerBanner = () => {
             Đối Tác Tin Cậy
           </h2>
           <p className="text-luxury-brown text-sm">
-            Những thương hiệu hàng đầu tin tưởng Hoàng My Jewelry
+            Những thương hiệu hàng đầu tin tưởng HM Jewelry
           </p>
         </div>
 

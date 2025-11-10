@@ -40,16 +40,16 @@ export const SORT_OPTIONS = [
 
 // Social Links
 export const SOCIAL_LINKS = {
-  facebook: 'https://facebook.com/jewelryhoangmy',
-  instagram: 'https://instagram.com/jewelryhoangmy',
-  tiktok: 'https://tiktok.com/@jewelryhoangmy',
-  zalo: 'https://zalo.me/jewelryhoangmy',
+  facebook: 'https://facebook.com/hmjewelry',
+  instagram: 'https://instagram.com/hmjewelry',
+  tiktok: 'https://tiktok.com/@hmjewelry',
+  zalo: 'https://zalo.me/hmjewelry',
 };
 
 // Contact Info
 export const CONTACT_INFO = {
   phone: '0965990895',
-  email: 'contact@jewelryhoangmy.com',
+  email: 'contact@hmjewelry.com',
   address: '123 Nguyễn Trãi, Quận 1, TP.HCM',
 };
 

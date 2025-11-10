@@ -7,31 +7,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Mộc Miên Jewelry - Cream Milk Tea Palette (Kem Sữa Bò) - NHẠT HƠN
+        // Mộc Miên Inspired - Pastel Mint & Sage Palette
         luxury: {
-          cream: '#F8F5F2',      // Kem rất nhạt (nền chính) - lightened from #F5F1ED
-          ivory: '#FCFAF8',      // Ivory rất nhạt (nền phụ) - lightened from #FAF7F2
-          sand: '#EDE6DC',       // Cát nhạt hơn - lightened from #E8DFD3
-          beige: '#E2D8CC',      // Be nhạt hơn - lightened from #D9CCBE
-          taupe: '#B8A890',      // Taupe nhạt hơn (text nhạt) - lightened from #A89678
-          brown: '#6B5845',      // Nâu nhạt hơn (text chính) - lightened from #5C4033
-          charcoal: '#3D3728',   // Charcoal nhạt hơn (headings) - lightened from #2C2415
-          white: '#FFFFFF',      // Trắng tinh
-          black: '#1A1A1A',      // Đen (chỉ dùng khi cần)
+          cream: '#F9F7F4',      // Warm cream (nền chính)
+          ivory: '#FCFBF9',      // Ivory nhạt (cards, sections)
+          mint: '#E8F3F0',       // Mint pastel (hero, featured sections) - Mộc Miên style
+          sage: '#D4E4DF',       // Sage green (accents, borders)
+          softGreen: '#C8DED6',  // Soft green (hover states)
+          sand: '#EBE6E0',       // Warm sand
+          beige: '#DED5CA',      // Beige neutral
+          taupe: '#A89B8F',      // Taupe (subtle text)
+          brown: '#6B5D52',      // Warm brown (text)
+          charcoal: '#3D3530',   // Charcoal (headings)
+          white: '#FFFFFF',      // Pure white
+          black: '#1C1C1C',      // Deep black
         },
-        // Accent colors (tối giản)
+        // Accent colors
         accent: {
-          silver: '#C0C0C0',     // Bạc 925
-          gold: '#D4AF37',       // Vàng (hiếm)
-          rose: '#E8CCBC',       // Hồng nhạt
-          softPeach: '#F5E6D3',  // Mới: Đào nhạt - hợp với kem sữa (cho Product section)
-          lightRose: '#F0DFD2',  // Mới: Hồng nhạt - thay thế hồng cũ
+          silver: '#BFC4C8',     // Silver 925
+          gold: '#D4AF37',       // Gold accent
+          rose: '#E8D5D0',       // Soft rose
+          peach: '#F2E8DE',      // Warm peach
+          mintLight: '#F0F8F6',  // Very light mint for subtle backgrounds
         },
       },
       fontFamily: {
-        sans: ['Open Sans', 'Segoe UI', 'sans-serif'],
-        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Playfair Display', 'serif'], // Logo & elegant headings
+        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        display: ['Montserrat', 'sans-serif'], // Logo & headings - clean sans-serif
       },
       letterSpacing: {
         widest: '0.2em',

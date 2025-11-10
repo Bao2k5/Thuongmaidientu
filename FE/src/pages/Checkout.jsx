@@ -1,5 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useCartStore from '../store/cartStore';
+import useAuthStore from '../store/authStore';
+import cartService from '../services/cartService';
+import orderService from '../services/orderService';
+import paymentService from '../services/paymentService';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -18,12 +23,45 @@ const Checkout = () => {
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
 
-  // Mock cart data
-  const cartItems = [
-    { id: 1, name: 'Nhẫn Kim Cương Soleste', price: 15000000, quantity: 1, image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&q=80' },
-    { id: 2, name: 'Dây Chuyền Vàng Trắng', price: 12500000, quantity: 1, image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=400&fit=crop&q=80' },
-    { id: 3, name: 'Bông Tai Ngọc Trai', price: 8900000, quantity: 2, image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=400&fit=crop&q=80' }
-  ];
+  const { user } = useAuthStore();
+  const { items: localItems } = useCartStore();
+
+  const [cartItems, setCartItems] = useState([]);
+  const [loadingCart, setLoadingCart] = useState(true);
+
+  useEffect(() => {
+    const loadCart = async () => {
+      setLoadingCart(true);
+      try {
+        if (user) {
+          const data = await cartService.getCart();
+          const mapped = (data.items || []).map(item => ({
+            id: item.product._id || item.product.id,
+            name: item.product.name,
+            price: item.product.priceSale || item.product.price,
+            quantity: item.qty,
+            image: item.product.images?.[0]?.url || item.product.images?.[0] || 'https://via.placeholder.com/400',
+          }));
+          setCartItems(mapped);
+        } else {
+          setCartItems(localItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.priceSale || item.price,
+            quantity: item.quantity,
+            image: item.images?.[0]?.url || item.images?.[0] || item.image || 'https://via.placeholder.com/400',
+          })));
+        }
+      } catch (err) {
+        console.error('Error loading checkout cart:', err);
+        setCartItems(localItems);
+      } finally {
+        setLoadingCart(false);
+      }
+    };
+
+    loadCart();
+  }, [user, localItems]);
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal >= 500000 ? 0 : 50000;
@@ -43,10 +81,53 @@ const Checkout = () => {
     setStep(3);
   };
 
-  const handlePlaceOrder = () => {
-    // API call to create order
-    alert('Đặt hàng thành công! (Sẽ tích hợp với backend sau)');
-    navigate('/');
+  const handlePlaceOrder = async () => {
+    try {
+      setLoadingCart(true);
+
+      // Create order first
+      const orderData = {
+        address: `${shippingInfo.address}, ${shippingInfo.ward}, ${shippingInfo.district}, ${shippingInfo.city}`,
+        phone: shippingInfo.phone,
+        email: shippingInfo.email,
+        fullName: shippingInfo.fullName,
+        note: shippingInfo.note,
+      };
+
+      const order = await orderService.createOrder(orderData);
+
+      // Handle payment based on method
+      if (paymentMethod === 'cod') {
+        // COD - order created, show success
+        alert('Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.');
+        navigate(`/payment/success?orderId=${order._id}`);
+      } else if (paymentMethod === 'momo') {
+        // MoMo - redirect to MoMo payment
+        const momoResult = await paymentService.createMomoPayment(order._id);
+        if (momoResult.success && momoResult.payUrl) {
+          window.location.href = momoResult.payUrl;
+        } else {
+          alert('Không thể tạo thanh toán MoMo. Vui lòng thử lại!');
+        }
+      } else if (paymentMethod === 'vnpay') {
+        // VNPay - redirect to VNPay payment
+        const vnpayResult = await paymentService.createVNPayPayment(order._id);
+        if (vnpayResult.success && vnpayResult.payUrl) {
+          window.location.href = vnpayResult.payUrl;
+        } else {
+          alert('Không thể tạo thanh toán VNPay. Vui lòng thử lại!');
+        }
+      } else if (paymentMethod === 'bank') {
+        // Bank transfer - show instructions
+        alert('Đặt hàng thành công! Vui lòng chuyển khoản theo thông tin được gửi qua email.');
+        navigate(`/payment/success?orderId=${order._id}`);
+      }
+    } catch (error) {
+      console.error('Place order error:', error);
+      alert('Đặt hàng thất bại. Vui lòng thử lại!');
+    } finally {
+      setLoadingCart(false);
+    }
   };
 
   return (

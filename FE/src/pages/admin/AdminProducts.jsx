@@ -43,9 +43,23 @@ const AdminProducts = () => {
     loadProducts();
   }, []);
 
+  // Scroll modal to top when opened
+  useEffect(() => {
+    if (showModal) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => {
+        const modalContent = document.querySelector('.max-h-\\[90vh\\]');
+        if (modalContent) {
+          modalContent.scrollTop = 0;
+        }
+      }, 100);
+    }
+  }, [showModal]);
+
   const loadProducts = async () => {
     try {
-      const response = await api.get('/products');
+      // Lấy TẤT CẢ sản phẩm - không giới hạn
+      const response = await api.get('/products?limit=1000');
       const productsData = response.data.products || response.data;
       // Đảo ngược thứ tự - sản phẩm mới nhất lên đầu
       setProducts(productsData.reverse());
@@ -75,7 +89,8 @@ const AdminProducts = () => {
         description: formData.description,
         stock: parseInt(formData.stock),
         specifications: formData.specifications,
-        images: [...formData.images, ...uploadedImages]
+        // Prepend uploaded images so newly uploaded images become the primary images shown on frontend
+        images: [...uploadedImages, ...formData.images]
       };
 
       if (editingProduct) {
@@ -431,16 +446,30 @@ const AdminProducts = () => {
                                 alt={`Current ${index + 1}`}
                                 className="w-full h-20 object-cover rounded border border-luxury-platinum"
                               />
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const newImages = formData.images.filter((_, i) => i !== index);
-                                  setFormData({ ...formData, images: newImages });
-                                }}
-                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                              >
-                                ×
-                              </button>
+                              <div className="absolute -top-2 -right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                  type="button"
+                                  title="Đặt làm ảnh chính"
+                                  onClick={() => {
+                                    const selected = formData.images[index];
+                                    const rest = formData.images.filter((_, i) => i !== index);
+                                    setFormData({ ...formData, images: [selected, ...rest] });
+                                  }}
+                                  className="bg-luxury-ivory text-luxury-charcoal rounded-full w-6 h-6 flex items-center justify-center text-xs border"
+                                >
+                                  ↑
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const newImages = formData.images.filter((_, i) => i !== index);
+                                    setFormData({ ...formData, images: newImages });
+                                  }}
+                                  className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                >
+                                  ×
+                                </button>
+                              </div>
                             </div>
                           );
                         })}

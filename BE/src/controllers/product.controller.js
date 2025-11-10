@@ -57,14 +57,23 @@ exports.getProductBySlug = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   try {
+    console.log('🔍 [CREATE PRODUCT] Request body:', JSON.stringify(req.body, null, 2));
     const body = req.body;
     // Auto-generate slug from name if not provided
     if (!body.slug && body.name) {
       body.slug = slugify(body.name);
+      console.log(`🔗 Generated slug: "${body.slug}"`);
     }
+    console.log('💾 Creating product with data:', JSON.stringify(body, null, 2));
     const newP = await Product.create(body);
+    console.log('✅ Product created successfully:', newP._id);
     res.status(201).json(newP);
   } catch (err) {
+    console.error('❌ [CREATE PRODUCT ERROR]:', err);
+    console.error('Error name:', err.name);
+    console.error('Error message:', err.message);
+    if (err.code) console.error('Error code:', err.code);
+    if (err.keyPattern) console.error('Duplicate key:', err.keyPattern);
     res.status(500).json({ error: err.message });
   }
 };

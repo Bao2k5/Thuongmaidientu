@@ -6,10 +6,14 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
   // Mock flash sale end time (24 hours from now)
   const flashSaleEndTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-  // Get top 4 products with discount (mockingly filter products with priceSale)
-  const flashProducts = (products || [])
-    .filter(p => p.priceSale && p.priceSale < p.price)
-    .slice(0, 4);
+  // Prefer products in category 'Vòng Tay' first, then fill with other sale products
+  const productsArr = products && products.length ? products : [];
+  const saleProducts = productsArr.filter((p) => p && p.priceSale && p.priceSale < p.price);
+
+  const normalize = (v) => (v ? String(v).toLowerCase().trim() : '');
+  const preferred = saleProducts.filter((p) => normalize(p.category) === 'vòng tay' || normalize(p.category) === 'vòngtay' || normalize(p.category) === 'vong tay' || normalize(p.category).includes('vòng tay'));
+  const remaining = saleProducts.filter((p) => !preferred.includes(p));
+  const flashProducts = [...preferred.slice(0, 4), ...remaining.slice(0, Math.max(0, 4 - preferred.length))].slice(0, 4);
 
   if (isLoading) {
     return (
@@ -60,7 +64,7 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {flashProducts.map((product, idx) => (
             <motion.div
-              key={product._id || idx}
+              key={product?._id || product?.id || idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}

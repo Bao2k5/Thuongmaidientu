@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const ScrollToTop = () => {
+  const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -20,9 +22,18 @@ const ScrollToTop = () => {
   };
 
   useEffect(() => {
+    // Show/hide the floating button based on manual scroll
     window.addEventListener('scroll', toggleVisibility);
+    // Also automatically scroll to top when the route changes (so pages open at top)
+    // Use a separate effect dependency on location below to avoid double-listener logic
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
+
+  // Auto-scroll to top on route change
+  useEffect(() => {
+    // Jump to top immediately when navigating to a new route or query
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname, location.search]);
 
   return (
     <AnimatePresence>

@@ -56,7 +56,26 @@ const useAuthStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await authService.register(userData);
-      set({ loading: false, error: null });
+      // If backend returned token + user, persist and update store (auto-login after register)
+      if (response?.token && response?.user) {
+        try {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+        } catch (err) {
+          console.error('Error saving auth after register:', err);
+        }
+
+        set({
+          user: response.user,
+          isAuthenticated: true,
+          isAdmin: response.user?.role === 'admin',
+          loading: false,
+          error: null,
+        });
+      } else {
+        set({ loading: false, error: null });
+      }
+
       return response;
     } catch (error) {
       set({ 

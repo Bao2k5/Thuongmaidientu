@@ -1,57 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* Mộc Miên Jewelry - Cream Milk Tea Theme (Kem Sữa Bò) */
+  /* Mộc Miên Inspired - Montserrat + Cormorant Garamond */
   body {
-    background-color: #F5F1ED;
-    color: #5C4033;
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 15px;
-    line-height: 1.8;
-    letter-spacing: 0.01em;
+    background-color: #F9F7F4;
+    color: #6B5D52;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    color: #2C2415;
-    font-weight: 400;
-    letter-spacing: 0.03em;
+    font-family: 'Cormorant Garamond', serif;
+    color: #3D3530;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   h1 {
-    font-size: 3.75rem;
-    font-weight: 300;
-    letter-spacing: 0.08em;
-  }
-
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 4.5rem;
-    }
-  }
-
-  h2 {
-    font-size: 2.25rem;
+    font-size: 3rem;
     font-weight: 400;
     letter-spacing: 0.05em;
   }
 
   @media (min-width: 768px) {
+    h1 {
+      font-size: 4rem;
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  @media (min-width: 768px) {
     h2 {
-      font-size: 3rem;
+      font-size: 2.75rem;
     }
   }
 
   h3 {
     font-size: 1.875rem;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   @media (min-width: 768px) {
@@ -62,7 +63,7 @@
 
   h4 {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   @media (min-width: 768px) {

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 import useWishlistStore from '../../store/wishlistStore';
-import UserAvatar from '../common/UserAvatar';
+import UserDropdown from '../common/UserDropdown';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,10 +40,10 @@ const Header = () => {
   };
 
   const navLinks = [
-    { name: 'TRANG CHỦ', path: '/' },
-    { name: 'SẢN PHẨM', path: '/products' },
-    { name: 'BỘ SƯU TẬP', path: '/collections' },
-    { name: 'LIÊN HỆ', path: '/contact' },
+    { name: 'Trang chủ', path: '/' },
+    { name: 'Sản phẩm', path: '/products?featured=true' },
+    { name: 'Giới thiệu', path: '/about' },
+    { name: 'Liên hệ', path: '/contact' },
   ];
 
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -51,36 +51,14 @@ const Header = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-luxury-cream border-b border-luxury-beige ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-luxury-cream/95 backdrop-blur-sm border-b border-luxury-sage/30 ${
           isScrolled ? 'shadow-sm' : ''
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-24">
-            {/* Logo - HOÀNG MY JEWELRY */}
-            <Link to="/" className="flex items-center group">
-              <div className="font-display text-luxury-charcoal text-3xl tracking-wide transition-colors hover:text-luxury-taupe">
-                <span className="font-light">HOÀNG</span>
-                <span className="font-normal ml-2">MY</span>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-10">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className="text-luxury-brown text-xs font-medium tracking-widest hover:text-luxury-charcoal transition-colors relative group"
-                >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-luxury-charcoal group-hover:w-full transition-all duration-300"></span>
-                </Link>
-              ))}
-            </nav>
-
-            {/* Right Actions */}
-            <div className="flex items-center space-x-7">
+          <div className="flex items-center justify-between h-20">
+            {/* Left Actions - User & Search */}
+            <div className="flex items-center space-x-6">
               {/* Search Icon */}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -92,6 +70,31 @@ const Header = () => {
                 </svg>
               </button>
 
+              {/* User Avatar/Login */}
+              {user ? (
+                <UserDropdown user={user} onLogout={handleLogout} />
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </Link>
+              )}
+            </div>
+
+            {/* Center Logo - Mộc Miên Style */}
+            <Link to="/" className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center group">
+              <div className="font-serif text-luxury-charcoal text-base md:text-lg font-medium tracking-[0.3em] transition-colors hover:text-luxury-taupe uppercase">
+                HM Jewelry
+              </div>
+              <div className="h-px w-16 bg-luxury-sage mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Link>
+
+            {/* Right Actions - Wishlist & Cart */}
+            <div className="flex items-center space-x-6">
               {/* Wishlist Icon */}
               <Link to="/wishlist" className="relative text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,45 +119,11 @@ const Header = () => {
                 )}
               </Link>
 
-              {/* User Menu */}
-              {user ? (
-                <div className="relative group">
-                  <button className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-300">
-                    <UserAvatar user={user} />
-                    <span className="hidden md:inline text-sm text-luxury-brown font-medium">
-                      {user.name}
-                    </span>
-                  </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-luxury-cream border border-luxury-beige shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <Link to="/profile" className="block px-4 py-3 text-sm text-luxury-brown hover:bg-luxury-ivory hover:text-luxury-charcoal transition-colors">
-                      Tài khoản
-                    </Link>
-                    <Link to="/orders" className="block px-4 py-3 text-sm text-luxury-brown hover:bg-luxury-ivory hover:text-luxury-charcoal transition-colors">
-                      Đơn hàng
-                    </Link>
-                    {user.role === 'admin' && (
-                      <Link to="/admin" className="block px-4 py-3 text-sm text-luxury-brown hover:bg-luxury-ivory hover:text-luxury-charcoal transition-colors">
-                        Quản trị
-                      </Link>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-3 text-sm text-luxury-brown hover:bg-luxury-ivory hover:text-luxury-charcoal transition-colors"
-                    >
-                      Đăng xuất
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <Link to="/login" className="btn-luxury-small">
-                  ĐĂNG NHẬP
-                </Link>
-              )}
-
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden text-luxury-brown hover:text-luxury-charcoal transition-colors"
+                aria-label="Menu"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isMobileMenuOpen ? (
@@ -167,25 +136,39 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden pb-4 border-t border-luxury-beige">
-              <nav className="flex flex-col space-y-2 mt-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="py-3 text-luxury-brown text-sm tracking-widest hover:text-luxury-charcoal transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          )}
+          {/* Desktop Navigation - Below header */}
+          <nav className="hidden md:flex items-center justify-center space-x-10 py-3 border-t border-luxury-sage/20">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-luxury-brown text-xs font-medium tracking-[0.15em] hover:text-luxury-charcoal transition-colors relative group uppercase"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-luxury-charcoal group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            ))}
+          </nav>
         </div>
       </header>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-x-0 top-[152px] bg-luxury-cream/95 backdrop-blur-sm border-b border-luxury-sage/30 z-40 md:hidden">
+          <nav className="max-w-7xl mx-auto px-4 flex flex-col space-y-2 py-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3 text-luxury-brown text-xs tracking-[0.15em] hover:text-luxury-charcoal transition-colors uppercase"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
 
       {/* Search Modal */}
       {isSearchOpen && (

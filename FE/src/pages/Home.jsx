@@ -13,11 +13,12 @@ import PartnerBanner from '../components/common/PartnerBanner';
 import BlogSection from '../components/common/BlogSection';
 import FlashSaleSection from '../components/common/FlashSaleSection';
 import ScrollToTop from '../components/common/ScrollToTop';
-import BlogSection from '../components/common/BlogSection';
-import FlashSaleSection from '../components/common/FlashSaleSection';
+import api from '../services/api';
+
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   
   const heroSlides = [
     {
@@ -107,6 +108,29 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [heroSlides.length]);
+
+  // Fetch featured products to pass into FlashSaleSection
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const p = await api.get('/products', { params: { limit: 12 } });
+        const items = (p.data.products || []).map((x) => ({
+          _id: x._id || x.id,
+          id: x._id || x.id,
+          slug: x.slug,
+          name: x.name,
+          price: x.price,
+          priceSale: x.priceSale,
+          category: x.category,
+          images: (x.images || []).map((i) => (typeof i === 'string' ? i : (i.url || i))),
+        }));
+        setFeaturedProducts(items);
+      } catch (err) {
+        console.error('Failed to load featured products', err);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -277,7 +301,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-display text-4xl md:text-5xl font-light text-luxury-charcoal mb-4">
-              Tại Sao Chọn Hoàng My Jewelry
+              Tại Sao Chọn HM Jewelry
             </h2>
             <p className="text-luxury-brown text-lg">
               Cam kết mang đến trải nghiệm mua sắm tốt nhất với bạc 925 tinh tế
@@ -321,8 +345,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Flash Sale Section */}
-      <FlashSaleSection />
+  {/* Flash Sale Section */}
+  <FlashSaleSection products={featuredProducts} />
 
       {/* Partner Banner */}
       <PartnerBanner />

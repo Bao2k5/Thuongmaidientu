@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/common/ProductCard';
 import FlashSaleSection from '../components/common/FlashSaleSection';
+import NewsletterSignup from '../components/common/NewsletterSignup';
+import TestimonialsSlider from '../components/common/TestimonialsSlider';
+import InstagramFeed from '../components/common/InstagramFeed';
 import api from '../services/api';
 
 const HomeSimple = () => {
@@ -32,7 +35,13 @@ const HomeSimple = () => {
       }
       try {
         const c = await api.get('/collections');
-        setCollections(c.data.collections || c.data || []);
+        // Normalize collection image to a URL string (backend may store image as object or string)
+        const rawCols = c.data.collections || c.data || [];
+        const normalized = (rawCols || []).map((col) => ({
+          ...col,
+          image: typeof col.image === 'string' ? col.image : (col.image && (col.image.url || col.image.path)) || '/placeholder.jpg',
+        }));
+        setCollections(normalized);
       } catch (err) {
         console.error('Failed to load collections', err);
       }
@@ -120,18 +129,18 @@ const HomeSimple = () => {
           )}
         </section>
       ) : (
-        // Fallback to original static hero
+        // Fallback to original static hero - Clean without overlay
         <section className="relative h-[700px] w-full overflow-hidden">
           <img 
             src="/bthn-hero.jpg" 
-            alt="Hoàng My Jewelry"
-            className="w-full h-full object-cover object-top"
+            alt="HM Jewelry"
+            className="w-full h-full object-cover object-center"
           />
         </section>
       )}
 
       {/* Features */}
-      <section className="section-luxury bg-luxury-white">
+      <section className="section-luxury bg-luxury-ivory">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
             <div className="text-center group">
@@ -175,15 +184,77 @@ const HomeSimple = () => {
       </section>
 
       {/* Flash Sale Section */}
-  <FlashSaleSection products={featuredProducts} />
+      <FlashSaleSection products={featuredProducts} />
+
+      {/* New Arrivals Section - Mộc Miên Style */}
+      <section className="section-luxury bg-luxury-mint">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-charcoal tracking-[0.2em] uppercase">New Arrivals</h2>
+            <div className="w-16 h-px bg-luxury-sage mx-auto mb-6"></div>
+            <p className="text-luxury-brown text-base font-normal tracking-wide">Sản phẩm mới nhất từ HM Jewelry</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts.slice(0, 8).map((product) => (
+              <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                className="group block"
+              >
+                <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                  <img 
+                    src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+                  {product.priceSale && (
+                    <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                      -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-serif text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-3">
+                  {product.priceSale ? (
+                    <>
+                      <span className="text-luxury-charcoal font-medium">
+                        {product.priceSale?.toLocaleString('vi-VN')}đ
+                      </span>
+                      <span className="text-luxury-taupe text-sm line-through">
+                        {product.price?.toLocaleString('vi-VN')}đ
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-charcoal font-medium">
+                      {product.price?.toLocaleString('vi-VN')}đ
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/products?sort=newest"
+              className="inline-block bg-luxury-charcoal text-luxury-cream px-10 py-4 hover:bg-luxury-brown transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+            >
+              Xem tất cả
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Collections */}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
         <div className="container-luxury">
           <div className="text-center mb-20">
-            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">Bộ Sưu Tập</h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-black tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
             <div className="w-16 h-px bg-luxury-gray mx-auto mb-6"></div>
-            <p className="text-luxury-gray text-base font-light tracking-wide">Khám phá vẻ đẹp tinh tế của từng thiết kế</p>
+            <p className="text-luxury-gray text-base font-normal tracking-wide">Khám phá vẻ đẹp tinh tế của từng thiết kế</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -212,111 +283,349 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* About Us */}
-      <section className="section-luxury bg-luxury-pearl">
+      {/* Category Sections - Mộc Miên Style */}
+      {/* Dây Chuyền Section */}
+      <section className="section-luxury bg-luxury-cream">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-            <div className="aspect-[4/5] bg-luxury-platinum overflow-hidden border-1 border-luxury-platinum">
-              <img 
-                src="/bthn-hero.jpg" 
-                alt="About Hoàng My Jewelry"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="font-serif text-5xl font-light mb-8 text-luxury-black tracking-wide">Về Hoàng My Jewelry</h2>
-              <div className="space-y-6 text-luxury-gray text-base leading-relaxed font-light">
-                <p>
-                  Hoàng My Jewelry là thương hiệu trang sức cao cấp, được thành lập với sứ mệnh mang đến những sản phẩm 
-                  trang sức tinh tế, sang trọng và đầy ý nghĩa cho khách hàng.
-                </p>
-                <p>
-                  Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ những nguyên liệu quý hiếm nhất, 
-                  kết hợp với tay nghề thủ công tinh xảo của các nghệ nhân hàng đầu.
-                </p>
-                <p>
-                  Chúng tôi tin rằng trang sức không chỉ là phụ kiện, mà còn là biểu tượng của tình yêu, 
-                  sự gắn kết và những kỷ niệm đáng nhớ trong cuộc đời mỗi người.
-                </p>
-              </div>
-              <Link to="/products" className="btn-luxury mt-10 inline-block">
-                KHÁM PHÁ BỘ SƯU TẬP
-              </Link>
+              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Dây Chuyền</h2>
+              <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
+            <Link
+              to="/products?category=Dây Chuyền"
+              className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
+            >
+              Xem tất cả →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts
+              .filter(p => p.category === 'Dây Chuyền')
+              .slice(0, 8)
+              .map((product) => (
+                <Link
+                  key={product._id}
+                  to={`/products/${product.slug}`}
+                  className="group block"
+                >
+                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                    <img 
+                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    />
+                    {product.priceSale && (
+                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {product.priceSale ? (
+                      <>
+                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                          {product.priceSale?.toLocaleString('vi-VN')}đ
+                        </span>
+                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                          {product.price?.toLocaleString('vi-VN')}đ
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                        {product.price?.toLocaleString('vi-VN')}đ
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
+      {/* Nhẫn Section */}
+      <section className="section-luxury bg-luxury-mint">
         <div className="container-luxury">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">Khách Hàng Nói Gì</h2>
-            <div className="w-16 h-px bg-luxury-gray mx-auto mb-6"></div>
-            <p className="text-luxury-gray text-base font-light tracking-wide">Trải nghiệm của khách hàng là niềm tự hào của chúng tôi</p>
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Nhẫn</h2>
+              <div className="w-16 h-px bg-luxury-sage mt-4"></div>
+            </div>
+            <Link
+              to="/products?category=Nhẫn"
+              className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
+            >
+              Xem tất cả →
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="card-luxury p-8">
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-luxury-darkGray" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts
+              .filter(p => p.category === 'Nhẫn')
+              .slice(0, 8)
+              .map((product) => (
+                <Link
+                  key={product._id}
+                  to={`/products/${product.slug}`}
+                  className="group block"
+                >
+                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                    <img 
+                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    />
+                    {product.priceSale && (
+                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {product.priceSale ? (
+                      <>
+                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                          {product.priceSale?.toLocaleString('vi-VN')}đ
+                        </span>
+                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                          {product.price?.toLocaleString('vi-VN')}đ
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                        {product.price?.toLocaleString('vi-VN')}đ
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Vòng Tay Section */}
+      <section className="section-luxury bg-luxury-ivory">
+        <div className="container-luxury">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Lắc Tay</h2>
+              <div className="w-16 h-px bg-luxury-sage mt-4"></div>
+            </div>
+            <Link
+              to="/products?category=Vòng Tay"
+              className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
+            >
+              Xem tất cả →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts
+              .filter(p => p.category === 'Vòng Tay')
+              .slice(0, 8)
+              .map((product) => (
+                <Link
+                  key={product._id}
+                  to={`/products/${product.slug}`}
+                  className="group block"
+                >
+                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                    <img 
+                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    />
+                    {product.priceSale && (
+                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {product.priceSale ? (
+                      <>
+                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                          {product.priceSale?.toLocaleString('vi-VN')}đ
+                        </span>
+                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                          {product.price?.toLocaleString('vi-VN')}đ
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                        {product.price?.toLocaleString('vi-VN')}đ
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bông Tai Section */}
+      <section className="section-luxury bg-accent-mintLight">
+        <div className="container-luxury">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="font-serif text-xl md:text-2xl font-medium text-luxury-charcoal tracking-[0.2em] uppercase">Hoa Tai</h2>
+              <div className="w-16 h-px bg-luxury-sage mt-4"></div>
+            </div>
+            <Link
+              to="/products?category=Bông Tai"
+              className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
+            >
+              Xem tất cả →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts
+              .filter(p => p.category === 'Bông Tai')
+              .slice(0, 8)
+              .map((product) => (
+                <Link
+                  key={product._id}
+                  to={`/products/${product.slug}`}
+                  className="group block"
+                >
+                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                    <img 
+                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    />
+                    {product.priceSale && (
+                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {product.priceSale ? (
+                      <>
+                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                          {product.priceSale?.toLocaleString('vi-VN')}đ
+                        </span>
+                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                          {product.price?.toLocaleString('vi-VN')}đ
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                        {product.price?.toLocaleString('vi-VN')}đ
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us - Mộc Miên Style */}
+      <section className="section-luxury bg-luxury-sage/20">
+        <div className="container-luxury">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-8">
+              <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-charcoal tracking-[0.25em] mb-6 uppercase">
+                HM Jewelry
+              </h2>
+              <div className="w-24 h-px bg-luxury-sage mx-auto mb-8"></div>
+            </div>
+            
+            <div className="space-y-6 text-luxury-brown text-base md:text-lg leading-relaxed font-normal">
+              <p className="text-xl md:text-2xl font-serif italic text-luxury-charcoal mb-8">
+                "Nơi có những món đồ bé nhỏ để bạn có thể gói ghém dành tặng bản thân và người thân yêu của bạn"
+              </p>
+              
+              <p>
+                <strong className="text-luxury-charcoal">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế, 
+                được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa. 
+                Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm, 
+                là tình cảm được lưu giữ mãi mãi.
+              </p>
+              
+              <p>
+                Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-charcoal">bạc 925 nguyên chất</strong>, 
+                kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến 
+                từng chi tiết nhỏ nhất, tất cả đều được thực hiện bởi đôi bàn tay tài hoa của những nghệ nhân lành nghề.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-8">
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-white rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-luxury-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                     </svg>
-                  ))}
+                  </div>
+                  <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-2 uppercase tracking-wider">Chất lượng</h3>
+                  <p className="text-sm text-luxury-taupe">Bạc 925 nguyên chất, kiểm định chặt chẽ</p>
                 </div>
-                <p className="text-luxury-gray font-light leading-relaxed mb-6 italic">
-                  "{testimonial.content}"
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-luxury-platinum rounded-full flex items-center justify-center mr-4">
-                    <span className="font-serif text-luxury-darkGray text-lg">{testimonial.name.charAt(0)}</span>
+
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-white rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-luxury-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
                   </div>
-                  <div>
-                    <p className="font-medium text-luxury-black">{testimonial.name}</p>
-                    <p className="text-sm text-luxury-lightGray font-light">{testimonial.role}</p>
+                  <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-2 uppercase tracking-wider">Thiết kế</h3>
+                  <p className="text-sm text-luxury-taupe">Tinh tế, nhẹ nhàng, phù hợp mọi phong cách</p>
+                </div>
+
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-white rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-luxury-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
+                  <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-2 uppercase tracking-wider">Bảo hành</h3>
+                  <p className="text-sm text-luxury-taupe">Bảo hành trọn đời, đổi trả miễn phí</p>
                 </div>
               </div>
-            ))}
+
+              <p className="italic">
+                Hãy để <strong className="text-luxury-charcoal">HM Jewelry</strong> đồng hành cùng bạn trong những khoảnh khắc đáng nhớ, 
+                tô điểm thêm vẻ đẹp và sự tự tin cho phong cách của bạn.
+              </p>
+            </div>
+            
+            <Link 
+              to="/about" 
+              className="inline-block mt-12 bg-luxury-charcoal text-luxury-cream px-12 py-4 hover:bg-luxury-brown transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+            >
+              Tìm hiểu thêm
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Instagram Feed */}
-      <section className="section-luxury bg-luxury-pearl border-t border-luxury-platinum">
-        <div className="container-luxury">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">@HoangMy.Jewelry</h2>
-            <div className="w-16 h-px bg-luxury-gray mx-auto mb-6"></div>
-            <p className="text-luxury-gray text-base font-light tracking-wide">Theo dõi chúng tôi trên Instagram</p>
-          </div>
+        {/* Testimonials Slider */}
+        <TestimonialsSlider />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="aspect-square bg-luxury-platinum overflow-hidden group cursor-pointer border-1 border-luxury-platinum">
-                <img 
-                  src={`/product-${i}.png`}
-                  alt={`Instagram ${i}`}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80';
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        {/* Instagram Feed */}
+        <InstagramFeed />
 
       {/* Featured Products */}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
         <div className="container-luxury">
           <div className="text-center mb-20">
-            <h2 className="font-serif text-5xl font-light mb-6 text-luxury-black tracking-wide">Sản Phẩm Nổi Bật</h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-black tracking-[0.2em] uppercase">Sản phẩm</h2>
             <div className="w-16 h-px bg-luxury-gray mx-auto mb-6"></div>
-            <p className="text-luxury-gray text-base font-light tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
+            <p className="text-luxury-gray text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -333,27 +642,10 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* Newsletter - Light Ivory Background */}
-      <section className="section-luxury bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
-        <div className="container-luxury">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-serif text-5xl font-light mb-6 tracking-wide text-luxury-charcoal">Đăng Ký Nhận Ưu Đãi</h2>
-            <p className="text-luxury-brown text-base font-light mb-10 tracking-wide">
-              Nhận ngay mã giảm giá 10% cho đơn hàng đầu tiên và cập nhật về bộ sưu tập mới nhất
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-              <input
-                type="email"
-                placeholder="Địa chỉ email của bạn"
-                className="input-luxury flex-1 text-luxury-darkGray bg-white"
-              />
-              <button type="submit" className="bg-luxury-taupe text-white hover:bg-luxury-brown px-10 py-3 border-2 border-luxury-taupe hover:border-luxury-brown font-medium uppercase tracking-widest transition-all duration-300 whitespace-nowrap">
-                ĐĂNG KÝ
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+  {/* TestimonialsSlider and InstagramFeed components removed */}
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
     </div>
   );
 };

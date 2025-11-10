@@ -9,10 +9,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Info */}
           <div>
-            <h3 className="font-display text-3xl font-light tracking-wide mb-4 text-luxury-cream">
-              HOÀNG <span className="text-xl tracking-widest">MY</span>
+            <h3 className="font-serif text-base font-medium tracking-[0.25em] mb-4 text-luxury-cream uppercase">
+              HM Jewelry
             </h3>
-            <p className="text-luxury-cream/80 font-light text-sm leading-relaxed mb-6">
+            <p className="text-luxury-cream/80 font-normal text-sm leading-relaxed mb-6">
               Trang sức bạc 925 cao cấp, thiết kế tinh xảo, mang đến vẻ đẹp vượt thời gian.
             </p>
             <div className="flex space-x-4">
@@ -153,7 +153,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-luxury-brown/30 mt-12 pt-8">
           <p className="text-center text-luxury-cream/70 font-light text-sm">
-            © {currentYear} Hoàng My Jewelry. Bạc 925 Tinh Tế & Nhẹ Nhàng. All rights reserved.
+            © {currentYear} HM Jewelry. Bạc 925 Tinh Tế & Nhẹ Nhàng. All rights reserved.
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 // scripts/seed_hoang_my_silver.js
-// Seed 25 silver 925 products for Hoàng My Jewelry
+// Seed 25 silver 925 products for HM Jewelry
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('../BE/src/models/product.model');
@@ -246,11 +246,11 @@ async function main() {
     let col = await Collection.findOne({ slug: 'hoang-my-silver' });
     if (!col) {
       col = await Collection.create({
-        name: 'Hoàng My Silver 925',
+        name: 'HM Silver 925',
         slug: 'hoang-my-silver',
         description: 'Bộ sưu tập bạc 925 tinh tế, nhẹ nhàng'
       });
-      console.log('Created collection: Hoàng My Silver 925');
+      console.log('Created collection: HM Silver 925');
     }
 
     // Delete old products
@@ -266,7 +266,7 @@ async function main() {
     }));
 
     const created = await Product.insertMany(productsWithCollection);
-    console.log(`\n✅ Created ${created.length} silver 925 products for Hoàng My Jewelry`);
+    console.log(`\n✅ Created ${created.length} silver 925 products for HM Jewelry`);
 
     // Print product list
     console.log('\n📦 Products created:');

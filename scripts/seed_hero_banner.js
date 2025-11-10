@@ -19,7 +19,7 @@ const seedHeroBanner = async () => {
 
     // Create default hero banner
     const banner = await HeroBanner.create({
-      title: 'Hoàng My Jewelry',
+      title: 'HM Jewelry',
       subtitle: 'Trang sức cao cấp - Vẻ đẹp vĩnh cửu',
       description: 'Khám phá bộ sưu tập trang sức bạc 925 độc đáo, tinh xảo',
       image: 'http://localhost:3000/uploads/bthn-hero.jpg', // Update this with actual uploaded image URL

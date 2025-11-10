@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
+import { isValidEmail, isValidPhone } from '../utils/helpers';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,13 +32,33 @@ const Register = () => {
     }
 
     try {
-      // API call sẽ được thêm sau
-      console.log('Register:', formData);
-      alert('Đăng ký thành công! (Sẽ tích hợp với backend sau)');
-      navigate('/login');
+      // basic validation
+      if (!isValidEmail(formData.email)) {
+        alert('Vui lòng nhập email hợp lệ');
+        return;
+      }
+      if (!isValidPhone(formData.phone)) {
+        alert('Vui lòng nhập số điện thoại hợp lệ');
+        return;
+      }
+
+      // call store register (which calls backend)
+      const registerFn = useAuthStore.getState().register;
+      const payload = {
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const res = await registerFn(payload);
+
+      // If backend returned token/user we already persisted in the store; navigate home
+      alert('Đăng ký thành công!');
+      navigate('/');
     } catch (error) {
       console.error('Register error:', error);
-      alert('Đăng ký thất bại. Vui lòng thử lại.');
+      const msg = error?.response?.data?.msg || error?.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.';
+      alert(msg);
     }
   };
 

@@ -2,12 +2,17 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import useWishlistStore from '../../store/wishlistStore';
+import useCartStore from '../../store/cartStore';
+import cartService from '../../services/cartService';
 import useAuthStore from '../../store/authStore';
 
 const ProductCard = ({ product, onQuickView }) => {
   const { user } = useAuthStore();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlistStore();
+  const { addToCart } = useCartStore();
   const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
@@ -36,6 +41,38 @@ const ProductCard = ({ product, onQuickView }) => {
       console.error('Wishlist error:', error);
     } finally {
       setWishlistLoading(false);
+    }
+  };
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setCartLoading(true);
+    try {
+      const productForCart = {
+        id: product._id || product.id,
+        name: product.name,
+        price: displayPrice,
+        images: product.images,
+      };
+      // If user is logged in, sync to backend first so server cart isn't empty
+      if (user) {
+        try {
+          await cartService.addToCart(product._id || product.id, 1);
+        } catch (err) {
+          console.error('Error adding to server cart:', err);
+          // continue to update local store so UI shows the item (optimistic fallback)
+        }
+      }
+
+      // cart store expects (product, qty)
+      await addToCart(productForCart, 1);
+      // Show success toast or notification here
+    } catch (error) {
+      console.error('Add to cart error:', error);
+    } finally {
+      setCartLoading(false);
     }
   };
 
@@ -141,6 +178,22 @@ const ProductCard = ({ product, onQuickView }) => {
           </svg>
         </button>
       )}
+
+      {/* Add to Cart Button - Show on hover */}
+      <button
+        onClick={handleAddToCart}
+        disabled={cartLoading}
+        className="absolute bottom-6 left-6 right-6 bg-luxury-charcoal text-luxury-cream py-3 px-6 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-luxury-brown disabled:opacity-50 disabled:cursor-not-allowed tracking-[0.2em] text-xs font-medium uppercase"
+      >
+        {cartLoading ? (
+          <span className="flex items-center justify-center gap-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-luxury-cream"></div>
+            Đang thêm...
+          </span>
+        ) : (
+          'Thêm vào giỏ'
+        )}
+      </button>
     </motion.div>
   );
 };

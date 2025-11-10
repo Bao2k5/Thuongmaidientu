@@ -9,6 +9,7 @@ import HomeSimple from './pages/HomeSimple';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Collections from './pages/Collections';
+import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -18,6 +19,11 @@ import Profile from './pages/Profile';
 import Wishlist from './pages/Wishlist';
 import OrderHistory from './pages/OrderHistory';
 import OrderDetail from './pages/OrderDetail';
+import AccountLayout from './pages/AccountLayout';
+import AccountInfo from './pages/AccountInfo';
+import AccountOrders from './pages/AccountOrders';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -31,7 +37,7 @@ const ComingSoon = ({ title }) => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
     <div className="text-center max-w-lg p-8">
       <h1 className="text-6xl font-serif font-bold text-luxury-taupe mb-4">💎</h1>
-      <h2 className="text-4xl font-serif font-bold text-luxury-charcoal mb-2">Jewelry Hoàng My</h2>
+      <h2 className="text-4xl font-serif font-bold text-luxury-charcoal mb-2">HM Jewelry</h2>
       <p className="text-xl text-gray-600 mb-8">{title}</p>
       <p className="text-luxury-brown font-medium">Đang xây dựng...</p>
     </div>
@@ -62,7 +68,7 @@ function App() {
         <Route path="/" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <HomeSimple />
             </main>
             <Footer />
@@ -72,7 +78,7 @@ function App() {
         <Route path="/products" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Products />
             </main>
             <Footer />
@@ -82,7 +88,7 @@ function App() {
         <Route path="/products/:id" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <ProductDetail />
             </main>
             <Footer />
@@ -92,8 +98,18 @@ function App() {
         <Route path="/collections" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Collections />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/about" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <About />
             </main>
             <Footer />
             <ZaloChat />
@@ -102,7 +118,7 @@ function App() {
         <Route path="/contact" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Contact />
             </main>
             <Footer />
@@ -112,7 +128,7 @@ function App() {
         <Route path="/cart" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Cart />
             </main>
             <Footer />
@@ -122,8 +138,28 @@ function App() {
         <Route path="/checkout" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Checkout />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/payment/success" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <PaymentSuccess />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/payment/cancel" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <PaymentCancel />
             </main>
             <Footer />
             <ZaloChat />
@@ -132,7 +168,7 @@ function App() {
         <Route path="/login" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Login />
             </main>
             <Footer />
@@ -142,7 +178,7 @@ function App() {
         <Route path="/register" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Register />
             </main>
             <Footer />
@@ -152,7 +188,7 @@ function App() {
         <Route path="/profile" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Profile />
             </main>
             <Footer />
@@ -162,28 +198,34 @@ function App() {
         <Route path="/wishlist" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <Wishlist />
             </main>
             <Footer />
             <ZaloChat />
           </>
         } />
-        <Route path="/orders" element={
+        <Route path="/account" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
-              <OrderHistory />
+            <main className="flex-1 pt-32">
+              <AccountLayout />
             </main>
             <Footer />
             <ZaloChat />
           </>
-        } />
-        <Route path="/orders/:id" element={
+        }>
+          <Route index element={<AccountInfo />} />
+          <Route path="orders" element={<AccountOrders />} />
+          <Route path="orders/:id" element={<OrderDetail />} />
+          <Route path="addresses" element={<ComingSoon title="Sổ địa chỉ" />} />
+          <Route path="settings" element={<ComingSoon title="Cài đặt tài khoản" />} />
+        </Route>
+        <Route path="/orders" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
-              <OrderDetail />
+            <main className="flex-1 pt-32">
+              <OrderHistory />
             </main>
             <Footer />
             <ZaloChat />
@@ -192,7 +234,7 @@ function App() {
         <Route path="*" element={
           <>
             <Header />
-            <main className="flex-1 pt-24">
+            <main className="flex-1 pt-32">
               <ComingSoon title="404 - Không Tìm Thấy" />
             </main>
             <Footer />
