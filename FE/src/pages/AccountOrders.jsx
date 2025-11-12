@@ -70,7 +70,7 @@ const AccountOrders = () => {
           Đơn Hàng Của Tôi
         </h2>
 
-        {/* Filter Tabs */}
+        {}
         <div className="flex flex-wrap gap-2 mb-6">
           {[
             { key: 'all', label: 'Tất cả' },
@@ -94,7 +94,7 @@ const AccountOrders = () => {
         </div>
       </div>
 
-      {/* Orders List */}
+      {}
       {filteredOrders.length === 0 ? (
         <div className="bg-luxury-white shadow-sm border border-luxury-sage/20 p-12 text-center">
           <svg className="w-16 h-16 mx-auto mb-4 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ const AccountOrders = () => {
             key={order._id}
             className="bg-luxury-white shadow-sm border border-luxury-sage/20 hover:shadow-md transition-shadow duration-200"
           >
-            {/* Order Header */}
+            {}
             <div className="p-6 border-b border-luxury-sage/20 bg-luxury-cream/30">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
@@ -137,7 +137,7 @@ const AccountOrders = () => {
               </div>
             </div>
 
-            {/* Order Items */}
+            {}
             <div className="p-6">
               <div className="space-y-4">
                 {order.items?.map((item, index) => (
@@ -162,7 +162,7 @@ const AccountOrders = () => {
                 ))}
               </div>
 
-              {/* Order Actions */}
+              {}
               <div className="flex gap-3 mt-6 pt-6 border-t border-luxury-sage/20">
                 <Link
                   to={`/account/orders/${order._id}`}

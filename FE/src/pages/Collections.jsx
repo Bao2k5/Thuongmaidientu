@@ -11,12 +11,11 @@ const Collections = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch collections from API
+
         const res = await api.get('/collections');
         const fetchedCollections = res.data.collections || res.data || [];
         setCollections(fetchedCollections);
 
-        // Fetch product count for each collection
         const counts = {};
         for (const col of fetchedCollections) {
           try {
@@ -40,7 +39,7 @@ const Collections = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+      {}
       <section className="relative h-[500px] bg-gradient-to-br from-luxury-ivory via-luxury-pearl to-luxury-sand overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-32 h-32 border border-luxury-taupe rounded-full"></div>
@@ -63,7 +62,7 @@ const Collections = () => {
         </div>
       </section>
 
-      {/* Featured Collections - 2x2 Grid */}
+      {}
       <section className="py-20 px-4 max-w-7xl mx-auto">
         {loading ? (
           <div className="flex items-center justify-center py-20">
@@ -87,7 +86,7 @@ const Collections = () => {
                   to={`/products?category=${collection.name}`}
                   className="group block relative overflow-hidden bg-white shadow-sm hover:shadow-2xl transition-all duration-500"
                 >
-                  {/* Image Container */}
+                  {}
                   <div className="aspect-[4/5] overflow-hidden bg-luxury-pearl relative">
                     <img
                       src={collection.image}
@@ -97,18 +96,18 @@ const Collections = () => {
                         e.target.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80';
                       }}
                     />
-                    
-                    {/* Overlay on hover */}
+
+                    {}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    {/* Product Count Badge */}
+
+                    {}
                     <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full">
                       <span className="text-luxury-charcoal font-light text-sm">
                         {products[collection._id] || 0} sản phẩm
                       </span>
                     </div>
-                    
-                    {/* Hover Button */}
+
+                    {}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                       <span className="bg-white text-luxury-charcoal px-8 py-3 text-sm font-light tracking-widest uppercase hover:bg-luxury-charcoal hover:text-white transition-all duration-300">
                         Khám Phá Ngay
@@ -116,7 +115,7 @@ const Collections = () => {
                     </div>
                   </div>
 
-                  {/* Info Section */}
+                  {}
                   <div className="p-8 text-center bg-white">
                     <h3 className="font-serif text-3xl font-light text-luxury-charcoal mb-3 tracking-wide group-hover:text-luxury-taupe transition-colors">
                       {collection.name}
@@ -133,7 +132,7 @@ const Collections = () => {
         )}
       </section>
 
-      {/* CTA Section */}
+      {}
       <section className="section-luxury bg-luxury-pearl">
         <div className="container-luxury text-center">
           <h2 className="font-serif text-5xl font-light text-luxury-black tracking-wide mb-6">

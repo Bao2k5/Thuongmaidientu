@@ -19,11 +19,10 @@ const AuthCallback = () => {
     }
 
     if (token) {
-      // Save token to localStorage
+
       localStorage.setItem('token', token);
       setToken(token);
-      
-      // Fetch user profile with the new token
+
       api.get('/user/profile', {
         headers: { Authorization: `Bearer ${token}` }
       })

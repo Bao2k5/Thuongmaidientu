@@ -5,7 +5,6 @@ const AdminLayout = ({ children }) => {
   const location = useLocation();
   const { user } = useAuthStore();
 
-  // Redirect if not admin
   if (!user || user.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
@@ -21,7 +20,7 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-luxury-pearl flex">
-      {/* Sidebar */}
+      {}
       <aside className="w-64 bg-luxury-white border-r border-luxury-platinum fixed h-full">
         <div className="p-6 border-b border-luxury-platinum">
           <h1 className="font-display text-2xl text-luxury-black tracking-wide">Admin Panel</h1>
@@ -59,7 +58,7 @@ const AdminLayout = ({ children }) => {
         </nav>
       </aside>
 
-      {/* Main Content */}
+      {}
       <main className="flex-1 ml-64 p-8">
         {children}
       </main>

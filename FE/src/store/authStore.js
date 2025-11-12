@@ -8,7 +8,6 @@ const useAuthStore = create((set) => ({
   loading: false,
   error: null,
 
-  // Initialize from localStorage
   initialize: () => {
     try {
       const token = localStorage.getItem('token');
@@ -26,12 +25,11 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // Login
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const response = await authService.login({ email, password });
-      
+
       set({
         user: response.user,
         isAuthenticated: true,
@@ -39,7 +37,7 @@ const useAuthStore = create((set) => ({
         loading: false,
         error: null,
       });
-      
+
       return response;
     } catch (error) {
       set({ 
@@ -51,12 +49,11 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // Register
   register: async (userData) => {
     set({ loading: true, error: null });
     try {
       const response = await authService.register(userData);
-      // If backend returned token + user, persist and update store (auto-login after register)
+
       if (response?.token && response?.user) {
         try {
           localStorage.setItem('token', response.token);
@@ -87,7 +84,6 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // Logout
   logout: () => {
     try {
       localStorage.removeItem('token');
@@ -102,7 +98,6 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  // Update user
   updateUser: (user) => {
     set({ user });
   },

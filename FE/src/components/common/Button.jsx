@@ -12,7 +12,7 @@ const Button = ({
   ...props
 }) => {
   const baseClasses = 'font-medium rounded-lg transition-all duration-200 inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed';
-  
+
   const variants = {
     primary: 'bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700',
     secondary: 'bg-secondary-100 text-secondary-900 hover:bg-secondary-200 active:bg-secondary-300',

@@ -5,7 +5,7 @@ import useAuthStore from '../store/authStore';
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -19,11 +19,10 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
       const result = await login(formData.email, formData.password);
-      
-      // Redirect based on user role
+
       if (result.user?.role === 'admin') {
         navigate('/admin');
       } else {
@@ -39,7 +38,7 @@ const Login = () => {
   };
 
   const handleSocialLogin = (provider) => {
-    // Redirect to backend OAuth endpoint
+
     const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     if (provider === 'Google') {
       window.location.href = `${backendUrl}/api/auth/google`;
@@ -51,21 +50,21 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-luxury-ivory to-white flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
-        {/* Header */}
+        {}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">ĐĂNG NHẬP</h1>
           <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-6"></div>
           <p className="text-luxury-brown font-light">Chào mừng bạn quay trở lại</p>
         </div>
 
-        {/* Form */}
+        {}
         <div className="bg-white border border-luxury-beige p-8 shadow-lg">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-luxury-charcoal font-light mb-2">Email</label>
@@ -128,7 +127,7 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Social Login */}
+          {}
           <div className="mt-8">
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center">
@@ -166,7 +165,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Register Link */}
+          {}
           <div className="mt-8 text-center">
             <p className="text-luxury-brown font-light">
               Chưa có tài khoản?{' '}
@@ -177,7 +176,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Back to Home */}
+        {}
         <div className="mt-8 text-center">
           <Link to="/" className="text-sm text-luxury-taupe hover:text-luxury-charcoal font-light">
             ← Quay về trang chủ

@@ -12,6 +12,13 @@ const userSchema = new mongoose.Schema(
   city: { type: String, default: '' },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  // OTP for password reset
+  resetCode: { type: String },
+  resetCodeExpire: { type: Date },
+  // OTP for email verification (registration)
+  otp: { type: String },
+  otpExpire: { type: Date },
+  verified: { type: Boolean, default: false },
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   emailVerified: { type: Boolean, default: false },
   verifyEmailToken: { type: String },

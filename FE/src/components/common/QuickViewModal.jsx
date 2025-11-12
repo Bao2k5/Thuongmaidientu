@@ -1,4 +1,4 @@
-// FE/src/components/common/QuickViewModal.jsx
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
@@ -35,7 +35,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
         productId: product._id, 
         quantity 
       })).unwrap();
-      
+
       toast.success(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
     } catch (error) {
       toast.error(error.message || 'Không thể thêm vào giỏ hàng');
@@ -60,7 +60,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
-          {/* Backdrop */}
+          {}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -69,7 +69,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
           />
 
-          {/* Modal */}
+          {}
           <div className="flex min-h-full items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -79,7 +79,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
               className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
+              {}
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
@@ -88,9 +88,9 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
               </button>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8">
-                {/* Left: Images */}
+                {}
                 <div className="space-y-4">
-                  {/* Main Image */}
+                  {}
                   <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden">
                     {hasDiscount && (
                       <div className="absolute top-4 left-4 z-10 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
@@ -109,7 +109,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     />
                   </div>
 
-                  {/* Thumbnail Images */}
+                  {}
                   {images.length > 1 && (
                     <div className="grid grid-cols-4 gap-2">
                       {images.map((img, index) => (
@@ -133,14 +133,14 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                   )}
                 </div>
 
-                {/* Right: Details */}
+                {}
                 <div className="flex flex-col space-y-4">
-                  {/* Product Name */}
+                  {}
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                     {product.name}
                   </h2>
 
-                  {/* Category & Material */}
+                  {}
                   <div className="flex items-center gap-3 text-sm text-gray-600">
                     <span className="px-3 py-1 bg-amber-50 text-amber-700 rounded-full">
                       {product.category}
@@ -152,7 +152,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     )}
                   </div>
 
-                  {/* Price */}
+                  {}
                   <div className="flex items-baseline gap-3">
                     <span className="text-3xl font-bold text-amber-600">
                       {currentPrice.toLocaleString('vi-VN')}₫
@@ -164,14 +164,14 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     )}
                   </div>
 
-                  {/* Description */}
+                  {}
                   {product.description && (
                     <div className="text-gray-600 text-sm line-clamp-3">
                       {product.description}
                     </div>
                   )}
 
-                  {/* Stock Status */}
+                  {}
                   <div className="text-sm">
                     {product.stock > 0 ? (
                       <span className="text-green-600 font-medium">
@@ -184,7 +184,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     )}
                   </div>
 
-                  {/* Quantity Selector */}
+                  {}
                   {product.stock > 0 && (
                     <div className="flex items-center gap-4">
                       <span className="text-gray-700 font-medium">Số lượng:</span>
@@ -210,7 +210,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     </div>
                   )}
 
-                  {/* Action Buttons */}
+                  {}
                   <div className="flex gap-3 pt-4">
                     <button
                       onClick={handleAddToCart}
@@ -238,7 +238,7 @@ const QuickViewModal = ({ product, isOpen, onClose, isInWishlist }) => {
                     </button>
                   </div>
 
-                  {/* Additional Info */}
+                  {}
                   <div className="border-t pt-4 space-y-2 text-sm text-gray-600">
                     <p>• Miễn phí vận chuyển cho đơn hàng trên 500.000₫</p>
                     <p>• Bảo hành 12 tháng</p>

@@ -9,7 +9,7 @@ const PaymentSuccess = () => {
   const method = searchParams.get('method');
   const resultCode = searchParams.get('resultCode'); // MoMo
   const vnpResponseCode = searchParams.get('vnp_ResponseCode'); // VNPay
-  
+
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [verifying, setVerifying] = useState(false);
@@ -23,9 +23,9 @@ const PaymentSuccess = () => {
       }
 
       try {
-        // If we have payment gateway params, verify payment first
+
         if (resultCode) {
-          // MoMo callback
+
           setVerifying(true);
           const verifyResult = await paymentService.queryMomoPayment(orderId);
           if (verifyResult.success && verifyResult.resultCode === 0) {
@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
           }
           setVerifying(false);
         } else if (vnpResponseCode) {
-          // VNPay callback
+
           setVerifying(true);
           const verifyResult = await paymentService.queryVNPayPayment(orderId);
           if (verifyResult.success && verifyResult.vnp_ResponseCode === '00') {
@@ -46,7 +46,6 @@ const PaymentSuccess = () => {
           setVerifying(false);
         }
 
-        // Fetch order details
         const data = await orderService.getOrderById(orderId);
         setOrder(data);
       } catch (error) {
@@ -82,7 +81,7 @@ const PaymentSuccess = () => {
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            {/* Success Icon */}
+            {}
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -113,7 +112,7 @@ const PaymentSuccess = () => {
             </h2>
 
             <div className="space-y-6">
-              {/* Order Status */}
+              {}
               <div className="pb-6 border-b border-luxury-beige">
                 <p className="text-sm text-luxury-taupe mb-2">Trạng thái</p>
                 <span className="inline-block px-4 py-2 bg-green-100 text-green-800 rounded text-sm font-medium">
@@ -121,7 +120,7 @@ const PaymentSuccess = () => {
                 </span>
               </div>
 
-              {/* Payment Method */}
+              {}
               <div className="pb-6 border-b border-luxury-beige">
                 <p className="text-sm text-luxury-taupe mb-2">Phương thức thanh toán</p>
                 <p className="text-luxury-charcoal font-light">
@@ -133,13 +132,13 @@ const PaymentSuccess = () => {
                 </p>
               </div>
 
-              {/* Order Total */}
+              {}
               <div className="pb-6 border-b border-luxury-beige">
                 <p className="text-sm text-luxury-taupe mb-2">Tổng tiền</p>
                 <p className="text-2xl text-luxury-charcoal font-light">{formatPrice(order.total)}</p>
               </div>
 
-              {/* Delivery Address */}
+              {}
               <div>
                 <p className="text-sm text-luxury-taupe mb-2">Địa chỉ giao hàng</p>
                 <p className="text-luxury-charcoal font-light">{order.address}</p>
@@ -154,7 +153,7 @@ const PaymentSuccess = () => {
           </div>
         )}
 
-        {/* Action Buttons */}
+        {}
         <div className="flex gap-4 justify-center">
           {order && (
             <Link
@@ -172,7 +171,7 @@ const PaymentSuccess = () => {
           </Link>
         </div>
 
-        {/* Additional Info */}
+        {}
         <div className="mt-12 bg-luxury-ivory border border-luxury-beige p-6">
           <h3 className="text-lg font-light text-luxury-charcoal mb-4">Thông tin quan trọng</h3>
           <ul className="space-y-2 text-luxury-brown font-light text-sm">

@@ -4,6 +4,7 @@ const authController = require("../controllers/auth.controller");
 const { body } = require('express-validator');
 const { handleValidation } = require('../middleware/validate.middleware');
 const { authLimiter, forgotLimiter } = require('../middleware/security.middleware');
+const { verifyToken } = require('../middleware/auth.middleware');
 const passport = require('../middleware/passport');
 
 router.post(
@@ -38,6 +39,47 @@ router.post(
 
 router.post('/send-verify', [body('email').isEmail()], handleValidation, authController.sendVerifyEmail);
 router.post('/verify-email', [body('email').isEmail(), body('token').exists()], handleValidation, authController.verifyEmail);
+
+// OTP-based password reset (NEW)
+router.post(
+	'/send-reset-code',
+	forgotLimiter,
+	[body('email').isEmail()],
+	handleValidation,
+	authController.sendResetCode
+);
+
+router.post(
+	'/verify-reset-code',
+	[body('email').isEmail(), body('code').isLength({ min: 6, max: 6 }), body('newPassword').isLength({ min: 6 })],
+	handleValidation,
+	authController.verifyResetCode
+);
+
+// OTP verification for registration (NEW)
+router.post(
+	'/verify-otp',
+	[body('email').isEmail(), body('otp').isLength({ min: 6, max: 6 })],
+	handleValidation,
+	authController.verifyOtp
+);
+
+router.post(
+	'/resend-otp',
+	forgotLimiter,
+	[body('email').isEmail()],
+	handleValidation,
+	authController.resendOtp
+);
+
+// Change password (authenticated)
+router.post(
+	'/change-password',
+	verifyToken,
+	[body('currentPassword').exists(), body('newPassword').isLength({ min: 6 })],
+	handleValidation,
+	authController.changePassword
+);
 
 // OAuth Routes
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));

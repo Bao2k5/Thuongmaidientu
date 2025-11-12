@@ -11,7 +11,7 @@ const CountdownTimer = ({ endDate }) => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const difference = new Date(endDate) - new Date();
-      
+
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),

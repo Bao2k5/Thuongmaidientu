@@ -1,16 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 import useWishlistStore from '../../store/wishlistStore';
 import UserDropdown from '../common/UserDropdown';
+import { searchProducts } from '../../services/productService';
+import { getProductImage } from '../../utils/helpers';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchTimeoutRef = useRef(null);
+  const searchRef = useRef(null);
+
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const { items: cartItems } = useCartStore();
@@ -25,13 +32,70 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim().length === 0) {
+      setSearchResults([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const data = await searchProducts(searchQuery, 5);
+        setSearchResults(data.products || []);
+        setShowDropdown(true);
+      } catch (error) {
+        console.error('Search error:', error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+
+      if (searchResults.length === 1) {
+        navigate(`/products/${searchResults[0].slug}`);
+      } else {
+
+        navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+      }
       setIsSearchOpen(false);
       setSearchQuery('');
+      setShowDropdown(false);
     }
+  };
+
+  const handleSearchResultClick = (slug) => {
+    navigate(`/products/${slug}`);
+    setSearchQuery('');
+    setShowDropdown(false);
+    setIsSearchOpen(false);
   };
 
   const handleLogout = () => {
@@ -57,9 +121,9 @@ const Header = () => {
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Left Actions - User & Search */}
+            {}
             <div className="flex items-center space-x-6">
-              {/* Search Icon */}
+              {}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300"
@@ -70,7 +134,7 @@ const Header = () => {
                 </svg>
               </button>
 
-              {/* User Avatar/Login */}
+              {}
               {user ? (
                 <UserDropdown user={user} onLogout={handleLogout} />
               ) : (
@@ -85,7 +149,7 @@ const Header = () => {
               )}
             </div>
 
-            {/* Center Logo - Mộc Miên Style */}
+            {}
             <Link to="/" className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center group">
               <div className="font-serif text-luxury-charcoal text-base md:text-lg font-medium tracking-[0.3em] transition-colors hover:text-luxury-taupe uppercase">
                 HM Jewelry
@@ -93,9 +157,9 @@ const Header = () => {
               <div className="h-px w-16 bg-luxury-sage mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
 
-            {/* Right Actions - Wishlist & Cart */}
+            {}
             <div className="flex items-center space-x-6">
-              {/* Wishlist Icon */}
+              {}
               <Link to="/wishlist" className="relative text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -107,7 +171,7 @@ const Header = () => {
                 )}
               </Link>
 
-              {/* Cart Icon */}
+              {}
               <Link to="/cart" className="relative text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -119,7 +183,7 @@ const Header = () => {
                 )}
               </Link>
 
-              {/* Mobile Menu Toggle */}
+              {}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden text-luxury-brown hover:text-luxury-charcoal transition-colors"
@@ -136,7 +200,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation - Below header */}
+          {}
           <nav className="hidden md:flex items-center justify-center space-x-10 py-3 border-t border-luxury-sage/20">
             {navLinks.map((link) => (
               <Link
@@ -152,7 +216,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {}
       {isMobileMenuOpen && (
         <div className="fixed inset-x-0 top-[152px] bg-luxury-cream/95 backdrop-blur-sm border-b border-luxury-sage/30 z-40 md:hidden">
           <nav className="max-w-7xl mx-auto px-4 flex flex-col space-y-2 py-4">
@@ -170,14 +234,20 @@ const Header = () => {
         </div>
       )}
 
-      {/* Search Modal */}
+      {}
       {isSearchOpen && (
         <>
           <div
-            onClick={() => setIsSearchOpen(false)}
+            onClick={() => {
+              setIsSearchOpen(false);
+              setShowDropdown(false);
+            }}
             className="fixed inset-0 bg-luxury-black/20 z-40 backdrop-blur-sm"
           />
-          <div className="fixed top-28 left-1/2 -translate-x-1/2 w-full max-w-2xl bg-luxury-cream shadow-sm z-50 mx-4 border border-luxury-beige">
+          <div 
+            ref={searchRef}
+            className="fixed top-28 left-1/2 -translate-x-1/2 w-full max-w-2xl bg-luxury-cream shadow-sm z-50 mx-4 border border-luxury-beige"
+          >
             <form onSubmit={handleSearch} className="p-6">
               <div className="flex items-center space-x-3">
                 <svg className="w-6 h-6 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,6 +269,60 @@ const Header = () => {
                 </button>
               </div>
             </form>
+
+            {}
+            {showDropdown && (
+              <div className="border-t border-luxury-beige bg-white max-h-96 overflow-y-auto">
+                {isSearching ? (
+                  <div className="p-6 text-center text-luxury-brown">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luxury-charcoal mx-auto mb-2"></div>
+                    Đang tìm kiếm...
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="divide-y divide-luxury-beige">
+                    {searchResults.map((product) => (
+                      <div
+                        key={product._id}
+                        onClick={() => handleSearchResultClick(product.slug)}
+                        className="p-4 hover:bg-luxury-ivory cursor-pointer transition-colors flex items-center gap-4"
+                      >
+                        <img
+                          src={getProductImage(product)}
+                          alt={product.name}
+                          className="w-16 h-16 object-cover"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-light text-luxury-charcoal mb-1">{product.name}</h4>
+                          <div className="flex items-center gap-2">
+                            {product.priceSale ? (
+                              <>
+                                <span className="text-luxury-charcoal font-medium">
+                                  {product.priceSale.toLocaleString('vi-VN')}₫
+                                </span>
+                                <span className="text-luxury-gray line-through text-sm">
+                                  {product.price.toLocaleString('vi-VN')}₫
+                                </span>
+                              </>
+                            ) : (
+                              <span className="text-luxury-charcoal font-medium">
+                                {product.price.toLocaleString('vi-VN')}₫
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <svg className="w-5 h-5 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    ))}
+                  </div>
+                ) : searchQuery.trim().length > 0 ? (
+                  <div className="p-6 text-center text-luxury-brown">
+                    Không tìm thấy sản phẩm nào
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         </>
       )}

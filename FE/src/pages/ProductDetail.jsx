@@ -5,16 +5,19 @@ import ReviewCard from '../components/common/ReviewCard';
 import api from '../services/api';
 import useCartStore from '../store/cartStore';
 import useAuthStore from '../store/authStore';
+import useWishlistStore from '../store/wishlistStore';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { user } = useAuthStore();
   const { addToCart } = useCartStore();
-  
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlistStore();
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [addingToCart, setAddingToCart] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -23,24 +26,21 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     if (!product) return;
-    
+
     setAddingToCart(true);
     try {
-      // If user is logged in, call API
+
       if (user) {
         await api.post('/cart', { 
           productId: product.id, 
           qty: quantity 
         });
       }
-      
-      // Add to local cart store
+
       addToCart(product, quantity);
-      
-      // Show success notification
+
       alert(`✅ Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
-      
-      // Reset quantity
+
       setQuantity(1);
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -50,13 +50,37 @@ const ProductDetail = () => {
     }
   };
 
+  const handleWishlistToggle = async () => {
+    if (!product) return;
+    if (!user) {
+      alert('Vui lòng đăng nhập để sử dụng wishlist!');
+      return;
+    }
+
+    setWishlistLoading(true);
+    try {
+      const inWishlist = isInWishlist(product.id);
+      if (inWishlist) {
+        await removeFromWishlist(product.id);
+        alert('❌ Đã xóa khỏi danh sách yêu thích');
+      } else {
+        await addToWishlist(product);
+        alert('❤️ Đã thêm vào danh sách yêu thích');
+      }
+    } catch (error) {
+      console.error('Wishlist error:', error);
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
         const res = await api.get(`/products/${id}`);
         const p = res.data;
-        // normalize shape to the UI expectations if needed
+
         const mapped = {
           id: p._id,
           name: p.name,
@@ -74,7 +98,6 @@ const ProductDetail = () => {
         };
         setProduct(mapped);
 
-        // fetch related products by same collection or category
         const params = { limit: 8 };
         if (p.collection) params.collection = p.collection._id;
         else if (p.category) params.category = p.category;
@@ -87,12 +110,11 @@ const ProductDetail = () => {
         }));
         setRelatedProducts(relItems);
 
-        // try fetch reviews if endpoint exists (optional)
         try {
           const rev = await api.get(`/products/${id}/reviews`);
           setProductReviews(rev.data || []);
         } catch (e) {
-          // ignore if not available
+
         }
       } catch (err) {
         console.error('Failed to load product', err);
@@ -108,12 +130,11 @@ const ProductDetail = () => {
   };
   if (loading || !product) return <div className="min-h-screen bg-white p-12">Đang tải sản phẩm...</div>;
 
-  // normalize stock flag (safety)
   const inStock = (product.inStock !== undefined) ? product.inStock : (product.stock ? product.stock > 0 : true);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Breadcrumb */}
+      {}
       <div className="bg-luxury-ivory py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-luxury-brown font-light">
@@ -127,9 +148,9 @@ const ProductDetail = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Product Info Section */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          {/* Image Gallery */}
+          {}
           <div>
             <div className="aspect-square bg-gray-50 mb-4 overflow-hidden border border-luxury-beige">
               <img 
@@ -165,11 +186,11 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Product Details */}
+          {}
           <div>
             <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">{product.name}</h1>
-            
-            {/* Rating */}
+
+            {}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
@@ -181,7 +202,7 @@ const ProductDetail = () => {
               <span className="text-luxury-brown font-light">({product.reviews} đánh giá)</span>
             </div>
 
-            {/* Price */}
+            {}
             <div className="mb-8">
               <p className="text-4xl font-light text-luxury-charcoal mb-2">{formatPrice(product.price)}</p>
               <div className="flex items-center gap-2">
@@ -199,7 +220,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Quick Info */}
+            {}
             <div className="space-y-3 mb-8 pb-8 border-b border-luxury-beige">
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Chất liệu:</span>
@@ -211,7 +232,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Quantity */}
+            {}
             <div className="mb-8">
               <label className="block text-luxury-charcoal font-light mb-3">Số lượng</label>
               <div className="flex items-center gap-4">
@@ -242,7 +263,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {}
             <div className="space-y-4 mb-8">
               <button 
                 onClick={handleAddToCart}
@@ -263,15 +284,33 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
-              <button className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                THÊM VÀO YÊU THÍCH
+              <button 
+                onClick={handleWishlistToggle}
+                disabled={wishlistLoading}
+                className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {wishlistLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current"></div>
+                    ĐANG XỬ LÝ...
+                  </>
+                ) : (
+                  <>
+                    <svg 
+                      className={`w-5 h-5 ${product && isInWishlist(product.id) ? 'fill-current' : ''}`} 
+                      fill={product && isInWishlist(product.id) ? 'currentColor' : 'none'} 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    {product && isInWishlist(product.id) ? 'ĐÃ YÊU THÍCH' : 'THÊM VÀO YÊU THÍCH'}
+                  </>
+                )}
               </button>
             </div>
 
-            {/* Features */}
+            {}
             <div className="space-y-4 bg-luxury-ivory p-6 border border-luxury-beige">
               <div className="flex items-start gap-3">
                 <svg className="w-6 h-6 text-luxury-charcoal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -304,9 +343,9 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Tabs Section */}
+        {}
         <div className="mb-20">
-          {/* Tab Headers */}
+          {}
           <div className="flex gap-8 border-b border-luxury-beige mb-8">
             <button
               onClick={() => setActiveTab('description')}
@@ -340,7 +379,7 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          {/* Tab Content */}
+          {}
           <div className="max-w-3xl">
             {activeTab === 'description' && (
               <div className="text-luxury-brown font-light leading-relaxed text-lg">
@@ -380,7 +419,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Related Products */}
+        {}
         <div>
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light mb-4 text-luxury-charcoal tracking-wide">SẢN PHẨM LIÊN QUAN</h2>

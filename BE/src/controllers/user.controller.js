@@ -18,16 +18,26 @@ exports.updateProfile = async (req, res) => {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ msg: "User not found" });
 
+    // Validate phone if provided
+    if (phone !== undefined) {
+      if (phone && !/^[0-9]{10}$/.test(phone.replace(/\s/g, ''))) {
+        return res.status(400).json({ msg: "Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số." });
+      }
+      user.phone = phone;
+    }
+
     if (name) user.name = name;
     if (address) user.address = address;
-    if (phone) user.phone = phone;
     if (city) user.city = city;
     if (password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
     }
     await user.save();
-    res.json({ msg: "Profile updated" });
+    
+    // Return updated user without password
+    const updatedUser = await User.findById(req.user.id).select("-password");
+    res.json({ msg: "Profile updated", user: updatedUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

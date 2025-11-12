@@ -57,13 +57,13 @@ const AdminUsers = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {/* Header */}
+        {}
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Quản Lý Người Dùng</h1>
           <p className="text-luxury-gray">Xem và cập nhật thông tin người dùng</p>
         </div>
 
-        {/* Users Table */}
+        {}
         <div className="card-luxury overflow-hidden">
           <table className="w-full">
             <thead className="bg-luxury-pearl border-b border-luxury-platinum">
@@ -125,7 +125,7 @@ const AdminUsers = () => {
           </table>
         </div>
 
-        {/* Pagination */}
+        {}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2">
             <button

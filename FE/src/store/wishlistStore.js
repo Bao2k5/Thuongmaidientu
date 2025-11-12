@@ -6,7 +6,6 @@ const useWishlistStore = create((set, get) => ({
   loading: false,
   error: null,
 
-  // Fetch wishlist from API
   fetchWishlist: async () => {
     set({ loading: true, error: null });
     try {
@@ -25,14 +24,13 @@ const useWishlistStore = create((set, get) => ({
     }
   },
 
-  // Add to wishlist
   addToWishlist: async (product) => {
     set({ loading: true, error: null });
     try {
       await api.post('/api/users/wishlist', { productId: product._id });
       const { items } = get();
       const exists = items.find(item => item.product._id === product._id);
-      
+
       if (!exists) {
         set({ 
           items: [...items, { product }], 
@@ -51,7 +49,6 @@ const useWishlistStore = create((set, get) => ({
     }
   },
 
-  // Remove from wishlist
   removeFromWishlist: async (productId) => {
     set({ loading: true, error: null });
     try {
@@ -71,18 +68,15 @@ const useWishlistStore = create((set, get) => ({
     }
   },
 
-  // Check if product is in wishlist
   isInWishlist: (productId) => {
     const { items } = get();
     return items.some(item => item.product._id === productId);
   },
 
-  // Clear wishlist
   clearWishlist: () => {
     set({ items: [], error: null });
   },
 
-  // Get wishlist count
   getWishlistCount: () => {
     const { items } = get();
     return items.length;

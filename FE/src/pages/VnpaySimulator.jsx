@@ -14,7 +14,7 @@ const VnpaySimulator = () => {
 
   useEffect(() => {
     if (orderId && amount) {
-      // VNPay amount is in VND * 100
+
       const amountInVnd = parseInt(amount) / 100;
       setOrderInfo({
         orderId,
@@ -33,7 +33,7 @@ const VnpaySimulator = () => {
 
     setLoading(true);
     try {
-      // Gọi API giả lập IPN callback từ VNPay
+
       const response = await paymentService.simulateVnpayCallback({
         orderId,
         txnRef: txnRef || orderId,
@@ -43,7 +43,7 @@ const VnpaySimulator = () => {
       });
 
       if (response.success) {
-        // Redirect về trang success
+
         navigate(`/payment/success?orderId=${orderId}&provider=vnpay&vnp_ResponseCode=00`);
       } else {
         alert('Lỗi khi giả lập thanh toán: ' + (response.message || 'Unknown error'));
@@ -72,7 +72,6 @@ const VnpaySimulator = () => {
         transactionStatus: '02'
       });
 
-      // Redirect về trang cancel
       navigate(`/payment/cancel?orderId=${orderId}&provider=vnpay&vnp_ResponseCode=24`);
     } catch (error) {
       console.error('Simulate VNPay error:', error);
@@ -99,7 +98,7 @@ const VnpaySimulator = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
+        {}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 rounded-xl mb-4">
             <span className="text-white text-2xl font-bold">VNPAY</span>
@@ -108,7 +107,7 @@ const VnpaySimulator = () => {
           <p className="text-gray-600">Chế độ test - Không thanh toán thật</p>
         </div>
 
-        {/* Order Info Card */}
+        {}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
           <div className="border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Thông tin đơn hàng</h2>
@@ -128,7 +127,7 @@ const VnpaySimulator = () => {
             </div>
           </div>
 
-          {/* Payment Methods Display */}
+          {}
           <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl p-8 mb-6">
             <div className="text-center">
               <div className="bg-white rounded-lg p-6 inline-block mb-4">
@@ -165,7 +164,7 @@ const VnpaySimulator = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {}
           <div className="space-y-3">
             <button
               onClick={handleSimulateSuccess}
@@ -203,7 +202,7 @@ const VnpaySimulator = () => {
           </div>
         </div>
 
-        {/* Info Box */}
+        {}
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
           <div className="flex items-start">
             <svg className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">

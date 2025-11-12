@@ -9,6 +9,8 @@ const { handleValidation } = require('../middleware/validate.middleware');
 
 // public
 router.get("/", productController.listProducts);
+router.get("/search", productController.searchProducts);
+router.get("/new-arrivals", productController.getNewArrivals);
 router.get("/slug/:slug", productController.getProductBySlug);
 router.get("/:id", productController.getProductById);
 

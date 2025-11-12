@@ -1,20 +1,47 @@
 import { useState } from 'react';
 import useAuthStore from '../store/authStore';
+import { updateProfile } from '../services/userService';
+import toast from 'react-hot-toast';
 
 const AccountInfo = () => {
-  const { user } = useAuthStore();
+  const { user, updateUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
     phone: user?.phone || ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Call API to update user info
-    console.log('Update user info:', formData);
-    setIsEditing(false);
+
+    if (formData.phone && !/^[0-9]{10}$/.test(formData.phone.replace(/\s/g, ''))) {
+      toast.error('Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await updateProfile({
+        name: formData.name,
+        phone: formData.phone
+      });
+
+      if (response.user) {
+        updateUser(response.user);
+        localStorage.setItem('user', JSON.stringify(response.user));
+      }
+
+      toast.success('Cập nhật thông tin thành công!');
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Update profile error:', error);
+      const msg = error?.response?.data?.msg || error?.response?.data?.message || 'Cập nhật thất bại';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,14 +103,16 @@ const AccountInfo = () => {
           <div className="flex gap-4">
             <button
               type="submit"
-              className="px-6 py-3 bg-luxury-charcoal text-luxury-cream hover:bg-luxury-brown transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+              disabled={loading}
+              className="px-6 py-3 bg-luxury-charcoal text-luxury-cream hover:bg-luxury-brown transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Lưu thay đổi
+              {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
             </button>
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-6 py-3 bg-luxury-white text-luxury-charcoal border border-luxury-sage/30 hover:bg-luxury-cream transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+              disabled={loading}
+              className="px-6 py-3 bg-luxury-white text-luxury-charcoal border border-luxury-sage/30 hover:bg-luxury-cream transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Hủy
             </button>

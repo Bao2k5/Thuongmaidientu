@@ -9,7 +9,7 @@ import useAuthStore from '../store/authStore';
 const Products = () => {
   const { user } = useAuthStore();
   const { addToCart } = useCartStore();
-  
+
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('newest');
   const [priceRange, setPriceRange] = useState([0, 50000000]);
@@ -23,24 +23,21 @@ const Products = () => {
 
   const handleQuickAddToCart = async () => {
     if (!showQuickView) return;
-    
+
     setAddingToCart(true);
     try {
-      // If user is logged in, call API
+
       if (user) {
         await api.post('/cart', { 
           productId: showQuickView.id, 
           qty: 1 
         });
       }
-      
-      // Add to local cart store
+
       addToCart(showQuickView, 1);
-      
-      // Show success notification
+
       alert(`✅ Đã thêm ${showQuickView.name} vào giỏ hàng!`);
-      
-      // Close modal
+
       setShowQuickView(null);
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -60,13 +57,12 @@ const Products = () => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
 
-  // Fetch products from API and then apply client-side filters where needed
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
         const params = { page: 1, limit: 100 };
-        // if exactly one category selected, send as category filter
+
         if (selectedCategories.length === 1) params.category = selectedCategories[0];
         const res = await api.get('/products', { params });
         const data = res.data || {};
@@ -91,10 +87,9 @@ const Products = () => {
     };
 
     fetchProducts();
-    // we only depend on selectedCategories for now
+
   }, [selectedCategories]);
 
-  // Apply client-side filters (price range, sorting) on fetched products
   let filteredProducts = products.filter(p => {
     const price = p.priceSale || p.price;
     if (selectedCategories.length > 0 && !selectedCategories.includes(p.category)) return false;
@@ -102,14 +97,13 @@ const Products = () => {
     return true;
   });
 
-  // Sort products
   if (sortBy === 'price-asc') filteredProducts.sort((a, b) => (a.priceSale || a.price) - (b.priceSale || b.price));
   if (sortBy === 'price-desc') filteredProducts.sort((a, b) => (b.priceSale || b.price) - (a.priceSale || a.price));
   if (sortBy === 'name') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page Header */}
+      {}
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">SẢN PHẨM</h1>
@@ -120,10 +114,10 @@ const Products = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Filters */}
+          {}
           <aside className="lg:w-64 flex-shrink-0">
             <div className="sticky top-24 space-y-8">
-              {/* Categories */}
+              {}
               <div className="border border-luxury-beige p-6">
                 <h3 className="text-lg font-light text-luxury-charcoal mb-4 tracking-wide">DANH MỤC</h3>
                 <div className="space-y-3">
@@ -141,7 +135,7 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Price Range */}
+              {}
               <div className="border border-luxury-beige p-6">
                 <h3 className="text-lg font-light text-luxury-charcoal mb-4 tracking-wide">GIÁ</h3>
                 <div className="space-y-4">
@@ -161,7 +155,7 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Materials */}
+              {}
               <div className="border border-luxury-beige p-6">
                 <h3 className="text-lg font-light text-luxury-charcoal mb-4 tracking-wide">CHẤT LIỆU</h3>
                 <div className="space-y-3">
@@ -177,7 +171,7 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Reset Filters */}
+              {}
               <button
                 onClick={() => {
                   setSelectedCategories([]);
@@ -190,16 +184,16 @@ const Products = () => {
             </div>
           </aside>
 
-          {/* Products Area */}
+          {}
           <div className="flex-1">
-            {/* Toolbar */}
+            {}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-luxury-beige">
               <div className="text-luxury-brown font-light">
                 Hiển thị {filteredProducts.length} sản phẩm
               </div>
 
               <div className="flex items-center gap-6">
-                {/* Sort */}
+                {}
                 <div className="flex items-center gap-3">
                   <label className="text-sm text-luxury-brown font-light">Sắp xếp:</label>
                   <select
@@ -214,7 +208,7 @@ const Products = () => {
                   </select>
                 </div>
 
-                {/* View Toggle */}
+                {}
                 <div className="flex gap-2">
                   <button
                     onClick={() => setViewMode('grid')}
@@ -236,7 +230,7 @@ const Products = () => {
               </div>
             </div>
 
-            {/* Products Grid/List */}
+            {}
             <div className={viewMode === 'grid' 
               ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" 
               : "space-y-6"}>
@@ -247,7 +241,7 @@ const Products = () => {
                 viewMode === 'grid' ? (
                   <ProductCard key={product.id} product={product} onQuickView={setShowQuickView} />
                 ) : (
-                  // List View
+
                   <div key={product.id} className="group bg-white hover:shadow-xl transition-all duration-500 border border-gray-200 flex gap-6">
                     <div className="w-64 h-64 flex-shrink-0 relative overflow-hidden bg-gray-50">
                       <img 
@@ -299,7 +293,7 @@ const Products = () => {
               )}
             </div>
 
-            {/* Pagination */}
+            {}
             <div className="mt-12 flex justify-center gap-2">
               {[1, 2, 3].map(page => (
                 <button
@@ -319,7 +313,7 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Quick View Modal */}
+      {}
       {showQuickView && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowQuickView(null)}>
           <div className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const Profile = () => {
-  // Mock user data
+
   const user = {
     fullName: 'Nguyễn Văn A',
     email: 'nguyenvana@email.com',
@@ -11,7 +11,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page Header */}
+      {}
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">TÀI KHOẢN</h1>
@@ -21,7 +21,7 @@ const Profile = () => {
 
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Sidebar */}
+          {}
           <div className="space-y-2">
             <Link to="/profile" className="block px-4 py-3 bg-luxury-charcoal text-white font-light">
               Thông tin tài khoản
@@ -37,7 +37,7 @@ const Profile = () => {
             </button>
           </div>
 
-          {/* Content */}
+          {}
           <div className="md:col-span-3">
             <div className="bg-white border border-luxury-beige p-8">
               <div className="flex items-center gap-6 mb-8 pb-8 border-b border-luxury-beige">

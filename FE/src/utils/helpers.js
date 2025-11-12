@@ -1,4 +1,4 @@
-// Format currency to VND
+
 export const formatCurrency = (amount) => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -6,7 +6,6 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
-// Format date
 export const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('vi-VN', {
     year: 'numeric',
@@ -15,31 +14,26 @@ export const formatDate = (dateString) => {
   });
 };
 
-// Truncate text
 export const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength) + '...';
 };
 
-// Calculate discount percentage
 export const calculateDiscount = (originalPrice, salePrice) => {
   if (!salePrice || salePrice >= originalPrice) return 0;
   return Math.round(((originalPrice - salePrice) / originalPrice) * 100);
 };
 
-// Validate email
 export const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-// Validate phone number (Vietnamese)
 export const isValidPhone = (phone) => {
   const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
   return phoneRegex.test(phone);
 };
 
-// Get image URL (support both Cloudinary and local)
 export const getImageUrl = (image) => {
   if (!image) return '/placeholder-product.jpg';
   if (typeof image === 'string') return image;
@@ -47,7 +41,11 @@ export const getImageUrl = (image) => {
   return '/placeholder-product.jpg';
 };
 
-// Create slug from text
+export const getProductImage = (product) => {
+  if (!product) return '/img/placeholder.png';
+  return product.images?.[0]?.url || product.thumbnail || '/img/placeholder.png';
+};
+
 export const createSlug = (text) => {
   return text
     .toLowerCase()
@@ -59,7 +57,6 @@ export const createSlug = (text) => {
     .replace(/\s+/g, '-');
 };
 
-// Debounce function
 export const debounce = (func, wait) => {
   let timeout;
   return function executedFunction(...args) {
@@ -72,7 +69,6 @@ export const debounce = (func, wait) => {
   };
 };
 
-// Local storage helpers
 export const storage = {
   get: (key) => {
     try {

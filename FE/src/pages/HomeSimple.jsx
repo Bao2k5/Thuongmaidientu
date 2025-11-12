@@ -7,9 +7,16 @@ import NewsletterSignup from '../components/common/NewsletterSignup';
 import TestimonialsSlider from '../components/common/TestimonialsSlider';
 import InstagramFeed from '../components/common/InstagramFeed';
 import api from '../services/api';
+import { getNewArrivals, getProductsByCollection } from '../services/productService';
+import { getProductImage } from '../utils/helpers';
 
 const HomeSimple = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const [dayChuyen, setDayChuyen] = useState([]);
+  const [nhan, setNhan] = useState([]);
+  const [lacTay, setLacTay] = useState([]);
+  const [bongTai, setBongTai] = useState([]);
   const [collections, setCollections] = useState([]);
   const [heroBanners, setHeroBanners] = useState([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -35,7 +42,7 @@ const HomeSimple = () => {
       }
       try {
         const c = await api.get('/collections');
-        // Normalize collection image to a URL string (backend may store image as object or string)
+
         const rawCols = c.data.collections || c.data || [];
         const normalized = (rawCols || []).map((col) => ({
           ...col,
@@ -51,11 +58,41 @@ const HomeSimple = () => {
       } catch (err) {
         console.error('Failed to load hero banners', err);
       }
+      try {
+        const na = await getNewArrivals();
+        setNewArrivals(na.products || []);
+      } catch (err) {
+        console.error('Failed to load new arrivals', err);
+      }
+
+      try {
+        const dc = await getProductsByCollection('day-chuyen', 4);
+        setDayChuyen(dc.products || []);
+      } catch (err) {
+        console.error('Failed to load day-chuyen', err);
+      }
+      try {
+        const n = await getProductsByCollection('nhan', 4);
+        setNhan(n.products || []);
+      } catch (err) {
+        console.error('Failed to load nhan', err);
+      }
+      try {
+        const lt = await getProductsByCollection('lac-tay', 4);
+        setLacTay(lt.products || []);
+      } catch (err) {
+        console.error('Failed to load lac-tay', err);
+      }
+      try {
+        const bt = await getProductsByCollection('bong-tai', 4);
+        setBongTai(bt.products || []);
+      } catch (err) {
+        console.error('Failed to load bong-tai', err);
+      }
     };
     fetchHome();
   }, []);
 
-  // Auto rotate banners if multiple
   useEffect(() => {
     if (heroBanners.length > 1) {
       const interval = setInterval(() => {
@@ -67,7 +104,7 @@ const HomeSimple = () => {
 
   return (
     <div className="min-h-screen bg-luxury-white">
-      {/* Hero Section - Dynamic Banners */}
+      {}
       {heroBanners.length > 0 ? (
         <section className="relative h-[700px] w-full overflow-hidden">
           {heroBanners.map((banner, index) => (
@@ -82,7 +119,7 @@ const HomeSimple = () => {
                 alt={banner.title}
                 className="w-full h-full object-cover object-center"
               />
-              {/* Text Overlay */}
+              {}
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                 <div className="text-center text-white max-w-3xl px-8">
                   {banner.title && (
@@ -112,8 +149,8 @@ const HomeSimple = () => {
               </div>
             </div>
           ))}
-          
-          {/* Banner Indicators */}
+
+          {}
           {heroBanners.length > 1 && (
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
               {heroBanners.map((_, index) => (
@@ -129,7 +166,7 @@ const HomeSimple = () => {
           )}
         </section>
       ) : (
-        // Fallback to original static hero - Clean without overlay
+
         <section className="relative h-[700px] w-full overflow-hidden">
           <img 
             src="/bthn-hero.jpg" 
@@ -139,7 +176,7 @@ const HomeSimple = () => {
         </section>
       )}
 
-      {/* Features */}
+      {}
       <section className="section-luxury bg-luxury-ivory">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -183,10 +220,10 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* Flash Sale Section */}
+      {}
       <FlashSaleSection products={featuredProducts} />
 
-      {/* New Arrivals Section - Mộc Miên Style */}
+      {}
       <section className="section-luxury bg-luxury-mint">
         <div className="container-luxury">
           <div className="text-center mb-16">
@@ -196,7 +233,7 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts.slice(0, 8).map((product) => (
+            {newArrivals.map((product) => (
               <Link
                 key={product._id}
                 to={`/products/${product.slug}`}
@@ -204,7 +241,7 @@ const HomeSimple = () => {
               >
                 <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
                   <img 
-                    src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                    src={getProductImage(product)} 
                     alt={product.name}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
@@ -248,7 +285,7 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* Collections */}
+      {}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
         <div className="container-luxury">
           <div className="text-center mb-20">
@@ -283,8 +320,8 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {/* Category Sections - Mộc Miên Style */}
-      {/* Dây Chuyền Section */}
+      {}
+      {}
       <section className="section-luxury bg-luxury-cream">
         <div className="container-luxury">
           <div className="flex items-center justify-between mb-12">
@@ -293,7 +330,7 @@ const HomeSimple = () => {
               <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
             <Link
-              to="/products?category=Dây Chuyền"
+              to="/collections/day-chuyen"
               className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
             >
               Xem tất cả →
@@ -301,53 +338,50 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts
-              .filter(p => p.category === 'Dây Chuyền')
-              .slice(0, 4)
-              .map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/products/${product.slug}`}
-                  className="group block"
-                >
-                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
-                    <img 
-                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
-                    {product.priceSale && (
-                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
-                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {product.priceSale ? (
-                      <>
-                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                          {product.priceSale?.toLocaleString('vi-VN')}đ
-                        </span>
-                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
-                          {product.price?.toLocaleString('vi-VN')}đ
-                        </span>
-                      </>
-                    ) : (
+            {dayChuyen.map((product) => (
+              <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                className="group block"
+              >
+                <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                  <img 
+                    src={getProductImage(product)} 
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+                  {product.priceSale && (
+                    <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                      -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {product.priceSale ? (
+                    <>
                       <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                        {product.price?.toLocaleString('vi-VN')}đ
+                        {product.priceSale?.toLocaleString('vi-VN')}₫
                       </span>
-                    )}
-                  </div>
+                      <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                        {product.price?.toLocaleString('vi-VN')}₫
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                      {product.price?.toLocaleString('vi-VN')}₫
+                    </span>
+                  )}
+                </div>
                 </Link>
               ))}
           </div>
         </div>
       </section>
 
-      {/* Nhẫn Section */}
+      {}
       <section className="section-luxury bg-luxury-mint">
         <div className="container-luxury">
           <div className="flex items-center justify-between mb-12">
@@ -356,7 +390,7 @@ const HomeSimple = () => {
               <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
             <Link
-              to="/products?category=Nhẫn"
+              to="/collections/nhan"
               className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
             >
               Xem tất cả →
@@ -364,53 +398,50 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts
-              .filter(p => p.category === 'Nhẫn')
-              .slice(0, 4)
-              .map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/products/${product.slug}`}
-                  className="group block"
-                >
-                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
-                    <img 
-                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
-                    {product.priceSale && (
-                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
-                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {product.priceSale ? (
-                      <>
-                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                          {product.priceSale?.toLocaleString('vi-VN')}đ
-                        </span>
-                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
-                          {product.price?.toLocaleString('vi-VN')}đ
-                        </span>
-                      </>
-                    ) : (
+            {nhan.map((product) => (
+              <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                className="group block"
+              >
+                <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                  <img 
+                    src={getProductImage(product)} 
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+                  {product.priceSale && (
+                    <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                      -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {product.priceSale ? (
+                    <>
                       <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                        {product.price?.toLocaleString('vi-VN')}đ
+                        {product.priceSale?.toLocaleString('vi-VN')}₫
                       </span>
-                    )}
-                  </div>
+                      <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                        {product.price?.toLocaleString('vi-VN')}₫
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                      {product.price?.toLocaleString('vi-VN')}₫
+                    </span>
+                  )}
+                </div>
                 </Link>
               ))}
           </div>
         </div>
       </section>
 
-      {/* Vòng Tay Section */}
+      {}
       <section className="section-luxury bg-luxury-ivory">
         <div className="container-luxury">
           <div className="flex items-center justify-between mb-12">
@@ -419,7 +450,7 @@ const HomeSimple = () => {
               <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
             <Link
-              to="/products?category=Vòng Tay"
+              to="/collections/lac-tay"
               className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
             >
               Xem tất cả →
@@ -427,53 +458,50 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts
-              .filter(p => p.category === 'Vòng Tay')
-              .slice(0, 4)
-              .map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/products/${product.slug}`}
-                  className="group block"
-                >
-                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
-                    <img 
-                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
-                    {product.priceSale && (
-                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
-                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {product.priceSale ? (
-                      <>
-                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                          {product.priceSale?.toLocaleString('vi-VN')}đ
-                        </span>
-                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
-                          {product.price?.toLocaleString('vi-VN')}đ
-                        </span>
-                      </>
-                    ) : (
+            {lacTay.map((product) => (
+              <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                className="group block"
+              >
+                <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                  <img 
+                    src={getProductImage(product)} 
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+                  {product.priceSale && (
+                    <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                      -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {product.priceSale ? (
+                    <>
                       <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                        {product.price?.toLocaleString('vi-VN')}đ
+                        {product.priceSale?.toLocaleString('vi-VN')}₫
                       </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                      <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                        {product.price?.toLocaleString('vi-VN')}₫
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                      {product.price?.toLocaleString('vi-VN')}₫
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Bông Tai Section */}
+      {}
       <section className="section-luxury bg-accent-mintLight">
         <div className="container-luxury">
           <div className="flex items-center justify-between mb-12">
@@ -482,7 +510,7 @@ const HomeSimple = () => {
               <div className="w-16 h-px bg-luxury-sage mt-4"></div>
             </div>
             <Link
-              to="/products?category=Bông Tai"
+              to="/collections/bong-tai"
               className="text-luxury-brown hover:text-luxury-charcoal text-sm tracking-[0.2em] uppercase transition-colors"
             >
               Xem tất cả →
@@ -490,53 +518,50 @@ const HomeSimple = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts
-              .filter(p => p.category === 'Bông Tai')
-              .slice(0, 4)
-              .map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/products/${product.slug}`}
-                  className="group block"
-                >
-                  <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
-                    <img 
-                      src={product.images?.[0]?.url || '/placeholder.jpg'} 
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
-                    {product.priceSale && (
-                      <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
-                        -{Math.round((1 - product.priceSale / product.price) * 100)}%
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {product.priceSale ? (
-                      <>
-                        <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                          {product.priceSale?.toLocaleString('vi-VN')}đ
-                        </span>
-                        <span className="text-luxury-taupe text-xs md:text-sm line-through">
-                          {product.price?.toLocaleString('vi-VN')}đ
-                        </span>
-                      </>
-                    ) : (
+            {bongTai.map((product) => (
+              <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                className="group block"
+              >
+                <div className="aspect-square relative overflow-hidden bg-luxury-white mb-4">
+                  <img 
+                    src={getProductImage(product)} 
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+                  {product.priceSale && (
+                    <div className="absolute top-3 left-3 bg-luxury-charcoal text-luxury-cream px-3 py-1 text-xs tracking-wider">
+                      -{Math.round((1 - product.priceSale / product.price) * 100)}%
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-serif text-base md:text-lg font-light text-luxury-charcoal mb-2 group-hover:text-luxury-brown transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {product.priceSale ? (
+                    <>
                       <span className="text-luxury-charcoal font-medium text-sm md:text-base">
-                        {product.price?.toLocaleString('vi-VN')}đ
+                        {product.priceSale?.toLocaleString('vi-VN')}₫
                       </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                      <span className="text-luxury-taupe text-xs md:text-sm line-through">
+                        {product.price?.toLocaleString('vi-VN')}₫
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-luxury-charcoal font-medium text-sm md:text-base">
+                      {product.price?.toLocaleString('vi-VN')}₫
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* About Us - Mộc Miên Style */}
+      {}
       <section className="section-luxury bg-luxury-sage/20">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto text-center">
@@ -546,19 +571,19 @@ const HomeSimple = () => {
               </h2>
               <div className="w-24 h-px bg-luxury-sage mx-auto mb-8"></div>
             </div>
-            
+
             <div className="space-y-6 text-luxury-brown text-base md:text-lg leading-relaxed font-normal">
               <p className="text-xl md:text-2xl font-serif italic text-luxury-charcoal mb-8">
                 "Nơi có những món đồ bé nhỏ để bạn có thể gói ghém dành tặng bản thân và người thân yêu của bạn"
               </p>
-              
+
               <p>
                 <strong className="text-luxury-charcoal">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế, 
                 được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa. 
                 Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm, 
                 là tình cảm được lưu giữ mãi mãi.
               </p>
-              
+
               <p>
                 Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-charcoal">bạc 925 nguyên chất</strong>, 
                 kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến 
@@ -602,7 +627,7 @@ const HomeSimple = () => {
                 tô điểm thêm vẻ đẹp và sự tự tin cho phong cách của bạn.
               </p>
             </div>
-            
+
             <Link 
               to="/about" 
               className="inline-block mt-12 bg-luxury-charcoal text-luxury-cream px-12 py-4 hover:bg-luxury-brown transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
@@ -613,13 +638,13 @@ const HomeSimple = () => {
         </div>
       </section>
 
-        {/* Testimonials Slider */}
+        {}
         <TestimonialsSlider />
 
-        {/* Instagram Feed */}
+        {}
         <InstagramFeed />
 
-      {/* Featured Products */}
+      {}
       <section className="section-luxury bg-luxury-white border-t border-luxury-platinum">
         <div className="container-luxury">
           <div className="text-center mb-20">
@@ -642,9 +667,9 @@ const HomeSimple = () => {
         </div>
       </section>
 
-  {/* TestimonialsSlider and InstagramFeed components removed */}
+  {}
 
-      {/* Newsletter Signup */}
+      {}
       <NewsletterSignup />
     </div>
   );

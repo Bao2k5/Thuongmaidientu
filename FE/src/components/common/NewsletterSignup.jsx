@@ -8,14 +8,12 @@ const NewsletterSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
+
     setTimeout(() => {
       setIsSubmitted(true);
       setIsLoading(false);
       setEmail('');
-      
-      // Reset after 3 seconds
+
       setTimeout(() => setIsSubmitted(false), 3000);
     }, 1000);
   };

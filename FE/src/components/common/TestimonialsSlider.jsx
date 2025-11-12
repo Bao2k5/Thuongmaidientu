@@ -39,7 +39,6 @@ const TestimonialsSlider = () => {
     }
   ];
 
-  // Auto-advance slider every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -58,7 +57,7 @@ const TestimonialsSlider = () => {
   return (
     <section className="section-luxury bg-luxury-cream">
       <div className="container-luxury">
-        {/* Header */}
+        {}
         <div className="text-center mb-16">
           <h2 className="font-serif text-4xl md:text-5xl font-light text-luxury-charcoal tracking-wide mb-4">
             Khách Hàng Nói Gì
@@ -69,7 +68,7 @@ const TestimonialsSlider = () => {
           </p>
         </div>
 
-        {/* Slider */}
+        {}
         <div className="max-w-4xl mx-auto relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -80,15 +79,15 @@ const TestimonialsSlider = () => {
               transition={{ duration: 0.5 }}
               className="bg-luxury-white p-8 md:p-12 shadow-lg"
             >
-              {/* Quote Icon */}
+              {}
               <div className="text-luxury-sage/30 text-6xl mb-6 font-serif">"</div>
 
-              {/* Content */}
+              {}
               <p className="text-luxury-charcoal text-lg md:text-xl font-light leading-relaxed mb-8 italic">
                 {testimonials[currentIndex].content}
               </p>
 
-              {/* Rating */}
+              {}
               <div className="flex items-center justify-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
                   <svg
@@ -101,7 +100,7 @@ const TestimonialsSlider = () => {
                 ))}
               </div>
 
-              {/* Author */}
+              {}
               <div className="flex items-center justify-center gap-4">
                 <img
                   src={testimonials[currentIndex].image}
@@ -120,7 +119,7 @@ const TestimonialsSlider = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Arrows */}
+          {}
           <button
             onClick={handlePrev}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-luxury-white hover:bg-luxury-sage text-luxury-charcoal hover:text-luxury-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-300 group"
@@ -140,7 +139,7 @@ const TestimonialsSlider = () => {
             </svg>
           </button>
 
-          {/* Dots Indicator */}
+          {}
           <div className="flex items-center justify-center gap-2 mt-8">
             {testimonials.map((_, index) => (
               <button

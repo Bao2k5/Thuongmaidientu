@@ -15,11 +15,10 @@ import FlashSaleSection from '../components/common/FlashSaleSection';
 import ScrollToTop from '../components/common/ScrollToTop';
 import api from '../services/api';
 
-
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  
+
   const heroSlides = [
     {
       id: 1,
@@ -101,7 +100,6 @@ const Home = () => {
     },
   ];
 
-  // Auto slide
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -109,7 +107,6 @@ const Home = () => {
     return () => clearInterval(timer);
   }, [heroSlides.length]);
 
-  // Fetch featured products to pass into FlashSaleSection
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -142,7 +139,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-luxury-cream">
-      {/* Hero Slider */}
+      {}
       <section className="relative h-[600px] overflow-hidden">
         {heroSlides.map((slide, index) => (
           <div
@@ -175,7 +172,7 @@ const Home = () => {
           </div>
         ))}
 
-        {/* Navigation Arrows */}
+        {}
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-colors z-10"
@@ -189,7 +186,7 @@ const Home = () => {
           <FiChevronRight className="w-6 h-6" />
         </button>
 
-        {/* Dots */}
+        {}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
           {heroSlides.map((_, index) => (
             <button
@@ -205,7 +202,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features */}
+      {}
       <section className="py-16 bg-luxury-ivory">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -226,7 +223,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Collections */}
+      {}
       <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -272,7 +269,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {}
       <section className="py-20 bg-gradient-to-r from-luxury-brown via-luxury-taupe to-luxury-brown text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div>
@@ -296,7 +293,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {}
       <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -345,13 +342,13 @@ const Home = () => {
         </div>
       </section>
 
-  {/* Flash Sale Section */}
+  {}
   <FlashSaleSection products={featuredProducts} />
 
-      {/* Partner Banner */}
+      {}
       <PartnerBanner />
 
-      {/* Blog Section */}
+      {}
       <BlogSection />
     </div>
   );

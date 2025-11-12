@@ -47,13 +47,11 @@ function AdminHeroBanners() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       alert('Vui lòng chọn file ảnh');
       return;
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       alert('Kích thước ảnh tối đa 5MB');
       return;
@@ -97,7 +95,6 @@ function AdminHeroBanners() {
 
       const method = editingBanner ? 'put' : 'post';
 
-      // Set default title if empty
       const dataToSend = {
         ...formData,
         title: formData.title || 'Hero Banner ' + new Date().toLocaleDateString('vi-VN')

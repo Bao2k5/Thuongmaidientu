@@ -31,7 +31,7 @@ const BlogSection = () => {
   return (
     <section className="py-16 md:py-24 bg-luxury-cream">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        {/* Section Title */}
+        {}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="font-display text-4xl md:text-5xl text-luxury-charcoal mb-4 font-light">
             Tin Tức & Bài Viết
@@ -41,21 +41,21 @@ const BlogSection = () => {
           </p>
         </div>
 
-        {/* Blog Grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <article 
               key={post.id}
               className="group cursor-pointer transform transition-all duration-500 hover:scale-105"
             >
-              {/* Image */}
+              {}
               <div className="relative h-64 md:h-80 overflow-hidden mb-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                 <img 
                   src={post.image} 
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                {/* Category Badge */}
+                {}
                 <div className="absolute top-4 left-4">
                   <span className="inline-block bg-luxury-brown text-luxury-cream px-3 py-1 text-xs font-medium tracking-wide rounded-full">
                     {post.category}
@@ -63,24 +63,24 @@ const BlogSection = () => {
                 </div>
               </div>
 
-              {/* Content */}
+              {}
               <div>
-                {/* Date */}
+                {}
                 <p className="text-luxury-taupe text-sm font-medium mb-3">
                   {post.date}
                 </p>
 
-                {/* Title */}
+                {}
                 <h3 className="font-display text-xl md:text-2xl text-luxury-charcoal mb-3 font-light group-hover:text-luxury-brown transition-colors duration-300">
                   {post.title}
                 </h3>
 
-                {/* Excerpt */}
+                {}
                 <p className="text-luxury-brown text-sm md:text-base leading-relaxed mb-4">
                   {post.excerpt}
                 </p>
 
-                {/* Read More Link */}
+                {}
                 <a href="#" className="inline-flex items-center text-luxury-brown hover:text-luxury-charcoal transition-colors duration-300 font-medium text-sm">
                   Đọc thêm
                   <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@ const BlogSection = () => {
           ))}
         </div>
 
-        {/* View All Button */}
+        {}
         <div className="text-center mt-12 md:mt-16">
           <button className="btn-luxury">
             XEM TẤT CẢ BÀI VIẾT

@@ -9,8 +9,9 @@ exports.listUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
     const skip = (page - 1) * limit;
-  const users = await User.find({ deleted: { $ne: true } }).select('-password').skip(skip).limit(limit).sort('-createdAt');
-  const total = await User.countDocuments({ deleted: { $ne: true } });
+    // Không cần filter deleted vì đã dùng hard delete
+    const users = await User.find({}).select('-password').skip(skip).limit(limit).sort('-createdAt');
+    const total = await User.countDocuments({});
     res.json({ users, total, page, pages: Math.ceil(total/limit) });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -41,11 +42,33 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-  const u = await User.findByIdAndUpdate(req.params.id, { deleted: true }, { new: true });
-  // log
-  if (u) await AdminLog.create({ admin: req.user.id, action: 'soft_delete_user', resource: 'User', resourceId: u._id, details: { email: u.email } }).catch(err => console.error('AdminLog failed:', err.message));
-  res.json({ msg: 'Soft deleted' });
+    // Hard delete - xóa thật khỏi database
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Lưu thông tin trước khi xóa để log
+    const userInfo = { email: user.email, name: user.name, id: user._id };
+
+    // Xóa thật khỏi database
+    await User.findByIdAndDelete(req.params.id);
+
+    // Log action
+    await AdminLog.create({ 
+      admin: req.user.id, 
+      action: 'hard_delete_user', 
+      resource: 'User', 
+      resourceId: userInfo.id, 
+      details: { email: userInfo.email, name: userInfo.name } 
+    }).catch(err => console.error('AdminLog failed:', err.message));
+
+    res.json({ 
+      msg: 'User deleted successfully', 
+      deletedUser: { email: userInfo.email, name: userInfo.name } 
+    });
   } catch (err) {
+    console.error('Delete user error:', err);
     res.status(500).json({ error: err.message });
   }
 };

@@ -63,7 +63,7 @@ const AccountLayout = () => {
     <div className="min-h-screen bg-luxury-cream pt-24 pb-16">
       <div className="container-luxury">
         <div className="max-w-7xl mx-auto">
-          {/* Page Header */}
+          {}
           <div className="mb-10">
             <h1 className="font-serif text-4xl md:text-5xl font-light text-luxury-charcoal tracking-wide mb-4">
               Tài Khoản Của Tôi
@@ -72,10 +72,10 @@ const AccountLayout = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
+            {}
             <div className="lg:col-span-1">
               <div className="bg-luxury-white shadow-sm border border-luxury-sage/20 sticky top-24">
-                {/* User Info */}
+                {}
                 <div className="p-6 border-b border-luxury-sage/20">
                   <div className="flex items-center gap-4">
                     {user?.avatar?.url ? (
@@ -103,7 +103,7 @@ const AccountLayout = () => {
                   </div>
                 </div>
 
-                {/* Menu */}
+                {}
                 <nav className="p-2">
                   {menuItems.map((item, index) => {
                     const isActive = location.pathname === item.path;
@@ -130,7 +130,7 @@ const AccountLayout = () => {
               </div>
             </div>
 
-            {/* Content */}
+            {}
             <div className="lg:col-span-3">
               <Outlet />
             </div>

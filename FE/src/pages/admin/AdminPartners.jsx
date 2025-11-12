@@ -4,7 +4,6 @@ import useAuthStore from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
-// API calls
 const fetchPartners = async () => {
   const response = await api.get('/partners/admin/all');
   return response.data;
@@ -30,7 +29,6 @@ const AdminPartners = () => {
   const { user } = useAuthStore();
   const queryClient = useQueryClient();
 
-  // Redirect if not admin
   useEffect(() => {
     if (!user?.role === 'admin') {
       navigate('/');
@@ -75,7 +73,7 @@ const AdminPartners = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (editingId) {
       updateMutation.mutate({
         id: editingId,
@@ -129,7 +127,7 @@ const AdminPartners = () => {
           Quản Lý Đối Tác
         </h1>
 
-        {/* Form */}
+        {}
         <div className="bg-white p-6 rounded-lg shadow-sm mb-8 border border-luxury-sand">
           <h2 className="text-2xl font-semibold text-luxury-charcoal mb-6">
             {editingId ? 'Chỉnh Sửa Partner' : 'Thêm Partner Mới'}
@@ -137,7 +135,7 @@ const AdminPartners = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Name */}
+              {}
               <input
                 type="text"
                 placeholder="Tên Partner"
@@ -147,7 +145,7 @@ const AdminPartners = () => {
                 required
               />
 
-              {/* Logo */}
+              {}
               <input
                 type="text"
                 placeholder="Logo (tên file từ /public/images/partners/)"
@@ -157,7 +155,7 @@ const AdminPartners = () => {
                 required
               />
 
-              {/* URL */}
+              {}
               <input
                 type="url"
                 placeholder="Website (https://...)"
@@ -166,7 +164,7 @@ const AdminPartners = () => {
                 className="px-4 py-2 border border-luxury-sand rounded-lg focus:outline-none focus:border-luxury-brown"
               />
 
-              {/* Position */}
+              {}
               <input
                 type="number"
                 placeholder="Vị trí (0, 1, 2, ...)"
@@ -175,7 +173,7 @@ const AdminPartners = () => {
                 className="px-4 py-2 border border-luxury-sand rounded-lg focus:outline-none focus:border-luxury-brown"
               />
 
-              {/* Display From */}
+              {}
               <input
                 type="date"
                 value={formData.displayFrom}
@@ -183,7 +181,7 @@ const AdminPartners = () => {
                 className="px-4 py-2 border border-luxury-sand rounded-lg focus:outline-none focus:border-luxury-brown"
               />
 
-              {/* Display To */}
+              {}
               <input
                 type="date"
                 value={formData.displayTo}
@@ -192,7 +190,7 @@ const AdminPartners = () => {
               />
             </div>
 
-            {/* Description */}
+            {}
             <textarea
               placeholder="Mô tả"
               value={formData.description}
@@ -201,7 +199,7 @@ const AdminPartners = () => {
               rows={3}
             />
 
-            {/* Active Checkbox */}
+            {}
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -212,7 +210,7 @@ const AdminPartners = () => {
               <span className="text-luxury-brown">Kích hoạt</span>
             </label>
 
-            {/* Buttons */}
+            {}
             <div className="flex space-x-4">
               <button
                 type="submit"
@@ -233,7 +231,7 @@ const AdminPartners = () => {
           </form>
         </div>
 
-        {/* Partners Table */}
+        {}
         <div className="bg-white rounded-lg shadow-sm border border-luxury-sand overflow-hidden">
           <table className="w-full">
             <thead className="bg-luxury-ivory">

@@ -1,224 +1,485 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../store/authStore';
-import { isValidEmail, isValidPhone } from '../utils/helpers';
 
-const Register = () => {
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+export default function Register() {
   const navigate = useNavigate();
-  
+  const { setUser, setToken } = useAuthStore();
+
+  const [step, setStep] = useState(1);
+
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     password: '',
     confirmPassword: ''
   });
 
+  const [otp, setOtp] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [resendTimer, setResendTimer] = useState(0);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    
+    setError('');
+    setMessage('');
+
     if (formData.password !== formData.confirmPassword) {
-      alert('Mật khẩu xác nhận không khớp!');
+      setError('Mật khẩu xác nhận không khớp!');
       return;
     }
 
-    if (!acceptTerms) {
-      alert('Vui lòng đồng ý với điều khoản dịch vụ!');
+    if (formData.password.length < 6) {
+      setError('Mật khẩu phải có ít nhất 6 ký tự!');
       return;
     }
+
+    setLoading(true);
 
     try {
-      // basic validation
-      if (!isValidEmail(formData.email)) {
-        alert('Vui lòng nhập email hợp lệ');
-        return;
-      }
-      if (!isValidPhone(formData.phone)) {
-        alert('Vui lòng nhập số điện thoại hợp lệ');
-        return;
-      }
-
-      // call store register (which calls backend)
-      const registerFn = useAuthStore.getState().register;
-      const payload = {
-        name: formData.fullName,
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        name: formData.name,
         email: formData.email,
         password: formData.password,
-        phone: formData.phone,
-      };
+        phone: formData.phone
+      });
 
-      const res = await registerFn(payload);
-
-      // If backend returned token/user we already persisted in the store; navigate home
-      alert('Đăng ký thành công!');
-      navigate('/');
-    } catch (error) {
-      console.error('Register error:', error);
-      const msg = error?.response?.data?.msg || error?.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.';
-      alert(msg);
+      setMessage(response.data.message || 'Đăng ký thành công! Vui lòng kiểm tra email.');
+      setStep(2);
+      setResendTimer(60); // Start 60s countdown
+    } catch (err) {
+      console.error('Register error:', err);
+      setError(err.response?.data?.msg || err.response?.data?.error || 'Đăng ký thất bại. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setError('');
+    setMessage('');
+
+    if (otp.length !== 6) {
+      setError('Vui lòng nhập đủ 6 số!');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${API_URL}/auth/verify-otp`, {
+        email: formData.email,
+        otp
+      });
+
+      setMessage(response.data.message || 'Xác thực thành công!');
+
+      if (response.data.token) {
+        setToken(response.data.token);
+        setUser(response.data.user);
+      }
+
+      setStep(3);
+
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (err) {
+      console.error('Verify OTP error:', err);
+      setError(err.response?.data?.msg || 'Mã OTP không hợp lệ hoặc đã hết hạn.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setError('');
+    setMessage('');
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${API_URL}/auth/resend-otp`, {
+        email: formData.email
+      });
+
+      setMessage(response.data.message || 'Đã gửi lại mã OTP!');
+      setResendTimer(60); // Restart countdown
+    } catch (err) {
+      console.error('Resend OTP error:', err);
+      setError(err.response?.data?.msg || 'Không thể gửi lại mã OTP. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [resendTimer]);
+
+  const pageVariants = {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -30 }
+  };
+
+  const successVariants = {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { type: 'spring', stiffness: 200, damping: 15 }
+    },
+    exit: { opacity: 0 }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-luxury-ivory to-luxury-cream flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">ĐĂNG KÝ</h1>
-          <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-6"></div>
-          <p className="text-luxury-brown font-light">Tạo tài khoản mới</p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
 
-        {/* Form */}
-        <div className="bg-white border border-luxury-sand p-8 shadow-lg">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-luxury-charcoal font-light mb-2">Họ và tên *</label>
-              <input
-                type="text"
-                required
-                value={formData.fullName}
-                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
-                placeholder="Nguyễn Văn A"
-              />
-            </div>
+        {}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold text-gray-900">
+            {step === 1 && '📝 Đăng ký tài khoản'}
+            {step === 2 && '📧 Xác thực OTP'}
+            {step === 3 && '🎉 Hoàn thành'}
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            {step === 1 && 'Tạo tài khoản mới tại HM Jewelry'}
+            {step === 2 && 'Nhập mã OTP đã gửi đến email của bạn'}
+            {step === 3 && 'Chào mừng bạn đến với HM Jewelry!'}
+          </p>
+        </motion.div>
 
-            <div>
-              <label className="block text-luxury-charcoal font-light mb-2">Email *</label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
-                placeholder="example@email.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-luxury-charcoal font-light mb-2">Số điện thoại *</label>
-              <input
-                type="tel"
-                required
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                className="w-full border border-luxury-beige px-4 py-3 focus:outline-none focus:border-luxury-taupe font-light"
-                placeholder="0901234567"
-              />
-            </div>
-
-            <div>
-              <label className="block text-luxury-charcoal font-light mb-2">Mật khẩu *</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full border border-luxury-beige px-4 py-3 pr-12 focus:outline-none focus:border-luxury-taupe font-light"
-                  placeholder="••••••••"
-                  minLength="6"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-luxury-taupe hover:text-luxury-brown"
-                >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              <p className="text-xs text-luxury-brown mt-1 font-light">Mật khẩu phải có ít nhất 6 ký tự</p>
-            </div>
-
-            <div>
-              <label className="block text-luxury-charcoal font-light mb-2">Xác nhận mật khẩu *</label>
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  required
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                  className="w-full border border-luxury-beige px-4 py-3 pr-12 focus:outline-none focus:border-luxury-taupe font-light"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-luxury-taupe hover:text-luxury-brown"
-                >
-                  {showConfirmPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="flex items-start cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={acceptTerms}
-                  onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="w-4 h-4 text-luxury-taupe border-luxury-beige focus:ring-luxury-taupe mt-1"
-                />
-                <span className="ml-2 text-sm text-luxury-brown font-light">
-                  Tôi đồng ý với{' '}
-                  <a href="#" className="text-luxury-charcoal hover:text-luxury-taupe">Điều khoản dịch vụ</a>
-                  {' '}và{' '}
-                  <a href="#" className="text-luxury-charcoal hover:text-luxury-taupe">Chính sách bảo mật</a>
-                </span>
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300"
+        {}
+        <AnimatePresence mode="wait">
+          {message && (
+            <motion.div
+              key="success-message"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-green-50 border-l-4 border-green-500 p-4 rounded"
             >
-              ĐĂNG KÝ
-            </button>
-          </form>
+              <p className="text-green-700 text-sm">{message}</p>
+            </motion.div>
+          )}
 
-          {/* Login Link */}
-          <div className="mt-8 text-center">
-            <p className="text-luxury-brown font-light">
-              Đã có tài khoản?{' '}
-              <Link to="/login" className="text-luxury-charcoal hover:text-luxury-taupe font-normal">
-                Đăng nhập ngay
-              </Link>
-            </p>
-          </div>
+          {error && (
+            <motion.div
+              key="error-message"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-red-50 border-l-4 border-red-500 p-4 rounded"
+            >
+              <p className="text-red-700 text-sm">{error}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {}
+        <div className="bg-white p-8 rounded-2xl shadow-xl">
+          <AnimatePresence mode="wait">
+
+            {}
+            {step === 1 && (
+              <motion.form
+                key="step1"
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                onSubmit={handleRegister}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Họ và tên *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    placeholder="Nguyễn Văn A"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    placeholder="example@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Số điện thoại
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    placeholder="0123456789"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Mật khẩu *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      required
+                      minLength="6"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      placeholder="Ít nhất 6 ký tự"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    >
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Xác nhận mật khẩu *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
+                      required
+                      minLength="6"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      placeholder="Nhập lại mật khẩu"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    >
+                      {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#0b5c5f] text-white py-3 rounded-lg hover:bg-[#094c4f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                >
+                  {loading ? '🔄 Đang xử lý...' : '📧 Đăng ký & Nhận OTP'}
+                </button>
+
+                <div className="text-center mt-4">
+                  <p className="text-sm text-gray-600">
+                    Đã có tài khoản?{' '}
+                    <Link to="/login" className="text-[#0b5c5f] hover:underline font-medium">
+                      Đăng nhập ngay
+                    </Link>
+                  </p>
+                </div>
+              </motion.form>
+            )}
+
+            {}
+            {step === 2 && (
+              <motion.form
+                key="step2"
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                onSubmit={handleVerifyOTP}
+                className="space-y-6"
+              >
+                <div className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-3xl">📧</span>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Mã OTP đã được gửi đến<br />
+                    <strong className="text-gray-900">{formData.email}</strong>
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+                    Nhập mã OTP (6 số)
+                  </label>
+                  <input
+                    type="text"
+                    maxLength="6"
+                    pattern="[0-9]{6}"
+                    required
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-center text-2xl tracking-widest font-bold"
+                    placeholder="000000"
+                  />
+                  <p className="mt-1 text-xs text-gray-500 text-center">
+                    Mã có hiệu lực trong 10 phút
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStep(1);
+                      setOtp('');
+                      setError('');
+                      setMessage('');
+                    }}
+                    className="flex-1 py-3 px-4 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+                  >
+                    ← Quay lại
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 py-3 px-4 bg-[#0b5c5f] text-white rounded-lg hover:bg-[#094c4f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                  >
+                    {loading ? '🔄 Đang xác thực...' : '✅ Xác nhận'}
+                  </button>
+                </div>
+
+                {}
+                <div className="text-center pt-4 border-t border-gray-200">
+                  {resendTimer > 0 ? (
+                    <p className="text-sm text-gray-500">
+                      Gửi lại mã sau <strong className="text-[#0b5c5f]">{resendTimer}s</strong>
+                    </p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendOTP}
+                      disabled={loading}
+                      className="text-sm text-[#0b5c5f] hover:underline font-medium disabled:opacity-50"
+                    >
+                      📧 Gửi lại mã OTP
+                    </button>
+                  )}
+                </div>
+              </motion.form>
+            )}
+
+            {}
+            {step === 3 && (
+              <motion.div
+                key="step3"
+                variants={successVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="text-center space-y-6 py-8"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                  className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center"
+                >
+                  <span className="text-5xl">🎉</span>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <h3 className="text-2xl font-bold text-[#0b5c5f] mb-2">
+                    Đăng ký thành công!
+                  </h3>
+                  <p className="text-gray-600">
+                    Chào mừng bạn đến với <strong>HM Jewelry</strong>
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex items-center justify-center gap-2 text-sm text-gray-500"
+                >
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#0b5c5f] border-t-transparent"></div>
+                  <span>Đang chuyển hướng...</span>
+                </motion.div>
+              </motion.div>
+            )}
+
+          </AnimatePresence>
         </div>
 
-        {/* Back to Home */}
-        <div className="mt-8 text-center">
-          <Link to="/" className="text-sm text-luxury-taupe hover:text-luxury-charcoal font-light">
-            ← Quay về trang chủ
-          </Link>
-        </div>
+        {}
+        {step !== 3 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-center text-xs text-gray-500"
+          >
+            Bằng việc đăng ký, bạn đồng ý với{' '}
+            <Link to="/terms" className="text-[#0b5c5f] hover:underline">
+              Điều khoản dịch vụ
+            </Link>{' '}
+            và{' '}
+            <Link to="/privacy" className="text-[#0b5c5f] hover:underline">
+              Chính sách bảo mật
+            </Link>
+          </motion.div>
+        )}
       </div>
     </div>
   );
-};
-
-export default Register;
+}

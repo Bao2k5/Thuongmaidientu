@@ -58,7 +58,7 @@ const Wishlist = () => {
   return (
     <div className="min-h-screen bg-luxury-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Header */}
+        {}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-display font-light text-luxury-black mb-6 tracking-wide">
             SẢN PHẨM YÊU THÍCH
@@ -70,7 +70,7 @@ const Wishlist = () => {
         </div>
 
         {items.length === 0 ? (
-          /* Empty State */
+
           <div className="text-center max-w-md mx-auto py-16">
             <div className="text-8xl mb-6">💝</div>
             <h3 className="text-2xl font-display font-light text-luxury-black mb-4">
@@ -87,7 +87,7 @@ const Wishlist = () => {
             </Link>
           </div>
         ) : (
-          /* Wishlist Grid */
+
           <>
             <div className="flex justify-between items-center mb-8">
               <p className="text-luxury-darkGray font-light">
@@ -105,8 +105,8 @@ const Wishlist = () => {
               {items.map((item) => (
                 <div key={item.product._id} className="relative group">
                   <ProductCard product={item.product} />
-                  
-                  {/* Remove Button */}
+
+                  {}
                   <button
                     onClick={() => handleRemoveFromWishlist(item.product._id)}
                     className="absolute top-4 right-4 w-10 h-10 bg-luxury-white rounded-full shadow-md flex items-center justify-center text-luxury-darkGray hover:text-red-500 hover:bg-red-50 transition-all duration-300 opacity-0 group-hover:opacity-100"
@@ -120,7 +120,7 @@ const Wishlist = () => {
               ))}
             </div>
 
-            {/* Actions */}
+            {}
             <div className="text-center mt-12">
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Link 

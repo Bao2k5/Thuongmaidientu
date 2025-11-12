@@ -1,7 +1,6 @@
-// API Base URL
+
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-// Categories
 export const CATEGORIES = [
   { id: 'rings', name: 'Nhẫn', slug: 'nhan', icon: '💍' },
   { id: 'necklaces', name: 'Dây Chuyền', slug: 'day-chuyen', icon: '📿' },
@@ -9,7 +8,6 @@ export const CATEGORIES = [
   { id: 'earrings', name: 'Hoa Tai', slug: 'hoa-tai', icon: '👂' },
 ];
 
-// Order Status
 export const ORDER_STATUS = {
   PENDING: { value: 'pending', label: 'Chờ xử lý', color: 'yellow' },
   PAID: { value: 'paid', label: 'Đã thanh toán', color: 'luxury-brown' },
@@ -19,7 +17,6 @@ export const ORDER_STATUS = {
   CANCELLED: { value: 'cancelled', label: 'Đã hủy', color: 'red' },
 };
 
-// Price Ranges for Filter
 export const PRICE_RANGES = [
   { id: 1, label: 'Dưới 500,000đ', min: 0, max: 500000 },
   { id: 2, label: '500,000đ - 1,000,000đ', min: 500000, max: 1000000 },
@@ -28,7 +25,6 @@ export const PRICE_RANGES = [
   { id: 5, label: 'Trên 5,000,000đ', min: 5000000, max: Infinity },
 ];
 
-// Sort Options
 export const SORT_OPTIONS = [
   { value: 'newest', label: 'Mới nhất' },
   { value: 'price-asc', label: 'Giá: Thấp đến cao' },
@@ -38,7 +34,6 @@ export const SORT_OPTIONS = [
   { value: 'rating', label: 'Đánh giá cao nhất' },
 ];
 
-// Social Links
 export const SOCIAL_LINKS = {
   facebook: 'https://facebook.com/hmjewelry',
   instagram: 'https://instagram.com/hmjewelry',
@@ -46,23 +41,18 @@ export const SOCIAL_LINKS = {
   zalo: 'https://zalo.me/hmjewelry',
 };
 
-// Contact Info
 export const CONTACT_INFO = {
   phone: '0965990895',
   email: 'contact@hmjewelry.com',
   address: '123 Nguyễn Trãi, Quận 1, TP.HCM',
 };
 
-// Shipping Fee
 export const SHIPPING_FEE = 30000;
 
-// Free shipping threshold
 export const FREE_SHIPPING_THRESHOLD = 500000;
 
-// Default pagination
 export const DEFAULT_PAGE_SIZE = 12;
 
-// Rating stars
 export const RATING_LABELS = {
   1: 'Rất tệ',
   2: 'Tệ',
@@ -71,24 +61,19 @@ export const RATING_LABELS = {
   5: 'Rất tốt',
 };
 
-// Flash Sale countdown duration (in seconds)
 export const FLASH_SALE_DURATION = 24 * 60 * 60; // 24 hours
 
-// Image placeholders
 export const PLACEHOLDER_IMAGES = {
   product: '/placeholder-product.jpg',
   avatar: '/placeholder-avatar.jpg',
   banner: '/placeholder-banner.jpg',
 };
 
-// Payment methods
 export const PAYMENT_METHODS = [
   { id: 'cod', name: 'Thanh toán khi nhận hàng (COD)', icon: '💵' },
   { id: 'stripe', name: 'Thanh toán online (Thẻ/QR)', icon: '💳' },
 ];
 
-// Product categories (simple array for filters)
 export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Vòng Tay'];
 
-// Product materials (simple array for filters)
 export const materials = ['Bạc 925', 'Bạc Ý'];

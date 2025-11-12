@@ -1,4 +1,4 @@
-// FE/src/components/common/UserAvatar.jsx
+
 import { useState } from 'react';
 
 const UserAvatar = ({ user, onUpload }) => {
@@ -10,7 +10,7 @@ const UserAvatar = ({ user, onUpload }) => {
   };
 
   const getAvatarColor = () => {
-    // Generate color từ tên user
+
     if (!user || !user.name) return '#A89678';
     const colors = ['#5C4033', '#A89678', '#D9CCBE', '#E8DFD3', '#C0C0C0'];
     const index = user.name.charCodeAt(0) % colors.length;
@@ -23,11 +23,10 @@ const UserAvatar = ({ user, onUpload }) => {
 
     setIsUploading(true);
     try {
-      // Create FormData to send file
+
       const formData = new FormData();
       formData.append('avatar', file);
 
-      // Call upload handler if provided
       if (onUpload) {
         await onUpload(formData);
       }
@@ -38,7 +37,6 @@ const UserAvatar = ({ user, onUpload }) => {
     }
   };
 
-  // If user has avatar image
   if (user?.avatar?.url) {
     return (
       <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-accent-silver cursor-pointer hover:shadow-md transition-all">
@@ -61,7 +59,6 @@ const UserAvatar = ({ user, onUpload }) => {
     );
   }
 
-  // Avatar with initials
   return (
     <div className="relative">
       <div

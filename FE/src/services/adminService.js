@@ -1,12 +1,10 @@
 import { api } from './api';
 
-// Admin Stats
 export const getAdminStats = async () => {
   const response = await api.get('/admin/stats');
   return response.data;
 };
 
-// Products Management
 export const getAllProducts = async () => {
   const response = await api.get('/products');
   return response.data;
@@ -27,7 +25,6 @@ export const deleteProduct = async (productId) => {
   return response.data;
 };
 
-// Orders Management
 export const getAllOrders = async () => {
   const response = await api.get('/admin/orders');
   return response.data;
@@ -48,7 +45,6 @@ export const updateOrderShipping = async (orderId, shippingData) => {
   return response.data;
 };
 
-// Users Management
 export const getAllUsers = async (page = 1, limit = 20) => {
   const response = await api.get(`/admin/users?page=${page}&limit=${limit}`);
   return response.data;
@@ -69,7 +65,6 @@ export const deleteUser = async (userId) => {
   return response.data;
 };
 
-// Product Images
 export const uploadProductImage = async (productId, imageFile) => {
   const formData = new FormData();
   formData.append('file', imageFile);
@@ -88,13 +83,11 @@ export const deleteProductImage = async (productId, imageUrl) => {
   return response.data;
 };
 
-// Admin Logs
 export const getAdminLogs = async () => {
   const response = await api.get('/admin/logs');
   return response.data;
 };
 
-// Test Email
 export const sendTestEmail = async (emailData) => {
   const response = await api.post('/admin/send-test-email', emailData);
   return response.data;

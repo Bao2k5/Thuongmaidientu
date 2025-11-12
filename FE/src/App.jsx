@@ -10,6 +10,7 @@ import HomeSimple from './pages/HomeSimple';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Collections from './pages/Collections';
+import CollectionProducts from './pages/CollectionProducts';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
@@ -24,13 +25,15 @@ import OrderDetail from './pages/OrderDetail';
 import AccountLayout from './pages/AccountLayout';
 import AccountInfo from './pages/AccountInfo';
 import AccountOrders from './pages/AccountOrders';
+import AccountSettings from './pages/AccountSettings';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import MomoSimulator from './pages/MomoSimulator';
 import VnpaySimulator from './pages/VnpaySimulator';
 import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
 import AuthCallback from './pages/AuthCallback';
-// Admin Pages
+
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -38,7 +41,6 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminCollections from './pages/admin/AdminCollections';
 import AdminHeroBanners from './pages/admin/AdminHeroBanners';
 
-// Temporary placeholder component
 const ComingSoon = ({ title }) => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
     <div className="text-center max-w-lg p-8">
@@ -53,7 +55,6 @@ const ComingSoon = ({ title }) => (
 function App() {
   const { initialize } = useAuthStore();
 
-  // Initialize auth state from localStorage on app load
   useEffect(() => {
     initialize();
   }, [initialize]);
@@ -86,7 +87,7 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        {/* Admin Routes - No Header/Footer */}
+        {}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/collections" element={<AdminCollections />} />
@@ -94,7 +95,7 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/users" element={<AdminUsers />} />
 
-        {/* Public Routes - With Header/Footer */}
+        {}
         <Route path="/" element={
           <>
             <Header />
@@ -130,6 +131,16 @@ function App() {
             <Header />
             <main className="flex-1 pt-32">
               <Collections />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
+        <Route path="/collections/:slug" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <CollectionProducts />
             </main>
             <Footer />
             <ZaloChat />
@@ -235,6 +246,16 @@ function App() {
             <ZaloChat />
           </>
         } />
+        <Route path="/forgot-password" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <ForgotPassword />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
+        } />
         <Route path="/reset-password" element={
           <>
             <Header />
@@ -290,7 +311,7 @@ function App() {
           <Route path="orders" element={<AccountOrders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
           <Route path="addresses" element={<Address />} />
-          <Route path="settings" element={<ComingSoon title="Cài đặt tài khoản" />} />
+          <Route path="settings" element={<AccountSettings />} />
         </Route>
         <Route path="/orders" element={
           <>

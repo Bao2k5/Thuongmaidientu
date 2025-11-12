@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Mộc Miên Inspired - Pastel Mint & Sage Palette
+
         luxury: {
           cream: '#F9F7F4',      // Warm cream (nền chính)
           ivory: '#FCFBF9',      // Ivory nhạt (cards, sections)
@@ -22,7 +22,7 @@ export default {
           white: '#FFFFFF',      // Pure white
           black: '#1C1C1C',      // Deep black
         },
-        // Accent colors
+
         accent: {
           silver: '#BFC4C8',     // Silver 925
           gold: '#D4AF37',       // Gold accent

@@ -3,10 +3,9 @@ import ProductCard from './ProductCard';
 import FlashSaleTimer from './FlashSaleTimer';
 
 const FlashSaleSection = ({ products = [], isLoading = false }) => {
-  // Mock flash sale end time (24 hours from now)
+
   const flashSaleEndTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-  // Prefer products in category 'Vòng Tay' first, then fill with other sale products
   const productsArr = products && products.length ? products : [];
   const saleProducts = productsArr.filter((p) => p && p.priceSale && p.priceSale < p.price);
 
@@ -39,7 +38,7 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
   return (
     <section className="py-16 bg-gradient-to-br from-red-50 to-orange-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        {/* Section Title */}
+        {}
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -55,12 +54,12 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
           <h2 className="text-4xl md:text-5xl font-serif font-light tracking-wide text-luxury-black mb-8">
             Cơ Hội Vàng
           </h2>
-          
-          {/* Countdown Timer */}
+
+          {}
           <FlashSaleTimer endTime={flashSaleEndTime} />
         </motion.div>
 
-        {/* Products Grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {flashProducts.map((product, idx) => (
             <motion.div
@@ -75,7 +74,7 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
           ))}
         </div>
 
-        {/* View All Button */}
+        {}
         <motion.div 
           className="text-center mt-12"
           initial={{ opacity: 0 }}

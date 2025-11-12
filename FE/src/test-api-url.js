@@ -1,4 +1,4 @@
-// Temporary test file to check API URL
+
 console.log('=== API Configuration Test ===');
 console.log('VITE_API_URL from env:', import.meta.env.VITE_API_URL);
 console.log('Expected:', 'http://localhost:3000/api');

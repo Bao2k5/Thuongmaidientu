@@ -126,3 +126,91 @@ exports.deleteProductImage = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Get New Arrivals - latest 8 products
+exports.getNewArrivals = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .limit(8)
+      .select('_id name slug price priceSale images thumbnail');
+    res.json({ products });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get products by collection slug
+exports.getByCollectionSlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { limit, material, color, shape, ready, sort } = req.query;
+    
+    // Find collection by slug
+    const Collection = require('../models/collection.model');
+    const collection = await Collection.findOne({ slug });
+    if (!collection) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+    
+    // Build query with filters
+    const queryFilters = { collection: collection._id };
+    
+    if (material) queryFilters.material = material;
+    if (color) queryFilters.color = color;
+    if (shape) queryFilters.shape = shape;
+    if (ready === 'true') queryFilters.inStock = true;
+    
+    // Find products with filters
+    let query = Product.find(queryFilters)
+      .select('_id name slug price priceSale images thumbnail category material color shape inStock');
+    
+    // Apply sorting
+    if (sort === 'price_asc') {
+      query = query.sort({ price: 1 });
+    } else if (sort === 'price_desc') {
+      query = query.sort({ price: -1 });
+    } else {
+      // Default: newest first
+      query = query.sort({ createdAt: -1 });
+    }
+    
+    if (limit) {
+      query = query.limit(parseInt(limit));
+    }
+    
+    const products = await query;
+    res.json({ products, collection });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Search products by keyword
+exports.searchProducts = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+    if (!q || q.trim().length === 0) {
+      return res.json({ products: [] });
+    }
+
+    const searchRegex = new RegExp(q.trim(), 'i');
+    
+    // Search in name, description, and tags
+    const products = await Product.find({
+      $or: [
+        { name: searchRegex },
+        { description: searchRegex },
+        { tags: searchRegex }
+      ]
+    })
+    .select('_id name slug price priceSale images thumbnail category')
+    .limit(limit);
+
+    res.json({ products });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

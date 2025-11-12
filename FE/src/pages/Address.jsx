@@ -17,7 +17,6 @@ const Address = () => {
     isDefault: false
   });
 
-  // Load addresses on mount
   useEffect(() => {
     loadAddresses();
   }, []);
@@ -37,18 +36,18 @@ const Address = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (editingAddress) {
-        // Update existing address
+
         await updateAddress(editingAddress._id, formData);
         alert('Cập nhật địa chỉ thành công!');
       } else {
-        // Create new address
+
         await createAddress(formData);
         alert('Thêm địa chỉ mới thành công!');
       }
-      
+
       resetForm();
       loadAddresses();
     } catch (error) {
@@ -74,7 +73,7 @@ const Address = () => {
 
   const handleDelete = async (id) => {
     if (!confirm('Bạn có chắc muốn xóa địa chỉ này?')) return;
-    
+
     try {
       await deleteAddress(id);
       alert('Xóa địa chỉ thành công!');
@@ -138,7 +137,7 @@ const Address = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      {/* Header */}
+      {}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-light text-luxury-charcoal">Sổ Địa Chỉ</h1>
         <button
@@ -149,7 +148,7 @@ const Address = () => {
         </button>
       </div>
 
-      {/* Form thêm/sửa địa chỉ */}
+      {}
       {showForm && (
         <div className="bg-white border border-luxury-beige p-6 mb-6 shadow">
           <h2 className="text-xl font-light mb-4">
@@ -282,7 +281,7 @@ const Address = () => {
         </div>
       )}
 
-      {/* Danh sách địa chỉ */}
+      {}
       <div className="space-y-4">
         {addresses.length === 0 ? (
           <div className="text-center py-12 bg-white border border-luxury-beige">

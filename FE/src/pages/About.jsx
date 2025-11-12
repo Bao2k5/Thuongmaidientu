@@ -76,7 +76,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-luxury-cream">
-      {/* Hero Section */}
+      {}
       <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center bg-gradient-to-br from-luxury-sage/30 to-luxury-mint/30">
         <div className="text-center max-w-4xl mx-auto px-4">
           <motion.h1 
@@ -105,7 +105,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Story Section */}
+      {}
       <section className="section-luxury bg-luxury-white">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto">
@@ -113,14 +113,14 @@ const About = () => {
               Câu chuyện của chúng tôi
             </h2>
             <div className="w-16 h-px bg-luxury-sage mx-auto mb-12"></div>
-            
+
             <div className="space-y-6 text-luxury-brown text-base md:text-lg leading-relaxed font-normal">
               <p>
                 <strong className="text-luxury-charcoal">HM Jewelry</strong> được ra đời từ tình yêu với vẻ đẹp tinh tế 
                 và niềm đam mê tạo nên những món trang sức mang đậm dấu ấn cá nhân. Chúng tôi tin rằng mỗi món trang sức 
                 không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm, là tình cảm được lưu giữ mãi mãi.
               </p>
-              
+
               <p>
                 Với đội ngũ nghệ nhân giàu kinh nghiệm và tâm huyết, mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ 
                 từ <strong className="text-luxury-charcoal">bạc 925 nguyên chất</strong>, đảm bảo độ bền đẹp và an toàn 
@@ -138,7 +138,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Values Section */}
+      {}
       <section className="section-luxury bg-luxury-sage/10">
         <div className="container-luxury">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-charcoal tracking-[0.2em] mb-6 uppercase text-center">
@@ -171,7 +171,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline Section */}
+      {}
       <section className="section-luxury bg-luxury-white">
         <div className="container-luxury">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-charcoal tracking-[0.2em] mb-6 uppercase text-center">
@@ -210,7 +210,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {}
       <section className="section-luxury bg-luxury-mint/30">
         <div className="container-luxury text-center">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-charcoal tracking-[0.2em] mb-6 uppercase">

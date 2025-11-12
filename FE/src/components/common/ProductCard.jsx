@@ -12,7 +12,7 @@ const ProductCard = ({ product, onQuickView }) => {
   const { addToCart } = useCartStore();
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
-  
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
@@ -24,9 +24,9 @@ const ProductCard = ({ product, onQuickView }) => {
   const handleWishlistToggle = async (e) => {
     e.preventDefault(); // Prevent navigation to product detail
     e.stopPropagation();
-    
+
     if (!user) {
-      // Could show login modal or redirect to login
+
       return;
     }
 
@@ -47,7 +47,7 @@ const ProductCard = ({ product, onQuickView }) => {
   const handleAddToCart = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     setCartLoading(true);
     try {
       const productForCart = {
@@ -56,19 +56,18 @@ const ProductCard = ({ product, onQuickView }) => {
         price: displayPrice,
         images: product.images,
       };
-      // If user is logged in, sync to backend first so server cart isn't empty
+
       if (user) {
         try {
           await cartService.addToCart(product._id || product.id, 1);
         } catch (err) {
           console.error('Error adding to server cart:', err);
-          // continue to update local store so UI shows the item (optimistic fallback)
+
         }
       }
 
-      // cart store expects (product, qty)
       await addToCart(productForCart, 1);
-      // Show success toast or notification here
+
     } catch (error) {
       console.error('Add to cart error:', error);
     } finally {
@@ -121,8 +120,8 @@ const ProductCard = ({ product, onQuickView }) => {
           )}
         </div>
       </Link>
-      
-      {/* Discount Badge */}
+
+      {}
       {hasDiscount && (
         <motion.div 
           className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold"
@@ -133,8 +132,8 @@ const ProductCard = ({ product, onQuickView }) => {
           -{Math.round(((product.price - product.priceSale) / product.price) * 100)}%
         </motion.div>
       )}
-      
-      {/* Wishlist Heart Button */}
+
+      {}
       {user && (
         <button
           onClick={handleWishlistToggle}
@@ -166,7 +165,7 @@ const ProductCard = ({ product, onQuickView }) => {
         </button>
       )}
 
-      {/* Quick View Button */}
+      {}
       {onQuickView && (
         <button
           onClick={() => onQuickView(product)}
@@ -179,7 +178,7 @@ const ProductCard = ({ product, onQuickView }) => {
         </button>
       )}
 
-      {/* Add to Cart Button - Show on hover */}
+      {}
       <button
         onClick={handleAddToCart}
         disabled={cartLoading}

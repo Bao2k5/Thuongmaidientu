@@ -10,7 +10,7 @@ const PaymentCancel = () => {
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            {/* Cancel Icon */}
+            {}
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -41,7 +41,7 @@ const PaymentCancel = () => {
           <p className="text-luxury-brown font-light mb-6">
             Thanh toán của bạn không thành công. Vui lòng thử lại hoặc chọn phương thức thanh toán khác.
           </p>
-          
+
           <div className="space-y-3">
             <div className="flex items-start gap-2">
               <svg className="w-5 h-5 text-luxury-taupe flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@ const PaymentCancel = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {}
         <div className="flex gap-4 justify-center">
           <Link
             to="/cart"
@@ -86,7 +86,7 @@ const PaymentCancel = () => {
           </Link>
         </div>
 
-        {/* Support Info */}
+        {}
         <div className="mt-12 bg-luxury-ivory border border-luxury-beige p-6 text-center">
           <h3 className="text-lg font-light text-luxury-charcoal mb-4">Cần hỗ trợ?</h3>
           <p className="text-luxury-brown font-light text-sm mb-4">

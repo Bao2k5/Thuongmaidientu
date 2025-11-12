@@ -34,15 +34,15 @@ const AdminDashboard = () => {
   return (
     <AdminLayout>
       <div className="space-y-8">
-        {/* Header */}
+        {}
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Dashboard</h1>
           <p className="text-luxury-gray">Tổng quan hệ thống HM Jewelry</p>
         </div>
 
-        {/* Stats Grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Total Revenue */}
+          {}
           <div className="card-luxury p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-luxury-pearl rounded-lg flex items-center justify-center">
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
             <p className="text-sm text-luxury-gray uppercase tracking-widest">Doanh Thu</p>
           </div>
 
-          {/* Total Orders */}
+          {}
           <div className="card-luxury p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-luxury-pearl rounded-lg flex items-center justify-center">
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
             <p className="text-sm text-luxury-gray uppercase tracking-widest">Đơn Hàng</p>
           </div>
 
-          {/* Total Products */}
+          {}
           <div className="card-luxury p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-luxury-pearl rounded-lg flex items-center justify-center">
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
             <p className="text-sm text-luxury-gray uppercase tracking-widest">Sản Phẩm</p>
           </div>
 
-          {/* Total Users */}
+          {}
           <div className="card-luxury p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-luxury-pearl rounded-lg flex items-center justify-center">
@@ -97,9 +97,9 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Orders */}
+          {}
           <div className="card-luxury p-6">
             <h2 className="font-display text-2xl text-luxury-black mb-6 tracking-wide">Đơn Hàng Mới</h2>
             <div className="space-y-4">
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Quick Stats */}
+          {}
           <div className="card-luxury p-6">
             <h2 className="font-display text-2xl text-luxury-black mb-6 tracking-wide">Thống Kê Nhanh</h2>
             <div className="space-y-4">

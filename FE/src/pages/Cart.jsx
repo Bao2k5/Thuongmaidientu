@@ -10,14 +10,13 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Load cart from API if user is logged in
   useEffect(() => {
     const loadCart = async () => {
       setLoading(true);
       try {
         if (user) {
           const data = await cartService.getCart();
-          // Map API cart to local format
+
           const mappedItems = (data.items || []).map(item => ({
             id: item.product._id || item.product.id,
             name: item.product.name,
@@ -28,7 +27,7 @@ const Cart = () => {
           }));
           setCartItems(mappedItems);
         } else {
-          // Use local cart store for guests
+
           setCartItems(items.map(item => ({
             id: item.id,
             name: item.name,
@@ -40,13 +39,13 @@ const Cart = () => {
         }
       } catch (error) {
         console.error('Error loading cart:', error);
-        // Fallback to local cart
+
         setCartItems(items);
       } finally {
         setLoading(false);
       }
     };
-    
+
     loadCart();
   }, [user, items]);
 
@@ -56,19 +55,17 @@ const Cart = () => {
 
   const updateQuantity = async (id, newQuantity) => {
     if (newQuantity < 1) return;
-    
+
     try {
       if (user) {
-        // Update on server
+
         await cartService.updateCartItem(id, newQuantity);
       }
-      
-      // Update local state
+
       setCartItems(cartItems.map(item => 
         item.id === id ? { ...item, quantity: newQuantity } : item
       ));
-      
-      // Update cart store
+
       updateCartQuantity(id, newQuantity);
     } catch (error) {
       console.error('Error updating cart:', error);
@@ -79,16 +76,14 @@ const Cart = () => {
   const removeItem = async (id) => {
     try {
       if (user) {
-        // Remove from server
+
         await cartService.removeFromCart(id);
       }
-      
-      // Remove from local state
+
       setCartItems(cartItems.filter(item => item.id !== id));
-      
-      // Remove from cart store
+
       removeFromCart(id);
-      
+
       alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
     } catch (error) {
       console.error('Error removing from cart:', error);
@@ -140,7 +135,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page Header */}
+      {}
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">GIỎ HÀNG</h1>
@@ -151,17 +146,17 @@ const Cart = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Cart Items */}
+          {}
           <div className="lg:col-span-2 space-y-6">
             {cartItems.map((item) => (
               <div key={item.id} className="bg-white border border-luxury-beige p-6 hover:shadow-lg transition-shadow">
                 <div className="flex gap-6">
-                  {/* Image */}
+                  {}
                   <Link to={`/products/${item.id}`} className="w-32 h-32 flex-shrink-0 bg-gray-50 overflow-hidden">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                   </Link>
 
-                  {/* Info */}
+                  {}
                   <div className="flex-1">
                     <div className="flex justify-between mb-3">
                       <div>
@@ -182,7 +177,7 @@ const Cart = () => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      {/* Quantity Controls */}
+                      {}
                       <div className="flex items-center border border-luxury-beige">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -208,7 +203,7 @@ const Cart = () => {
                         </button>
                       </div>
 
-                      {/* Price */}
+                      {}
                       <div className="text-right">
                         <p className="text-lg font-light text-luxury-charcoal">{formatPrice(item.price * item.quantity)}</p>
                         <p className="text-sm text-luxury-taupe font-light">{formatPrice(item.price)} / sản phẩm</p>
@@ -219,7 +214,7 @@ const Cart = () => {
               </div>
             ))}
 
-            {/* Continue Shopping */}
+            {}
             <Link
               to="/products"
               className="inline-flex items-center gap-2 text-luxury-charcoal hover:text-luxury-taupe transition font-light"
@@ -231,7 +226,7 @@ const Cart = () => {
             </Link>
           </div>
 
-          {/* Order Summary */}
+          {}
           <div>
             <div className="sticky top-24 bg-luxury-ivory border border-luxury-beige p-8">
               <h2 className="text-2xl font-light text-luxury-charcoal mb-8 tracking-wide">TÓM TẮT ĐƠN HÀNG</h2>
@@ -267,7 +262,7 @@ const Cart = () => {
                 THANH TOÁN
               </Link>
 
-              {/* Features */}
+              {}
               <div className="space-y-3 pt-6 border-t border-luxury-beige">
                 <div className="flex items-center gap-3">
                   <svg className="w-5 h-5 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">

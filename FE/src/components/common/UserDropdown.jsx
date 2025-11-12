@@ -6,7 +6,6 @@ const UserDropdown = ({ user, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -80,7 +79,6 @@ const UserDropdown = ({ user, onLogout }) => {
     }
   ];
 
-  // Admin-specific menu (keeps admin dashboard + quick admin links)
   const adminItems = [
     {
       icon: (
@@ -113,7 +111,7 @@ const UserDropdown = ({ user, onLogout }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar Button */}
+      {}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative focus:outline-none group"
@@ -133,12 +131,12 @@ const UserDropdown = ({ user, onLogout }) => {
             {getInitial()}
           </div>
         )}
-        
-        {/* Online indicator */}
+
+        {}
         <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-luxury-cream rounded-full"></span>
       </button>
 
-      {/* Dropdown Menu */}
+      {}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -148,7 +146,7 @@ const UserDropdown = ({ user, onLogout }) => {
             transition={{ duration: 0.2 }}
             className="absolute right-0 mt-3 w-64 bg-luxury-white shadow-lg border border-luxury-sage/20 z-50"
           >
-            {/* User Info Header */}
+            {}
             <div className="px-5 py-4 border-b border-luxury-sage/20 bg-luxury-cream/30">
               <div className="flex items-center gap-3">
                 {user?.avatar?.url ? (
@@ -176,9 +174,9 @@ const UserDropdown = ({ user, onLogout }) => {
               </div>
             </div>
 
-            {/* Menu Items */}
+            {}
             <div className="py-2">
-              {/* If admin: show admin section first, then account links */}
+              {}
               {user?.role === 'admin' ? (
                 <>
                   {adminItems.map((item, idx) => (
@@ -216,7 +214,7 @@ const UserDropdown = ({ user, onLogout }) => {
                   ))}
                 </>
               ) : (
-                // Regular customer: just show account links
+
                 menuItems.map((item, index) => (
                   <Link
                     key={index}
@@ -235,7 +233,7 @@ const UserDropdown = ({ user, onLogout }) => {
               )}
             </div>
 
-            {/* Logout */}
+            {}
             <div className="border-t border-luxury-sage/20">
               <button
                 onClick={() => {

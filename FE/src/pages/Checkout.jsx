@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import useCartStore from '../store/cartStore';
 import useAuthStore from '../store/authStore';
 import cartService from '../services/cartService';
@@ -67,7 +68,6 @@ const Checkout = () => {
     loadCart();
   }, [user, localItems]);
 
-  // Fetch saved addresses
   useEffect(() => {
     const loadAddresses = async () => {
       if (user) {
@@ -75,8 +75,7 @@ const Checkout = () => {
           const response = await addressService.getAddresses();
           const addresses = response.data || [];
           setSavedAddresses(addresses);
-          
-          // Auto-select default address if available
+
           const defaultAddr = addresses.find(addr => addr.isDefault);
           if (defaultAddr) {
             setSelectedAddressId(defaultAddr._id);
@@ -90,7 +89,6 @@ const Checkout = () => {
     loadAddresses();
   }, [user]);
 
-  // Handle address selection
   const handleAddressSelect = (addressId, addresses = savedAddresses) => {
     const selected = addresses.find(addr => addr._id === addressId);
     if (selected) {
@@ -126,63 +124,122 @@ const Checkout = () => {
   };
 
   const handlePlaceOrder = async () => {
+
+    if (!user) {
+      toast.error('Vui lòng đăng nhập để đặt hàng');
+      navigate('/login');
+      return;
+    }
+
+    if (!cartItems || cartItems.length === 0) {
+      toast.error('Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng');
+      navigate('/products');
+      return;
+    }
+
+    const requiredFields = {
+      fullName: 'Họ và tên',
+      email: 'Email',
+      phone: 'Số điện thoại',
+      address: 'Địa chỉ',
+      city: 'Tỉnh/Thành phố',
+      district: 'Quận/Huyện',
+      ward: 'Phường/Xã'
+    };
+
+    for (const [field, label] of Object.entries(requiredFields)) {
+      if (!shippingInfo[field] || shippingInfo[field].trim() === '') {
+        toast.error(`Vui lòng nhập ${label}`);
+        setStep(1); // Go back to shipping step
+        return;
+      }
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(shippingInfo.email)) {
+      toast.error('Email không hợp lệ');
+      setStep(1);
+      return;
+    }
+
+    const phoneRegex = /^(0|\+84)[0-9]{9,10}$/;
+    if (!phoneRegex.test(shippingInfo.phone.replace(/\s/g, ''))) {
+      toast.error('Số điện thoại không hợp lệ');
+      setStep(1);
+      return;
+    }
+
+    const validPaymentMethods = ['cod', 'momo', 'vnpay', 'bank'];
+    if (!paymentMethod || !validPaymentMethods.includes(paymentMethod)) {
+      toast.error('Vui lòng chọn phương thức thanh toán hợp lệ');
+      setStep(2); // Go back to payment step
+      return;
+    }
+
     try {
       setLoading(true);
 
-      // Create order first
       const orderData = {
         address: `${shippingInfo.address}, ${shippingInfo.ward}, ${shippingInfo.district}, ${shippingInfo.city}`,
         phone: shippingInfo.phone,
         email: shippingInfo.email,
         fullName: shippingInfo.fullName,
-        note: shippingInfo.note,
+        note: shippingInfo.note || '',
         paymentMethod: paymentMethod,
       };
 
       const order = await orderService.createOrder(orderData);
 
-      // Handle payment based on method
       if (paymentMethod === 'cod') {
-        // COD - order created, show success
+
+        toast.success('Đặt hàng thành công!');
         navigate(`/payment/success?orderId=${order._id}&method=cod`);
       } else if (paymentMethod === 'momo') {
-        // MoMo - redirect to simulator page for sandbox testing
+
         const momoResult = await paymentService.createMomoPayment(order._id);
         if (momoResult.success && momoResult.requestId) {
-          // Redirect to simulator page instead of real MoMo
+
           navigate(`/payment/momo/simulator?orderId=${order._id}&requestId=${momoResult.requestId}&amount=${Math.round(order.total)}`);
         } else {
           throw new Error('Không thể tạo thanh toán MoMo');
         }
       } else if (paymentMethod === 'vnpay') {
-        // VNPay - redirect to simulator page for sandbox testing
+
         const vnpayResult = await paymentService.createVNPayPayment(order._id);
         if (vnpayResult.success) {
-          // Redirect to simulator page
+
           navigate(`/payment/vnpay/simulator?orderId=${order._id}&vnp_TxnRef=${order._id}&vnp_Amount=${Math.round(order.total * 100)}`);
         } else {
           throw new Error('Không thể tạo thanh toán VNPay');
         }
       } else if (paymentMethod === 'bank') {
-        // Bank transfer - show instructions
+
+        toast.success('Đặt hàng thành công!');
         navigate(`/payment/success?orderId=${order._id}&method=bank`);
       }
     } catch (error) {
       console.error('Place order error:', error);
-      alert(error.message || 'Đặt hàng thất bại. Vui lòng thử lại!');
+
+      const errorMessage = error.response?.data?.message 
+        || error.response?.data?.msg 
+        || error.response?.data?.error
+        || error.message 
+        || 'Đặt hàng thất bại. Vui lòng thử lại!';
+
+      toast.error(errorMessage);
       setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page Header */}
+      {}
       <div className="bg-gradient-to-b from-luxury-ivory to-luxury-cream py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">THANH TOÁN</h1>
           <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-8"></div>
 
-          {/* Progress Steps */}
+          {}
           <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto">
             <div className="flex items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-luxury-charcoal text-white' : 'bg-luxury-sand text-luxury-brown'}`}>
@@ -222,16 +279,16 @@ const Checkout = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Form Area */}
+          {}
           <div className="lg:col-span-2">
-            {/* Step 1: Shipping Info */}
+            {}
             {step === 1 && (
               <form onSubmit={handleShippingSubmit} className="space-y-6">
                 <div className="bg-white border border-luxury-sand p-8">
                   <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">THÔNG TIN GIAO HÀNG</h2>
 
                   <div className="space-y-6">
-                    {/* Saved Addresses Selector */}
+                    {}
                     {user && savedAddresses.length > 0 && (
                       <div className="bg-luxury-cream/30 p-4 border border-luxury-sage/20">
                         <div className="flex items-center justify-between mb-3">
@@ -368,14 +425,14 @@ const Checkout = () => {
               </form>
             )}
 
-            {/* Step 2: Payment Method */}
+            {}
             {step === 2 && (
               <form onSubmit={handlePaymentSubmit} className="space-y-6">
                 <div className="bg-white border border-luxury-sand p-8">
                   <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">PHƯƠNG THỨC THANH TOÁN</h2>
 
                   <div className="space-y-4">
-                    {/* COD */}
+                    {}
                     <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
                       paymentMethod === 'cod' 
                         ? 'border-luxury-charcoal bg-luxury-cream/30' 
@@ -400,7 +457,7 @@ const Checkout = () => {
                       </div>
                     </label>
 
-                    {/* Bank Transfer */}
+                    {}
                     <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
                       paymentMethod === 'bank' 
                         ? 'border-luxury-charcoal bg-luxury-cream/30' 
@@ -425,7 +482,7 @@ const Checkout = () => {
                       </div>
                     </label>
 
-                    {/* MoMo */}
+                    {}
                     <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
                       paymentMethod === 'momo' 
                         ? 'border-luxury-charcoal bg-luxury-cream/30' 
@@ -451,7 +508,7 @@ const Checkout = () => {
                       </div>
                     </label>
 
-                    {/* VNPay */}
+                    {}
                     <label className={`flex items-start gap-4 p-4 border-2 cursor-pointer transition-all ${
                       paymentMethod === 'vnpay' 
                         ? 'border-luxury-charcoal bg-luxury-cream/30' 
@@ -497,13 +554,13 @@ const Checkout = () => {
               </form>
             )}
 
-            {/* Step 3: Review Order */}
+            {}
             {step === 3 && (
               <div className="space-y-6">
                 <div className="bg-white border border-luxury-sand p-8">
                   <h2 className="text-2xl font-light text-luxury-charcoal mb-6 tracking-wide">XÁC NHẬN ĐƠN HÀNG</h2>
 
-                  {/* Shipping Info Review */}
+                  {}
                   <div className="mb-8 pb-8 border-b border-luxury-beige">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-light text-luxury-charcoal">Thông tin giao hàng</h3>
@@ -518,7 +575,7 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  {/* Payment Method Review */}
+                  {}
                   <div className="mb-8 pb-8 border-b border-luxury-beige">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-light text-luxury-charcoal">Phương thức thanh toán</h3>
@@ -532,7 +589,7 @@ const Checkout = () => {
                     </p>
                   </div>
 
-                  {/* Order Items */}
+                  {}
                   <div>
                     <h3 className="text-lg font-light text-luxury-charcoal mb-4">Sản phẩm đặt mua</h3>
                     <div className="space-y-4">
@@ -573,7 +630,7 @@ const Checkout = () => {
             )}
           </div>
 
-          {/* Order Summary Sidebar */}
+          {}
           <div>
             <div className="sticky top-24 bg-luxury-ivory border border-luxury-beige p-8">
               <h2 className="text-2xl font-light text-luxury-charcoal mb-8 tracking-wide">ĐƠN HÀNG</h2>

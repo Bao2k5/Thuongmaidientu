@@ -3,7 +3,7 @@ const TestHome = () => {
     <div className="min-h-screen bg-white p-8">
       <h1 className="text-4xl font-bold text-luxury-charcoal mb-4">TEST HOME PAGE</h1>
       <p className="text-luxury-brown mb-4">Nếu bạn thấy text này, React đang hoạt động!</p>
-      
+
       <div className="bg-luxury-ivory p-6 rounded-lg">
         <h2 className="text-2xl font-semibold text-luxury-charcoal mb-4">✅ Checklist:</h2>
         <ul className="space-y-2 text-luxury-brown">

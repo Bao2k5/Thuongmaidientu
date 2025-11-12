@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 const InstagramFeed = () => {
-  // Placeholder images - replace with actual Instagram feed API
+
   const instagramPosts = [
     { id: 1, image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400', likes: 234, comments: 12 },
     { id: 2, image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400', likes: 189, comments: 8 },
@@ -14,7 +14,7 @@ const InstagramFeed = () => {
   return (
     <section className="section-luxury bg-luxury-white">
       <div className="container-luxury">
-        {/* Header */}
+        {}
         <div className="text-center mb-12">
           <h2 className="font-serif text-4xl md:text-5xl font-light text-luxury-charcoal tracking-wide mb-4">
             #HMJewelry
@@ -36,7 +36,7 @@ const InstagramFeed = () => {
           </a>
         </div>
 
-        {/* Grid */}
+        {}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
           {instagramPosts.map((post, index) => (
             <motion.a
@@ -55,8 +55,8 @@ const InstagramFeed = () => {
                 alt={`Instagram post ${post.id}`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              
-              {/* Overlay on hover */}
+
+              {}
               <div className="absolute inset-0 bg-luxury-charcoal/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <div className="flex items-center gap-4 text-luxury-white">
                   <div className="flex items-center gap-1">

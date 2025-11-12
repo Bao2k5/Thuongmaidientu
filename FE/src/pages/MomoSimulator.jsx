@@ -31,7 +31,7 @@ const MomoSimulator = () => {
 
     setLoading(true);
     try {
-      // Gọi API giả lập IPN callback từ MoMo
+
       const response = await paymentService.simulateMomoCallback({
         orderId,
         requestId,
@@ -41,7 +41,7 @@ const MomoSimulator = () => {
       });
 
       if (response.success) {
-        // Redirect về trang success
+
         navigate(`/payment/success?orderId=${orderId}&provider=momo&resultCode=0`);
       } else {
         alert('Lỗi khi giả lập thanh toán: ' + (response.message || 'Unknown error'));
@@ -70,7 +70,6 @@ const MomoSimulator = () => {
         message: 'Transaction failed'
       });
 
-      // Redirect về trang cancel
       navigate(`/payment/cancel?orderId=${orderId}&provider=momo&resultCode=1006`);
     } catch (error) {
       console.error('Simulate MoMo error:', error);
@@ -97,7 +96,7 @@ const MomoSimulator = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
+        {}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-pink-600 rounded-full mb-4">
             <span className="text-white text-4xl font-bold">M</span>
@@ -106,7 +105,7 @@ const MomoSimulator = () => {
           <p className="text-gray-600">Chế độ test - Không thanh toán thật</p>
         </div>
 
-        {/* Order Info Card */}
+        {}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
           <div className="border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Thông tin đơn hàng</h2>
@@ -126,7 +125,7 @@ const MomoSimulator = () => {
             </div>
           </div>
 
-          {/* QR Code Placeholder */}
+          {}
           <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl p-8 mb-6">
             <div className="text-center">
               <div className="bg-white rounded-lg p-6 inline-block mb-4">
@@ -146,7 +145,7 @@ const MomoSimulator = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {}
           <div className="space-y-3">
             <button
               onClick={handleSimulateSuccess}
@@ -184,7 +183,7 @@ const MomoSimulator = () => {
           </div>
         </div>
 
-        {/* Info Box */}
+        {}
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
           <div className="flex items-start">
             <svg className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">

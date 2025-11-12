@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="bg-luxury-charcoal text-luxury-cream">
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand Info */}
+          {}
           <div>
             <h3 className="font-serif text-base font-medium tracking-[0.25em] mb-4 text-luxury-cream uppercase">
               HM Jewelry
@@ -63,7 +63,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {}
           <div>
             <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Liên Kết</h4>
             <ul className="space-y-3">
@@ -90,7 +90,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Customer Support */}
+          {}
           <div>
             <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Hỗ Trợ</h4>
             <ul className="space-y-3">
@@ -117,7 +117,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {}
           <div>
             <h4 className="text-sm font-medium tracking-widest uppercase mb-6 text-luxury-cream">Liên Hệ</h4>
             <ul className="space-y-4">
@@ -150,7 +150,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {}
         <div className="border-t border-luxury-brown/30 mt-12 pt-8">
           <p className="text-center text-luxury-cream/70 font-light text-sm">
             © {currentYear} HM Jewelry. Bạc 925 Tinh Tế & Nhẹ Nhàng. All rights reserved.

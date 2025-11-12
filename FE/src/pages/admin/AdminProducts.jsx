@@ -8,7 +8,6 @@ const AdminProducts = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
-  // Redirect if not admin
   useEffect(() => {
     if (!user?.role === 'admin') {
       navigate('/');
@@ -43,10 +42,9 @@ const AdminProducts = () => {
     loadProducts();
   }, []);
 
-  // Scroll modal to top when opened
   useEffect(() => {
     if (showModal) {
-      // Small delay to ensure modal is rendered
+
       setTimeout(() => {
         const modalContent = document.querySelector('.max-h-\\[90vh\\]');
         if (modalContent) {
@@ -58,10 +56,10 @@ const AdminProducts = () => {
 
   const loadProducts = async () => {
     try {
-      // Lấy TẤT CẢ sản phẩm - không giới hạn
+
       const response = await api.get('/products?limit=1000');
       const productsData = response.data.products || response.data;
-      // Đảo ngược thứ tự - sản phẩm mới nhất lên đầu
+
       setProducts(productsData.reverse());
     } catch (error) {
       console.error('Error loading products:', error);
@@ -74,7 +72,7 @@ const AdminProducts = () => {
     e.preventDefault();
 
     try {
-      // Upload images first if any
+
       let uploadedImages = [];
       if (selectedFiles.length > 0) {
         uploadedImages = await uploadImages();
@@ -89,7 +87,7 @@ const AdminProducts = () => {
         description: formData.description,
         stock: parseInt(formData.stock),
         specifications: formData.specifications,
-        // Prepend uploaded images so newly uploaded images become the primary images shown on frontend
+
         images: [...uploadedImages, ...formData.images]
       };
 
@@ -144,7 +142,7 @@ const AdminProducts = () => {
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
-    
+
     const previews = files.map(file => URL.createObjectURL(file));
     setImagePreviews(previews);
   };
@@ -159,11 +157,11 @@ const AdminProducts = () => {
       for (const file of selectedFiles) {
         const formDataUpload = new FormData();
         formDataUpload.append('image', file);
-        
+
         const response = await api.post('/upload/image', formDataUpload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        
+
         uploadedImages.push({
           url: response.data.url,
           public_id: response.data.public_id
@@ -173,12 +171,12 @@ const AdminProducts = () => {
       return uploadedImages;
     } catch (error) {
       console.error('Upload error:', error);
-      
+
       if (error.response?.data?.error?.includes('Cloudinary credentials not set')) {
         alert('Image upload sẽ sử dụng local storage.\n\nSản phẩm sẽ được tạo với ảnh được lưu trên server local.');
         return [];
       }
-      
+
       const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message;
       alert(`Lỗi khi upload ảnh: ${errorMsg}`);
       return [];
@@ -190,7 +188,7 @@ const AdminProducts = () => {
   const removeImage = (index) => {
     const newFiles = selectedFiles.filter((_, i) => i !== index);
     const newPreviews = imagePreviews.filter((_, i) => i !== index);
-    
+
     setSelectedFiles(newFiles);
     setImagePreviews(newPreviews);
   };
@@ -322,7 +320,7 @@ const AdminProducts = () => {
                 {editingProduct ? 'Sửa Sản Phẩm' : 'Thêm Sản Phẩm Mới'}
               </h2>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">

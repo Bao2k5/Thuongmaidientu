@@ -2,11 +2,13 @@
 const express = require('express');
 const router = express.Router();
 const collectionController = require('../controllers/collection.controller');
+const productController = require('../controllers/product.controller');
 const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
 // Public routes
 router.get('/', collectionController.listCollections);
 router.get('/:slug', collectionController.getCollectionBySlug);
+router.get('/:slug/products', productController.getByCollectionSlug);
 
 // Admin routes
 router.post('/', verifyToken, isAdmin, collectionController.createCollection);
