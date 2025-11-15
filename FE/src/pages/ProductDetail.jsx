@@ -59,9 +59,10 @@ const ProductDetail = () => {
 
     setWishlistLoading(true);
     try {
-      const inWishlist = isInWishlist(product.id);
+      const productId = product._id || product.id;
+      const inWishlist = isInWishlist(productId);
       if (inWishlist) {
-        await removeFromWishlist(product.id);
+        await removeFromWishlist(productId);
         alert('❌ Đã xóa khỏi danh sách yêu thích');
       } else {
         await addToWishlist(product);
@@ -297,14 +298,14 @@ const ProductDetail = () => {
                 ) : (
                   <>
                     <svg 
-                      className={`w-5 h-5 ${product && isInWishlist(product.id) ? 'fill-current' : ''}`} 
-                      fill={product && isInWishlist(product.id) ? 'currentColor' : 'none'} 
+                      className={`w-5 h-5 ${product && isInWishlist(product._id) ? 'fill-current' : ''}`} 
+                      fill={product && isInWishlist(product._id) ? 'currentColor' : 'none'} 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    {product && isInWishlist(product.id) ? 'ĐÃ YÊU THÍCH' : 'THÊM VÀO YÊU THÍCH'}
+                    {product && isInWishlist(product._id) ? 'ĐÃ YÊU THÍCH' : 'THÊM VÀO YÊU THÍCH'}
                   </>
                 )}
               </button>

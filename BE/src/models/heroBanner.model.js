@@ -16,7 +16,7 @@ const heroBannerSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: [true, 'Vui lòng upload ảnh banner']
+    // required: [true, 'Vui lòng upload ảnh banner'] // Comment để cho phép tạo banner mà không cần ảnh
   },
   buttonText: {
     type: String,

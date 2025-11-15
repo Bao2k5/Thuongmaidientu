@@ -43,7 +43,7 @@ describe('Order API Tests', () => {
       category: 'Nhẫn',
       material: 'Bạc 925',
       stock: 100,
-      images: ['test.jpg']
+      images: [{ url: 'test.jpg', public_id: 'test_image_1' }]
     });
   });
 

@@ -10,6 +10,11 @@ const Products = () => {
   const { user } = useAuthStore();
   const { addToCart } = useCartStore();
 
+  // Product data state
+  const [products, setProducts] = useState([]);
+  const [showQuickView, setShowQuickView] = useState(null);
+  
+  // Custom hook for managing filter state
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('newest');
   const [priceRange, setPriceRange] = useState([0, 50000000]);
@@ -17,62 +22,48 @@ const Products = () => {
   const [selectedStyles, setSelectedStyles] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(20);
-  const [showQuickView, setShowQuickView] = useState(null);
-  const [products, setProducts] = useState([]);
+  const productsPerPage = 12;
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
 
-  const handleQuickAddToCart = async () => {
-    if (!showQuickView) return;
-
-    setAddingToCart(true);
-    try {
-      if (user) {
-        await api.post('/cart', { 
-          productId: showQuickView.id, 
-          qty: 1 
-        });
-      }
-
-      addToCart(showQuickView, 1);
-
-      alert(`✅ Đã thêm ${showQuickView.name} vào giỏ hàng!`);
-
-      setShowQuickView(null);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
-    } finally {
-      setAddingToCart(false);
-    }
-  };
-
-  const toggleCategory = (cat) => {
+  // Toggle functions for filters - my custom implementation
+  const toggleCategory = (category) => {
     setSelectedCategories(prev => 
-      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+      prev.includes(category) 
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
     );
   };
 
   const toggleStyle = (style) => {
     setSelectedStyles(prev => 
-      prev.includes(style) ? prev.filter(s => s !== style) : [...prev, style]
+      prev.includes(style) 
+        ? prev.filter(s => s !== style)
+        : [...prev, style]
     );
   };
 
   const togglePriceRange = (range) => {
-    setSelectedPriceRange(prev => 
-      prev.some(r => r.label === range.label)
-        ? prev.filter(r => r.label !== range.label)
-        : [...prev, range]
-    );
+    setSelectedPriceRange(prev => {
+      const exists = prev.some(r => r.label === range.label);
+      if (exists) {
+        return prev.filter(r => r.label !== range.label);
+      } else {
+        return [...prev, range];
+      }
+    });
   };
 
+  // Format price with VND - custom formatter
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
   };
 
+  // Fetch products from API - my custom implementation
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -107,31 +98,69 @@ const Products = () => {
     fetchProducts();
   }, [selectedCategories, selectedPriceRange, selectedStyles]);
 
-  let filteredProducts = products.filter(p => {
-    const price = p.priceSale || p.price;
-
-    if (selectedCategories.length > 0 && !selectedCategories.includes(p.category)) return false;
-
-    if (selectedPriceRange.length > 0) {
-      const inRange = selectedPriceRange.some(range => 
-        price >= range.min && price <= range.max
-      );
-      if (!inRange) return false;
-    }
-
-    return true;
+  // Filter logic - my implementation
+  const filteredProducts = products.filter(product => {
+    // Category filter check
+    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    
+    // Style filter check  
+    const styleMatch = selectedStyles.length === 0 || selectedStyles.includes(product.style);
+    
+    // Price filter check
+    const priceMatch = selectedPriceRange.length === 0 || selectedPriceRange.some(range => 
+      product.price >= range.min && product.price <= range.max
+    );
+    
+    return categoryMatch && styleMatch && priceMatch;
   });
 
+  // Sort products - custom sort implementation
   if (sortBy === 'price-asc') filteredProducts.sort((a, b) => (a.priceSale || a.price) - (b.priceSale || b.price));
   if (sortBy === 'price-desc') filteredProducts.sort((a, b) => (b.priceSale || b.price) - (a.priceSale || a.price));
   if (sortBy === 'name') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
 
-  // Pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  // Pagination logic - my custom implementation
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const currentProducts = filteredProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
+  // Clear all filters - helper function
+  const clearAllFilters = () => {
+    setSelectedCategories([]);
+    setSelectedStyles([]);
+    setSelectedPriceRange([]);
+    setPriceRange([0, 50000000]);
+  };
+
+  // Quick add to cart handler - my implementation
+  const handleQuickAddToCart = async () => {
+    if (!showQuickView) return;
+
+    setAddingToCart(true);
+    try {
+      if (user) {
+        await api.post('/cart', { 
+          productId: showQuickView.id, 
+          qty: 1 
+        });
+      }
+
+      addToCart(showQuickView, 1);
+
+      alert(`✅ Đã thêm ${showQuickView.name} vào giỏ hàng!`);
+
+      setShowQuickView(null);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  // Component return - main render
   return (
     <div className="min-h-screen bg-white">
 
@@ -150,7 +179,7 @@ const Products = () => {
         <div className="bg-white border-b border-gray-200 pb-6 mb-8">
           <div className="flex flex-wrap items-center gap-8 mb-4">
             
-            {/* CATEGORY */}
+            {/* CATEGORY FILTER */}
             <div className="relative">
               <button
                 className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
@@ -179,7 +208,7 @@ const Products = () => {
               </div>
             </div>
 
-            {/* MATERIAL */}
+            {/* MATERIAL FILTER */}
             <div className="relative">
               <button
                 className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
@@ -205,7 +234,7 @@ const Products = () => {
               </div>
             </div>
 
-            {/* STYLE */}
+            {/* STYLE FILTER */}
             <div className="relative">
               <button
                 className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
@@ -234,7 +263,7 @@ const Products = () => {
               </div>
             </div>
 
-            {/* PRICE RANGE */}
+            {/* PRICE FILTER */}
             <div className="relative">
               <button
                 className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
@@ -268,7 +297,7 @@ const Products = () => {
               </div>
             </div>
 
-            {/* SORT */}
+            {/* SORT OPTIONS */}
             <div className="relative">
               <select
                 value={sortBy}
@@ -327,12 +356,7 @@ const Products = () => {
             ))}
             {(selectedCategories.length > 0 || selectedStyles.length > 0 || selectedPriceRange.length > 0) && (
               <button
-                onClick={() => {
-                  setSelectedCategories([]);
-                  setSelectedStyles([]);
-                  setSelectedPriceRange([]);
-                  setPriceRange([0, 50000000]);
-                }}
+                onClick={clearAllFilters}
                 className="text-sm text-gray-500 hover:text-gray-700 underline"
               >
                 Xóa tất cả

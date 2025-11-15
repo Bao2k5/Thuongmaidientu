@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/layout/AdminLayout';
 import { api } from '../../services/api';
 
@@ -38,6 +39,65 @@ const AdminDashboard = () => {
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Dashboard</h1>
           <p className="text-luxury-gray">Tổng quan hệ thống HM Jewelry</p>
+        </div>
+
+        {}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Link to="/admin/products" className="card-luxury p-4 hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-luxury-pearl rounded-lg flex items-center justify-center group-hover:bg-luxury-sage transition-colors">
+                <svg className="w-5 h-5 text-luxury-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7h18v10H3z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-luxury-black">Sản phẩm</h3>
+                <p className="text-xs text-luxury-gray">Quản lý sản phẩm</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/admin/orders" className="card-luxury p-4 hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-luxury-pearl rounded-lg flex items-center justify-center group-hover:bg-luxury-sage transition-colors">
+                <svg className="w-5 h-5 text-luxury-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 10h18M3 6h18M3 14h18" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-luxury-black">Đơn hàng</h3>
+                <p className="text-xs text-luxury-gray">Quản lý đơn hàng</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/admin/collections" className="card-luxury p-4 hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-luxury-pearl rounded-lg flex items-center justify-center group-hover:bg-luxury-sage transition-colors">
+                <svg className="w-5 h-5 text-luxury-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-luxury-black">Bộ sưu tập</h3>
+                <p className="text-xs text-luxury-gray">Quản lý BST</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/admin/users" className="card-luxury p-4 hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-luxury-pearl rounded-lg flex items-center justify-center group-hover:bg-luxury-sage transition-colors">
+                <svg className="w-5 h-5 text-luxury-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-luxury-black">Người dùng</h3>
+                <p className="text-xs text-luxury-gray">Quản lý users</p>
+              </div>
+            </div>
+          </Link>
         </div>
 
         {}

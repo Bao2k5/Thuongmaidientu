@@ -34,10 +34,12 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2",
     "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.4",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "puppeteer": "^24.30.0",
     "stripe": "^12.9.0",
     "xss-clean": "^0.1.1"
   },

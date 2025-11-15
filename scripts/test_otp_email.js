@@ -4,7 +4,7 @@
 const axios = require('axios');
 
 const API_URL = 'http://localhost:3000';
-const TEST_EMAIL = 'leduongbao@gmail.com'; // Change to your test email
+const TEST_EMAIL = 'leduongbao2019@gmail.com'; // Change to your test email
 
 async function testOTPSystem() {
   console.log('🧪 Testing OTP Email System...\n');

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
@@ -12,9 +11,9 @@ function AdminHeroBanners() {
   const [uploading, setUploading] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: '',
-    subtitle: '',
-    description: '',
+    title: 'HOÀNG MY JEWELRY',
+    subtitle: 'Trang sức kim cương cao cấp',
+    description: 'Thiết kế tinh xảo - Đẳng cấp vượt thời gian',
     image: '',
     buttonText: 'Khám phá ngay',
     buttonLink: '/products',
@@ -34,10 +33,15 @@ function AdminHeroBanners() {
       const response = await axios.get(`${BACKEND_URL}/api/hero-banners/admin`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setBanners(response.data.data || []);
+      
+      console.log('Banners response:', response.data);
+      
+      // Try different data structures
+      const bannersData = response.data?.data || response.data || [];
+      setBanners(Array.isArray(bannersData) ? bannersData : []);
     } catch (error) {
-      console.error('Error fetching banners:', error);
-      alert('Lỗi khi tải danh sách banner');
+      console.error('Error fetching banners:', error.response?.data || error);
+      // Silently handle errors - no alerts
     } finally {
       setLoading(false);
     }
@@ -73,7 +77,7 @@ function AdminHeroBanners() {
       setFormData(prev => ({ ...prev, image: response.data.url }));
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Lỗi khi upload ảnh: ' + (error.response?.data?.message || error.message));
+      // Silently handle upload errors
     } finally {
       setUploading(false);
     }
@@ -82,13 +86,18 @@ function AdminHeroBanners() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.image) {
-      alert('Vui lòng upload ảnh banner');
-      return;
-    }
-
     try {
       const token = localStorage.getItem('token');
+      
+      // Check token trước khi gửi
+      if (!token) {
+        console.error('No token found in localStorage');
+        alert('Vui lòng đăng nhập lại');
+        window.location.href = '/admin/login';
+        return;
+      }
+      
+      console.log('Token being sent:', token.substring(0, 20) + '...');
       const url = editingBanner
         ? `${BACKEND_URL}/api/hero-banners/${editingBanner._id}`
         : `${BACKEND_URL}/api/hero-banners`;
@@ -97,20 +106,38 @@ function AdminHeroBanners() {
 
       const dataToSend = {
         ...formData,
-        title: formData.title || 'Hero Banner ' + new Date().toLocaleDateString('vi-VN')
+        title: formData.title || 'Hero Banner ' + new Date().toLocaleDateString('vi-VN'),
+        image: formData.image || '' // Ensure image không undefined
       };
+
+      console.log('Submitting banner data:', dataToSend); // Debug log
 
       await axios[method](url, dataToSend, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      alert(editingBanner ? 'Cập nhật banner thành công!' : 'Tạo banner thành công!');
       setShowForm(false);
       setEditingBanner(null);
       resetForm();
       fetchBanners();
+      
+      // Redirect về admin dashboard
+      // window.location.href = '/admin'; // Comment để ở lại trang này tạo thêm banner
     } catch (error) {
       console.error('Error saving banner:', error);
+      console.error('Error status:', error.response?.status);
+      console.error('Error data:', error.response?.data);
+      console.error('Token exists:', !!localStorage.getItem('token'));
+      
+      // Handle 401 Unauthorized
+      if (error.response?.status === 401) {
+        console.log('401 detected - token expired or invalid');
+        alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!');
+        localStorage.removeItem('token');
+        window.location.href = '/admin/login';
+        return;
+      }
+      
       alert('Lỗi: ' + (error.response?.data?.message || error.message));
     }
   };
@@ -140,7 +167,6 @@ function AdminHeroBanners() {
       await axios.delete(`${BACKEND_URL}/api/hero-banners/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert('Xóa banner thành công!');
       fetchBanners();
     } catch (error) {
       console.error('Error deleting banner:', error);
@@ -163,9 +189,9 @@ function AdminHeroBanners() {
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      subtitle: '',
-      description: '',
+      title: 'HOÀNG MY JEWELRY',
+      subtitle: 'Trang sức kim cương cao cấp',
+      description: 'Thiết kế tinh xảo - Đẳng cấp vượt thời gian',
       image: '',
       buttonText: 'Khám phá ngay',
       buttonLink: '/products',
@@ -192,26 +218,19 @@ function AdminHeroBanners() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6" style={{ pointerEvents: 'auto' }}>
         <h1 className="text-3xl font-bold">Quản lý Hero Banner</h1>
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-          >
-            + Tạo Banner Mới
-          </button>
-        )}
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer z-10 relative"
+          style={{ pointerEvents: 'auto' }}
+        >
+          {showForm ? 'Đóng Form' : '+ Tạo Banner Mới'}
+        </button>
       </div>
 
-      <AnimatePresence>
-        {showForm && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="bg-white p-6 rounded-lg shadow-lg mb-8"
-          >
+      {showForm && (
+        <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h2 className="text-2xl font-bold mb-4">
               {editingBanner ? 'Chỉnh sửa Banner' : 'Upload Banner Mới'}
             </h2>
@@ -243,6 +262,45 @@ function AdminHeroBanners() {
                 )}
               </div>
 
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Tiêu đề chính
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="HOÀNG MY JEWELRY"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Tiêu đề phụ
+                </label>
+                <input
+                  type="text"
+                  value={formData.subtitle}
+                  onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Trang sức kim cương cao cấp"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Mô tả
+                </label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  rows="3"
+                  placeholder="Thiết kế tinh xảo - Đẳng cấp vượt thời gian"
+                />
+              </div>
+
               <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-lg">
                 <input
                   type="checkbox"
@@ -256,10 +314,36 @@ function AdminHeroBanners() {
                 </label>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Text nút bấm
+                </label>
+                <input
+                  type="text"
+                  value={formData.buttonText}
+                  onChange={(e) => setFormData({ ...formData, buttonText: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Khám phá ngay"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Link nút bấm
+                </label>
+                <input
+                  type="text"
+                  value={formData.buttonLink}
+                  onChange={(e) => setFormData({ ...formData, buttonLink: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="/products"
+                />
+              </div>
+
               <div className="flex gap-4 pt-4">
                 <button
                   type="submit"
-                  disabled={!formData.image || uploading}
+                  disabled={uploading}
                   className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium"
                 >
                   {editingBanner ? '💾 Lưu thay đổi' : '✨ Tạo Banner'}
@@ -273,9 +357,8 @@ function AdminHeroBanners() {
                 </button>
               </div>
             </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <table className="w-full">

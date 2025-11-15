@@ -106,7 +106,7 @@ const HomeSimple = () => {
     <div className="min-h-screen bg-luxury-white">
       {}
       {heroBanners.length > 0 ? (
-        <section className="relative h-[700px] w-full overflow-hidden">
+        <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
           {heroBanners.map((banner, index) => (
             <div
               key={banner._id}
@@ -167,7 +167,7 @@ const HomeSimple = () => {
         </section>
       ) : (
 
-        <section className="relative h-[700px] w-full overflow-hidden">
+        <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
           <img 
             src="/bthn-hero.jpg" 
             alt="HM Jewelry"

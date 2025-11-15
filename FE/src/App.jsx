@@ -36,10 +36,10 @@ import AuthCallback from './pages/AuthCallback';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminUsers from './pages/admin/AdminUsers';
 import AdminCollections from './pages/admin/AdminCollections';
 import AdminHeroBanners from './pages/admin/AdminHeroBanners';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminUsers from './pages/admin/AdminUsers';
 
 const ComingSoon = ({ title }) => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">

@@ -19,21 +19,23 @@ const ProductCard = ({ product, onQuickView }) => {
 
   const displayPrice = product.priceSale || product.price;
   const hasDiscount = product.priceSale && product.priceSale < product.price;
-  const inWishlist = isInWishlist(product._id);
+  const inWishlist = isInWishlist(product._id || product.id);
 
   const handleWishlistToggle = async (e) => {
     e.preventDefault(); // Prevent navigation to product detail
     e.stopPropagation();
 
     if (!user) {
-
+      alert('Vui lòng đăng nhập để thêm sản phẩm vào yêu thích!');
       return;
     }
 
     setWishlistLoading(true);
     try {
+      const productId = product._id || product.id;
+      const inWishlist = isInWishlist(productId);
       if (inWishlist) {
-        await removeFromWishlist(product._id);
+        await removeFromWishlist(productId);
       } else {
         await addToWishlist(product);
       }
@@ -134,8 +136,7 @@ const ProductCard = ({ product, onQuickView }) => {
       )}
 
       {}
-      {user && (
-        <button
+      <button
           onClick={handleWishlistToggle}
           disabled={wishlistLoading}
           className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -163,7 +164,6 @@ const ProductCard = ({ product, onQuickView }) => {
             </svg>
           )}
         </button>
-      )}
 
       {}
       {onQuickView && (
