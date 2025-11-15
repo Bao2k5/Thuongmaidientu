@@ -9,26 +9,53 @@ export default {
       colors: {
 
         luxury: {
-          cream: '#F9F7F4',      // Warm cream (nền chính)
-          ivory: '#FCFBF9',      // Ivory nhạt (cards, sections)
-          mint: '#E8F3F0',       // Mint pastel (hero, featured sections) - Mộc Miên style
-          sage: '#D4E4DF',       // Sage green (accents, borders)
-          softGreen: '#C8DED6',  // Soft green (hover states)
-          sand: '#EBE6E0',       // Warm sand
-          beige: '#DED5CA',      // Beige neutral
-          taupe: '#A89B8F',      // Taupe (subtle text)
-          brown: '#6B5D52',      // Warm brown (text)
-          charcoal: '#3D3530',   // Charcoal (headings)
-          white: '#FFFFFF',      // Pure white
-          black: '#1C1C1C',      // Deep black
+          // PRIMARY SYSTEM - 60%
+          silverPearl: '#F7F8FA',      // Primary background - bright, soft, premium
+          silverPearlLight: '#FAFBFC', // Lighter version
+          silverPearlDark: '#F0F2F5',  // Darker version
+          
+          // SECONDARY SYSTEM - 30%
+          platinumGrey: '#C8CCD0',     // Main secondary - platinum
+          platinumLight: '#D4D8DC',    // Light platinum
+          steelGrey: '#8D9297',        // Steel grey - medium
+          steelDark: '#6C7177',        // Dark steel
+          
+          // ACCENT SYSTEM - 10%
+          deepBlack: '#1A1A1A',        // Primary accent
+          softBlack: '#2D2D2D',        // Soft black
+          metallicSilver: '#E8E9EB',   // Metallic silver
+          
+          // LEGACY COMPATIBILITY (mapped to new palette)
+          ivory: '#F7F8FA',            // → silverPearl
+          white: '#F7F8FA',            // → silverPearl
+          mint: '#F0F2F5',             // → silverPearlDark
+          sage: '#E8E9EB',             // → metallicSilver
+          softGreen: '#D4D8DC',        // → platinumLight
+          beige: '#C8CCD0',            // → platinumGrey
+          taupe: '#8D9297',            // → steelGrey
+          brown: '#6C7177',            // → steelDark
+          charcoal: '#2D2D2D',         // → softBlack
+          black: '#1A1A1A',            // → deepBlack
         },
 
         accent: {
-          silver: '#BFC4C8',     // Silver 925
-          gold: '#D4AF37',       // Gold accent
-          rose: '#E8D5D0',       // Soft rose
-          peach: '#F2E8DE',      // Warm peach
-          mintLight: '#F0F8F6',  // Very light mint for subtle backgrounds
+          // LUXURY SILVER ACCENTS
+          silver: '#E8E9EB',           // Metallic silver
+          silverDark: '#C8CCD0',       // Dark silver
+          platinum: '#B8BCC0',         // Platinum accent
+          
+          // FUNCTIONAL COLORS
+          primary: '#1A1A1A',          // Primary action (deep black)
+          secondary: '#6C7177',        // Secondary action (steel dark)
+          success: '#4A5568',          // Success (dark grey)
+          warning: '#8D9297',          // Warning (steel grey)
+          error: '#6C7177',            // Error (steel dark)
+          
+          // LEGACY COMPATIBILITY
+          gold: '#D4AF37',             // Keep gold for special occasions
+          rose: '#E8E9EB',             // → silver
+          peach: '#F0F2F5',            // → silverPearlDark
+          mintLight: '#FAFBFC',        // → silverPearlLight
         },
       },
       fontFamily: {
@@ -43,6 +70,28 @@ export default {
       },
       borderWidth: {
         '1': '1px',
+      },
+      boxShadow: {
+        // LUXURY SILVER SHADOW SYSTEM
+        'silver-sm': '0 1px 2px rgba(26, 26, 26, 0.04)',
+        'silver-md': '0 4px 6px rgba(26, 26, 26, 0.08)',
+        'silver-lg': '0 10px 15px rgba(26, 26, 26, 0.12)',
+        'silver-xl': '0 20px 25px rgba(26, 26, 26, 0.16)',
+        'silver-2xl': '0 25px 50px rgba(26, 26, 26, 0.20)',
+        
+        // LEGACY COMPATIBILITY
+        'sm': '0 1px 2px rgba(26, 26, 26, 0.04)',
+        'md': '0 4px 6px rgba(26, 26, 26, 0.08)',
+        'lg': '0 10px 15px rgba(26, 26, 26, 0.12)',
+        'xl': '0 20px 25px rgba(26, 26, 26, 0.16)',
+      },
+      backgroundImage: {
+        // LUXURY SILVER GRADIENTS
+        'silver-gradient': 'linear-gradient(135deg, #F7F8FA 0%, #E8E9EB 100%)',
+        'silver-gradient-reverse': 'linear-gradient(135deg, #E8E9EB 0%, #F7F8FA 100%)',
+        'platinum-gradient': 'linear-gradient(135deg, #C8CCD0 0%, #D4D8DC 100%)',
+        'black-gradient': 'linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%)',
+        'steel-gradient': 'linear-gradient(135deg, #8D9297 0%, #6C7177 100%)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in',

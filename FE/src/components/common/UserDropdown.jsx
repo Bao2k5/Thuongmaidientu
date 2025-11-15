@@ -94,11 +94,11 @@ const UserDropdown = ({ user, onLogout }) => {
           <img
             src={user.avatar.url}
             alt={user.name}
-            className="w-9 h-9 rounded-full object-cover border-2 border-luxury-sage/30 group-hover:border-luxury-sage transition-all duration-300"
+            className="w-9 h-9 rounded-full object-cover border-2 border-luxury-metallicSilver/30 group-hover:border-luxury-metallicSilver transition-all duration-300"
           />
         ) : (
           <div
-            className="w-9 h-9 rounded-full flex items-center justify-center border-2 border-luxury-sage/30 group-hover:border-luxury-sage transition-all duration-300 font-medium text-luxury-white text-sm"
+            className="w-9 h-9 rounded-full flex items-center justify-center border-2 border-luxury-metallicSilver/30 group-hover:border-luxury-metallicSilver transition-all duration-300 font-medium text-luxury-silverPearl text-sm"
             style={{ backgroundColor: getAvatarColor() }}
           >
             {getInitial()}
@@ -106,7 +106,7 @@ const UserDropdown = ({ user, onLogout }) => {
         )}
 
         {}
-        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-luxury-cream rounded-full"></span>
+        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-luxury-silverPearl rounded-full"></span>
       </button>
 
       {}
@@ -117,30 +117,30 @@ const UserDropdown = ({ user, onLogout }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-3 w-64 bg-luxury-white shadow-lg border border-luxury-sage/20 z-50"
+            className="absolute right-0 mt-3 w-64 bg-luxury-silverPearl shadow-lg border border-luxury-metallicSilver/20 z-50"
           >
             {}
-            <div className="px-5 py-4 border-b border-luxury-sage/20 bg-luxury-cream/30">
+            <div className="px-5 py-4 border-b border-luxury-metallicSilver/20 bg-luxury-silverPearlDark/30">
               <div className="flex items-center gap-3">
                 {user?.avatar?.url ? (
                   <img
                     src={user.avatar.url}
                     alt={user.name}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-luxury-sage/30"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-luxury-metallicSilver/30"
                   />
                 ) : (
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center font-serif font-medium text-luxury-white text-lg"
+                    className="w-12 h-12 rounded-full flex items-center justify-center font-serif font-medium text-luxury-silverPearl text-lg"
                     style={{ backgroundColor: getAvatarColor() }}
                   >
                     {getInitial()}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="text-luxury-charcoal font-medium text-sm truncate">
+                  <p className="text-luxury-deepBlack font-medium text-sm truncate">
                     {user?.name || 'Khách hàng'}
                   </p>
-                  <p className="text-luxury-taupe text-xs truncate">
+                  <p className="text-luxury-steelGrey text-xs truncate">
                     {user?.email}
                   </p>
                 </div>
@@ -157,9 +157,9 @@ const UserDropdown = ({ user, onLogout }) => {
                       key={`admin-${idx}`}
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-5 py-3 text-luxury-brown hover:bg-luxury-cream/50 hover:text-luxury-charcoal transition-all duration-200 group"
+                      className="flex items-center gap-3 px-5 py-3 text-luxury-steelGrey hover:bg-luxury-metallicSilver/50 hover:text-luxury-deepBlack transition-all duration-200 group"
                     >
-                      <span className="text-luxury-taupe group-hover:text-luxury-charcoal transition-colors">
+                      <span className="text-luxury-platinumGrey group-hover:text-luxury-deepBlack transition-colors">
                         {item.icon}
                       </span>
                       <span className="text-sm font-light tracking-wide">
@@ -168,16 +168,16 @@ const UserDropdown = ({ user, onLogout }) => {
                     </Link>
                   ))}
 
-                  <div className="my-1 border-t border-luxury-sage/10"></div>
+                  <div className="my-1 border-t border-luxury-metallicSilver/10"></div>
 
                   {menuItems.map((item, index) => (
                     <Link
                       key={index}
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-5 py-3 text-luxury-brown hover:bg-luxury-cream/50 hover:text-luxury-charcoal transition-all duration-200 group"
+                      className="flex items-center gap-3 px-5 py-3 text-luxury-steelGrey hover:bg-luxury-metallicSilver/50 hover:text-luxury-deepBlack transition-all duration-200 group"
                     >
-                      <span className="text-luxury-taupe group-hover:text-luxury-charcoal transition-colors">
+                      <span className="text-luxury-platinumGrey group-hover:text-luxury-deepBlack transition-colors">
                         {item.icon}
                       </span>
                       <span className="text-sm font-light tracking-wide">
@@ -193,9 +193,9 @@ const UserDropdown = ({ user, onLogout }) => {
                     key={index}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-5 py-3 text-luxury-brown hover:bg-luxury-cream/50 hover:text-luxury-charcoal transition-all duration-200 group"
+                    className="flex items-center gap-3 px-5 py-3 text-luxury-steelGrey hover:bg-luxury-metallicSilver/50 hover:text-luxury-deepBlack transition-all duration-200 group"
                   >
-                    <span className="text-luxury-taupe group-hover:text-luxury-charcoal transition-colors">
+                    <span className="text-luxury-platinumGrey group-hover:text-luxury-deepBlack transition-colors">
                       {item.icon}
                     </span>
                     <span className="text-sm font-light tracking-wide">
@@ -207,7 +207,7 @@ const UserDropdown = ({ user, onLogout }) => {
             </div>
 
             {}
-            <div className="border-t border-luxury-sage/20">
+            <div className="border-t border-luxury-metallicSilver/20">
               <button
                 onClick={() => {
                   setIsOpen(false);

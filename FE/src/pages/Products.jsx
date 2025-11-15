@@ -13,6 +13,7 @@ const Products = () => {
   // Product data state
   const [products, setProducts] = useState([]);
   const [showQuickView, setShowQuickView] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Custom hook for managing filter state
   const [viewMode, setViewMode] = useState('grid');
@@ -100,6 +101,9 @@ const Products = () => {
 
   // Filter logic - my implementation
   const filteredProducts = products.filter(product => {
+    // Search filter check
+    const searchMatch = searchTerm === '' || product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    
     // Category filter check
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
     
@@ -111,13 +115,14 @@ const Products = () => {
       product.price >= range.min && product.price <= range.max
     );
     
-    return categoryMatch && styleMatch && priceMatch;
+    return searchMatch && categoryMatch && styleMatch && priceMatch;
   });
 
   // Sort products - custom sort implementation
   if (sortBy === 'price-asc') filteredProducts.sort((a, b) => (a.priceSale || a.price) - (b.priceSale || b.price));
   if (sortBy === 'price-desc') filteredProducts.sort((a, b) => (b.priceSale || b.price) - (a.priceSale || a.price));
-  if (sortBy === 'name') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+  if (sortBy === 'name-asc') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+  if (sortBy === 'name-desc') filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
 
   // Pagination logic - my custom implementation
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -162,36 +167,99 @@ const Products = () => {
 
   // Component return - main render
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-luxury-silverPearl">
 
       {/* HEADER BANNER */}
-      <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
+      <div className="bg-gradient-to-b from-luxury-silverPearlDark to-luxury-silverPearl py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">SẢN PHẨM</h1>
-          <div className="w-20 h-1 bg-luxury-taupe mx-auto mb-6"></div>
-          <p className="text-luxury-brown text-lg font-light text-center">Khám phá bộ sưu tập trang sức cao cấp</p>
+          <h1 className="text-5xl font-light mb-4 text-luxury-deepBlack tracking-wide text-center">SẢN PHẨM</h1>
+          <div className="w-20 h-1 bg-luxury-platinumGrey mx-auto mb-6"></div>
+          <p className="text-luxury-steelGrey text-lg font-light text-center">Khám phá bộ sưu tập trang sức cao cấp</p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* ------- FILTERS -------- */}
-        <div className="bg-white border-b border-gray-200 pb-6 mb-8">
+        <div className="bg-luxury-silverPearlLight border-b border-luxury-metallicSilver pb-6 mb-8">
           <div className="flex flex-wrap items-center gap-8 mb-4">
+            {/* SEARCH BAR */}
+            <div className="flex-1 min-w-[300px] relative">
+              <input
+                type="text"
+                placeholder="Tìm kiếm sản phẩm..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 pr-12 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
+              />
+              <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-luxury-steelGrey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              
+              {/* SEARCH SUGGESTIONS */}
+              {searchTerm && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-20 max-h-60 overflow-y-auto">
+                  {filteredProducts
+                    .filter(product => 
+                      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                    .slice(0, 5)
+                    .map(product => (
+                      <Link
+                        key={product.id}
+                        to={`/products/${product.id}`}
+                        className="block px-4 py-3 hover:bg-luxury-silverPearlDark border-b border-luxury-metallicSilver last:border-b-0"
+                        onClick={() => setSearchTerm('')}
+                      >
+                        <div className="flex items-center gap-3">
+                          <img src={product.images?.[0]} alt={product.name} className="w-12 h-12 object-cover rounded" />
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-luxury-steelDark">{product.name}</p>
+                            <p className="text-xs text-luxury-steelGrey">
+                              {product.priceSale ? product.priceSale.toLocaleString() : product.price.toLocaleString()}đ
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  {filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+                  ).length === 0 && (
+                    <div className="px-4 py-3 text-sm text-luxury-steelGrey">
+                      Không tìm thấy sản phẩm nào
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             
             {/* CATEGORY FILTER */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseLeave={() => {
+                const element = document.getElementById('category-filter');
+                if (element) {
+                  element.classList.add('hidden');
+                }
+              }}
+            >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
+                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('category-filter').classList.toggle('hidden')}
+                onMouseEnter={() => {
+                  const element = document.getElementById('category-filter');
+                  if (element && element.classList.contains('hidden')) {
+                    element.classList.remove('hidden');
+                  }
+                }}
               >
-                <span className="text-sm font-medium text-gray-900">LOẠI TRANG SỨC</span>
-                <svg className="w-4 h-4 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="text-sm font-medium text-luxury-deepBlack">LOẠI TRANG SỨC</span>
+                <svg className="w-4 h-4 text-luxury-steelGrey transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
-              <div id="category-filter" className="hidden absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <div id="category-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
                   {['Nhẫn', 'Bông tai', 'Lắc tay', 'Dây chuyền'].map(cat => (
                     <label key={cat} className="flex items-center cursor-pointer">
@@ -199,9 +267,9 @@ const Products = () => {
                         type="checkbox"
                         checked={selectedCategories.includes(cat)}
                         onChange={() => toggleCategory(cat)}
-                        className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
+                        className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey"
                       />
-                      <span className="ml-2 text-sm text-gray-700">{cat}</span>
+                      <span className="ml-2 text-sm text-luxury-steelDark">{cat}</span>
                     </label>
                   ))}
                 </div>
@@ -209,44 +277,71 @@ const Products = () => {
             </div>
 
             {/* MATERIAL FILTER */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseLeave={() => {
+                const element = document.getElementById('material-filter');
+                if (element) {
+                  element.classList.add('hidden');
+                }
+              }}
+            >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
+                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('material-filter').classList.toggle('hidden')}
+                onMouseEnter={() => {
+                  const element = document.getElementById('material-filter');
+                  if (element && element.classList.contains('hidden')) {
+                    element.classList.remove('hidden');
+                  }
+                }}
               >
-                <span className="text-sm font-medium text-gray-900">CHẤT LIỆU</span>
-                <svg className="w-4 h-4 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="text-sm font-medium text-luxury-deepBlack">CHẤT LIỆU</span>
+                <svg className="w-4 h-4 text-luxury-steelGrey transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div id="material-filter" className="hidden absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <div id="material-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={true}
                       disabled
-                      className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
+                      className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Bạc 925</span>
+                    <span className="ml-2 text-sm text-luxury-steelDark">Bạc 925</span>
                   </label>
                 </div>
               </div>
             </div>
 
             {/* STYLE FILTER */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseLeave={() => {
+                const element = document.getElementById('style-filter');
+                if (element) {
+                  element.classList.add('hidden');
+                }
+              }}
+            >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
+                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('style-filter').classList.toggle('hidden')}
+                onMouseEnter={() => {
+                  const element = document.getElementById('style-filter');
+                  if (element && element.classList.contains('hidden')) {
+                    element.classList.remove('hidden');
+                  }
+                }}
               >
-                <span className="text-sm font-medium text-gray-900">KIỂU DÁNG</span>
-                <svg className="w-4 h-4 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="text-sm font-medium text-luxury-deepBlack">PHONG CÁCH</span>
+                <svg className="w-4 h-4 text-luxury-steelGrey transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-
-              <div id="style-filter" className="hidden absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <div id="style-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
                   {['Minimal', 'Hoa văn', 'Cổ điển', 'Hiện đại', 'Đính đá'].map(style => (
                     <label key={style} className="flex items-center cursor-pointer">
@@ -254,9 +349,9 @@ const Products = () => {
                         type="checkbox"
                         checked={selectedStyles.includes(style)}
                         onChange={() => toggleStyle(style)}
-                        className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
+                        className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey"
                       />
-                      <span className="ml-2 text-sm text-gray-700">{style}</span>
+                      <span className="ml-2 text-sm text-luxury-steelDark">{style}</span>
                     </label>
                   ))}
                 </div>
@@ -264,18 +359,32 @@ const Products = () => {
             </div>
 
             {/* PRICE FILTER */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseLeave={() => {
+                const element = document.getElementById('price-filter');
+                if (element) {
+                  element.classList.add('hidden');
+                }
+              }}
+            >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-gray-50 px-4 border border-gray-200 rounded-lg"
+                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('price-filter').classList.toggle('hidden')}
+                onMouseEnter={() => {
+                  const element = document.getElementById('price-filter');
+                  if (element && element.classList.contains('hidden')) {
+                    element.classList.remove('hidden');
+                  }
+                }}
               >
-                <span className="text-sm font-medium text-gray-900">KHOẢNG GIÁ</span>
-                <svg className="w-4 h-4 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="text-sm font-medium text-luxury-deepBlack">KHOẢNG GIÁ</span>
+                <svg className="w-4 h-4 text-luxury-steelGrey transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
-              <div id="price-filter" className="hidden absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <div id="price-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
                   {[
                     { label: 'Dưới 500k', min: 0, max: 500000 },
@@ -288,9 +397,9 @@ const Products = () => {
                         type="checkbox"
                         checked={selectedPriceRange.some(r => r.label === range.label)}
                         onChange={() => togglePriceRange(range)}
-                        className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
+                        className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey"
                       />
-                      <span className="ml-2 text-sm text-gray-700">{range.label}</span>
+                      <span className="ml-2 text-sm text-luxury-steelDark">{range.label}</span>
                     </label>
                   ))}
                 </div>
@@ -298,11 +407,21 @@ const Products = () => {
             </div>
 
             {/* SORT OPTIONS */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseLeave={() => {
+                const element = document.getElementById('sort-select');
+                if (element) {
+                  element.blur();
+                }
+              }}
+            >
               <select
+                id="sort-select"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="py-3 px-4 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="py-3 px-4 border border-luxury-metallicSilver rounded-lg text-sm text-luxury-steelDark bg-luxury-silverPearl hover:bg-luxury-silverPearlDark focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey cursor-pointer"
+                onMouseEnter={(e) => e.target.focus()}
               >
                 <option value="name-asc">Tên: A-Z</option>
                 <option value="name-desc">Tên: Z-A</option>
@@ -314,13 +433,13 @@ const Products = () => {
 
           {/* SELECTED FILTERS */}
           <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-sm text-gray-600">Đã chọn:</span>
+            <span className="text-sm text-luxury-steelGrey">Đã chọn:</span>
             {selectedCategories.map(cat => (
-              <span key={cat} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+              <span key={cat} className="inline-flex items-center gap-1 px-3 py-1 bg-luxury-silverPearlDark text-luxury-steelDark rounded-full text-sm border border-luxury-metallicSilver">
                 {cat}
                 <button
                   onClick={() => toggleCategory(cat)}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-luxury-steelGrey hover:text-luxury-deepBlack"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -329,11 +448,11 @@ const Products = () => {
               </span>
             ))}
             {selectedStyles.map(style => (
-              <span key={style} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+              <span key={style} className="inline-flex items-center gap-1 px-3 py-1 bg-luxury-silverPearlDark text-luxury-steelDark rounded-full text-sm border border-luxury-metallicSilver">
                 {style}
                 <button
                   onClick={() => toggleStyle(style)}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-luxury-steelGrey hover:text-luxury-deepBlack"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -342,11 +461,11 @@ const Products = () => {
               </span>
             ))}
             {selectedPriceRange.map(range => (
-              <span key={range.label} className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+              <span key={range.label} className="inline-flex items-center gap-1 px-3 py-1 bg-luxury-silverPearlDark text-luxury-steelDark rounded-full text-sm border border-luxury-metallicSilver">
                 {range.label}
                 <button
                   onClick={() => togglePriceRange(range)}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-luxury-steelGrey hover:text-luxury-deepBlack"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -357,7 +476,7 @@ const Products = () => {
             {(selectedCategories.length > 0 || selectedStyles.length > 0 || selectedPriceRange.length > 0) && (
               <button
                 onClick={clearAllFilters}
-                className="text-sm text-gray-500 hover:text-gray-700 underline"
+                className="text-sm text-luxury-steelGrey hover:text-luxury-deepBlack underline"
               >
                 Xóa tất cả
               </button>
@@ -378,8 +497,8 @@ const Products = () => {
               viewMode === 'grid' ? (
                 <ProductCard key={product.id} product={product} />
               ) : (
-                <div key={product.id} className="group bg-white hover:shadow-xl transition-all duration-500 border border-gray-200 flex gap-6">
-                  <div className="w-64 h-64 flex-shrink-0 relative overflow-hidden bg-gray-50">
+                <div key={product.id} className="group bg-luxury-silverPearl hover:shadow-silver-xl transition-all duration-500 border border-luxury-metallicSilver flex gap-6">
+                  <div className="w-64 h-64 flex-shrink-0 relative overflow-hidden bg-luxury-silverPearlDark">
                     <img 
                       src={product.images?.[0]} 
                       alt={product.name}
@@ -390,7 +509,7 @@ const Products = () => {
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <Link to={`/products/${product.id}`}>
-                        <h3 className="text-2xl font-light text-luxury-charcoal mb-3 group-hover:text-luxury-taupe transition">
+                        <h3 className="text-2xl font-light text-luxury-deepBlack mb-3 group-hover:text-luxury-steelDark transition">
                           {product.name}
                         </h3>
                       </Link>
@@ -401,14 +520,14 @@ const Products = () => {
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
                         ))}
-                        <span className="text-sm text-luxury-taupe ml-2">({product.reviews} đánh giá)</span>
+                        <span className="text-sm text-luxury-steelGrey ml-2">({product.reviews} đánh giá)</span>
                       </div>
 
-                      <p className="text-luxury-brown font-light mb-3">
+                      <p className="text-luxury-steelGrey font-light mb-3">
                         <span className="text-sm">Chất liệu:</span> {product.material}
                       </p>
 
-                      <p className="text-luxury-brown font-light mb-3">
+                      <p className="text-luxury-steelGrey font-light mb-3">
                         <span className="text-sm">Danh mục:</span> {product.category}
                       </p>
                     </div>
@@ -416,14 +535,14 @@ const Products = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         {product.priceSale && product.priceSale < product.price && (
-                          <span className="text-luxury-taupe line-through text-sm block mb-1">{formatPrice(product.price)}</span>
+                          <span className="text-luxury-steelGrey line-through text-sm block mb-1">{formatPrice(product.price)}</span>
                         )}
-                        <p className="text-luxury-charcoal font-light text-2xl">{formatPrice(product.priceSale || product.price)}</p>
+                        <p className="text-luxury-deepBlack font-light text-2xl">{formatPrice(product.priceSale || product.price)}</p>
                       </div>
 
                       <Link
                         to={`/products/${product.id}`}
-                        className="border-2 border-luxury-charcoal text-luxury-charcoal px-8 py-3 text-xs font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300"
+                        className="border-2 border-luxury-deepBlack text-luxury-deepBlack px-8 py-3 text-xs font-light tracking-wider hover:bg-luxury-deepBlack hover:text-luxury-silverPearl transition-all duration-300"
                       >
                         XEM CHI TIẾT
                       </Link>
@@ -441,7 +560,7 @@ const Products = () => {
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 border ${currentPage === page ? 'bg-luxury-charcoal text-white' : 'border-gray-300 text-gray-700'} hover:bg-gray-100`}
+              className={`px-4 py-2 border ${currentPage === page ? 'bg-luxury-deepBlack text-luxury-silverPearl' : 'border-luxury-metallicSilver text-luxury-steelDark'} hover:bg-luxury-silverPearlDark transition-colors`}
             >
               {page}
             </button>

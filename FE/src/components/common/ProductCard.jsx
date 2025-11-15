@@ -86,7 +86,7 @@ const ProductCard = ({ product, onQuickView }) => {
       viewport={{ once: true }}
     >
       <Link to={`/products/${product.id}`} className="block">
-        <div className="aspect-square overflow-hidden bg-luxury-pearl">
+        <div className="aspect-square overflow-hidden bg-luxury-silverPearl">
           <img 
             src={
               product.images?.[0] 
@@ -102,22 +102,22 @@ const ProductCard = ({ product, onQuickView }) => {
           />
         </div>
         <div className="p-6">
-          <p className="text-luxury-gray text-xs tracking-widest mb-2 uppercase">{product.category}</p>
-          <h3 className="font-serif text-luxury-black font-light text-lg tracking-wide mb-3 group-hover:text-luxury-darkGray transition-colors">
+          <p className="text-luxury-steelGrey text-xs tracking-widest mb-2 uppercase">{product.category}</p>
+          <h3 className="font-serif text-luxury-deepBlack font-light text-lg tracking-wide mb-3 group-hover:text-luxury-steelGrey transition-colors">
             {product.name}
           </h3>
           <div className="flex items-center gap-2 mb-2">
             {hasDiscount && (
-              <span className="text-luxury-lightGray line-through text-sm">{formatPrice(product.price)}</span>
+              <span className="text-luxury-platinumGrey line-through text-sm">{formatPrice(product.price)}</span>
             )}
-            <span className={`font-medium ${hasDiscount ? 'text-luxury-black' : 'text-luxury-darkGray'}`}>
+            <span className={`font-medium ${hasDiscount ? 'text-luxury-deepBlack' : 'text-luxury-steelGrey'}`}>
               {formatPrice(displayPrice)}
             </span>
           </div>
           {product.rating && (
-            <div className="flex items-center gap-1 text-luxury-darkGray text-sm">
+            <div className="flex items-center gap-1 text-luxury-steelGrey text-sm">
               {'★'.repeat(product.rating)}{'☆'.repeat(5 - product.rating)}
-              <span className="text-luxury-gray ml-1">({product.reviews})</span>
+              <span className="text-luxury-platinumGrey ml-1">({product.reviews})</span>
             </div>
           )}
         </div>
@@ -142,7 +142,7 @@ const ProductCard = ({ product, onQuickView }) => {
           className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
             inWishlist 
               ? 'bg-red-500 text-white shadow-lg' 
-              : 'bg-luxury-white/90 text-luxury-darkGray hover:bg-red-50 hover:text-red-500'
+              : 'bg-luxury-silverPearl/90 text-luxury-steelGrey hover:bg-luxury-metallicSilver hover:text-luxury-deepBlack'
           } ${wishlistLoading ? 'opacity-50 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'}`}
           title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
         >
@@ -169,7 +169,7 @@ const ProductCard = ({ product, onQuickView }) => {
       {onQuickView && (
         <button
           onClick={() => onQuickView(product)}
-          className="absolute top-4 right-4 bg-luxury-white/90 p-2 opacity-0 group-hover:opacity-100 transition-all border-1 border-luxury-platinum hover:bg-luxury-black hover:text-luxury-white"
+          className="absolute top-4 right-4 bg-luxury-silverPearl/90 p-2 opacity-0 group-hover:opacity-100 transition-all border-1 border-luxury-metallicSilver hover:bg-luxury-deepBlack hover:text-luxury-silverPearl"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -182,11 +182,11 @@ const ProductCard = ({ product, onQuickView }) => {
       <button
         onClick={handleAddToCart}
         disabled={cartLoading}
-        className="absolute bottom-6 left-6 right-6 bg-luxury-charcoal text-luxury-cream py-3 px-6 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-luxury-brown disabled:opacity-50 disabled:cursor-not-allowed tracking-[0.2em] text-xs font-medium uppercase"
+        className="absolute bottom-6 left-6 right-6 bg-luxury-deepBlack text-luxury-silverPearl py-3 px-6 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-luxury-steelGrey disabled:opacity-50 disabled:cursor-not-allowed tracking-[0.2em] text-xs font-medium uppercase"
       >
         {cartLoading ? (
           <span className="flex items-center justify-center gap-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-luxury-cream"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-luxury-silverPearl"></div>
             Đang thêm...
           </span>
         ) : (

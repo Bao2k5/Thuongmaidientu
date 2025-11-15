@@ -55,16 +55,16 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-2xl p-8">
+    <div className="min-h-screen bg-gradient-to-br from-luxury-silverPearlDark to-luxury-silverPearl flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-luxury-silverPearl rounded-xl shadow-2xl p-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold text-gray-900">Đặt lại mật khẩu</h2>
-          <p className="mt-2 text-sm text-gray-600">Nhập mật khẩu mới của bạn</p>
+          <h2 className="text-3xl font-extrabold text-luxury-deepBlack">Đặt lại mật khẩu</h2>
+          <p className="mt-2 text-sm text-luxury-steelGrey">Nhập mật khẩu mới của bạn</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-luxury-deepBlack">
               Email
             </label>
             <input
@@ -73,12 +73,12 @@ const ResetPassword = () => {
               type="email"
               value={formData.email}
               disabled
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
+              className="mt-1 block w-full px-3 py-2 border border-luxury-metallicSilver rounded-md shadow-sm bg-luxury-silverPearlDark cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="newPassword" className="block text-sm font-medium text-luxury-deepBlack">
               Mật khẩu mới <span className="text-red-500">*</span>
             </label>
             <input
@@ -88,13 +88,13 @@ const ResetPassword = () => {
               required
               value={formData.newPassword}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500"
+              className="mt-1 block w-full px-3 py-2 border border-luxury-metallicSilver rounded-md shadow-sm focus:outline-none focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
               placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
             />
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-luxury-deepBlack">
               Xác nhận mật khẩu <span className="text-red-500">*</span>
             </label>
             <input
@@ -104,7 +104,7 @@ const ResetPassword = () => {
               required
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500"
+              className="mt-1 block w-full px-3 py-2 border border-luxury-metallicSilver rounded-md shadow-sm focus:outline-none focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
               placeholder="Nhập lại mật khẩu mới"
             />
           </div>
@@ -114,8 +114,8 @@ const ResetPassword = () => {
             disabled={loading}
             className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
               loading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
+                ? 'bg-luxury-steelGrey cursor-not-allowed'
+                : 'bg-luxury-deepBlack hover:bg-luxury-platinumGrey transition-colors'
             }`}
           >
             {loading ? 'Đang xử lý...' : 'Đặt lại mật khẩu'}
@@ -125,7 +125,7 @@ const ResetPassword = () => {
         <div className="mt-6 text-center">
           <button
             onClick={() => navigate('/login')}
-            className="text-sm text-pink-600 hover:text-pink-800 font-medium"
+            className="text-sm text-luxury-steelGrey hover:text-luxury-deepBlack font-medium"
           >
             ← Quay lại đăng nhập
           </button>

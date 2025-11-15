@@ -172,7 +172,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-luxury-ivory to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-luxury-silverPearlDark to-luxury-silverPearl flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
 
         {}
@@ -181,12 +181,12 @@ export default function Register() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h2 className="text-3xl font-light text-luxury-charcoal tracking-wide">
+          <h2 className="text-3xl font-light text-luxury-deepBlack tracking-wide">
             {step === 1 && 'ĐĂNG KÝ TÀI KHOẢN'}
             {step === 2 && 'XÁC THỰC OTP'}
             {step === 3 && 'HOÀN THÀNH'}
           </h2>
-          <p className="mt-2 text-sm text-luxury-brown font-light">
+          <p className="mt-2 text-sm text-luxury-steelGrey font-light">
             {step === 1 && 'Tạo tài khoản mới tại HM Jewelry'}
             {step === 2 && 'Nhập mã OTP đã gửi đến email của bạn'}
             {step === 3 && 'Chào mừng bạn đến với HM Jewelry!'}
@@ -201,9 +201,9 @@ export default function Register() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="bg-accent-mintLight border-l-4 border-luxury-sage p-4 rounded"
+              className="bg-luxury-platinumLight border-l-4 border-luxury-metallicSilver p-4 rounded"
             >
-              <p className="text-luxury-charcoal text-sm font-light">{message}</p>
+              <p className="text-luxury-deepBlack text-sm font-light">{message}</p>
             </motion.div>
           )}
 
@@ -221,7 +221,7 @@ export default function Register() {
         </AnimatePresence>
 
         {}
-        <div className="bg-white border border-luxury-beige p-8 shadow-lg">
+        <div className="bg-luxury-silverPearl border border-luxury-metallicSilver p-8 shadow-lg">
           <AnimatePresence mode="wait">
             {}
             {step === 2 && otpVerified && (
@@ -235,7 +235,7 @@ export default function Register() {
                 <div className="mx-auto w-16 h-16 bg-accent-mintLight rounded-full flex items-center justify-center mb-4">
                   <span className="text-4xl">✅</span>
                 </div>
-                <h3 className="text-xl font-light text-luxury-charcoal">
+                <h3 className="text-xl font-light text-luxury-deepBlack">
                   Đăng ký thành công!
                 </h3>
                 <p className="text-sm text-luxury-brown font-light">
@@ -257,7 +257,7 @@ export default function Register() {
                 className="space-y-4"
               >
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2">
                     Họ và tên *
                   </label>
                   <input
@@ -266,13 +266,13 @@ export default function Register() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-luxury-beige rounded-lg focus:outline-none focus:border-luxury-taupe font-light"
+                    className="w-full px-4 py-3 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:border-luxury-platinumGrey font-light"
                     placeholder="Nguyễn Văn A"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2">
                     Email *
                   </label>
                   <input
@@ -281,13 +281,13 @@ export default function Register() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-luxury-beige rounded-lg focus:outline-none focus:border-luxury-taupe font-light"
+                    className="w-full px-4 py-3 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:border-luxury-platinumGrey font-light"
                     placeholder="example@email.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2">
                     Số điện thoại
                   </label>
                   <input
@@ -295,13 +295,13 @@ export default function Register() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-luxury-beige rounded-lg focus:outline-none focus:border-luxury-taupe font-light"
+                    className="w-full px-4 py-3 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:border-luxury-platinumGrey font-light"
                     placeholder="0123456789"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2">
                     Mật khẩu *
                   </label>
                   <div className="relative">
@@ -312,13 +312,13 @@ export default function Register() {
                       minLength="6"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 pr-12 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
                       placeholder="Ít nhất 6 ký tự"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-luxury-platinumGrey hover:text-luxury-deepBlack"
                     >
                       {showPassword ? '👁️' : '👁️‍🗨️'}
                     </button>
@@ -326,7 +326,7 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2">
                     Xác nhận mật khẩu *
                   </label>
                   <div className="relative">
@@ -337,13 +337,13 @@ export default function Register() {
                       minLength="6"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 pr-12 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
                       placeholder="Nhập lại mật khẩu"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-luxury-platinumGrey hover:text-luxury-deepBlack"
                     >
                       {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
                     </button>
@@ -353,15 +353,15 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-luxury-deepBlack text-luxury-silverPearl py-4 text-sm font-light tracking-wider hover:bg-luxury-steelGrey transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'ĐANG XỬ LÝ...' : 'ĐĂNG KÝ & NHẬN OTP'}
                 </button>
 
                 <div className="text-center mt-4">
-                  <p className="text-sm text-luxury-brown font-light">
+                  <p className="text-sm text-luxury-steelGrey font-light">
                     Đã có tài khoản?{' '}
-                    <Link to="/login" className="text-luxury-charcoal hover:text-luxury-taupe font-normal">
+                    <Link to="/login" className="text-luxury-deepBlack hover:text-luxury-steelGrey font-normal">
                       Đăng nhập ngay
                     </Link>
                   </p>
@@ -382,17 +382,17 @@ export default function Register() {
                 className="space-y-6"
               >
                 <div className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-luxury-mint rounded-full flex items-center justify-center mb-4">
+                  <div className="mx-auto w-16 h-16 bg-luxury-silverPearlDark rounded-full flex items-center justify-center mb-4">
                     <span className="text-3xl">📧</span>
                   </div>
-                  <p className="text-sm text-luxury-brown font-light">
+                  <p className="text-sm text-luxury-steelGrey font-light">
                     Mã OTP đã được gửi đến<br />
-                    <strong className="text-luxury-charcoal">{formData.email}</strong>
+                    <strong className="text-luxury-deepBlack">{formData.email}</strong>
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-light text-luxury-charcoal mb-2 text-center">
+                  <label className="block text-sm font-light text-luxury-deepBlack mb-2 text-center">
                     Nhập mã OTP (6 số)
                   </label>
                   <input
@@ -402,10 +402,10 @@ export default function Register() {
                     required
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                    className="w-full px-4 py-3 border border-luxury-beige rounded-lg focus:outline-none focus:border-luxury-taupe text-center text-2xl tracking-widest font-bold"
+                    className="w-full px-4 py-3 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:border-luxury-platinumGrey text-center text-2xl tracking-widest font-bold"
                     placeholder="000000"
                   />
-                  <p className="mt-1 text-xs text-luxury-taupe text-center font-light">
+                  <p className="mt-1 text-xs text-luxury-platinumGrey text-center font-light">
                     Mã có hiệu lực trong 10 phút
                   </p>
                 </div>
@@ -420,31 +420,31 @@ export default function Register() {
                       setMessage('');
                       setOtpVerified(false);
                     }}
-                    className="flex-1 py-3 px-4 border border-luxury-beige rounded-lg text-luxury-brown hover:bg-luxury-ivory transition-colors font-light"
+                    className="flex-1 py-3 px-4 border border-luxury-metallicSilver rounded-lg text-luxury-steelGrey hover:bg-luxury-metallicSilver/50 transition-colors font-light"
                   >
                     ← Quay lại
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3 px-4 bg-luxury-charcoal text-white rounded-lg hover:bg-luxury-brown transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-light"
+                    className="flex-1 py-3 px-4 bg-luxury-deepBlack text-luxury-silverPearl rounded-lg hover:bg-luxury-steelGrey transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-light"
                   >
                     {loading ? '🔄 Đang xác thực...' : '✅ Xác nhận'}
                   </button>
                 </div>
 
                 {}
-                <div className="text-center pt-4 border-t border-luxury-beige">
+                <div className="text-center pt-4 border-t border-luxury-metallicSilver">
                   {resendTimer > 0 ? (
-                    <p className="text-sm text-luxury-taupe font-light">
-                      Gửi lại mã sau <strong className="text-luxury-charcoal">{resendTimer}s</strong>
+                    <p className="text-sm text-luxury-platinumGrey font-light">
+                      Gửi lại mã sau <strong className="text-luxury-deepBlack">{resendTimer}s</strong>
                     </p>
                   ) : (
                     <button
                       type="button"
                       onClick={handleResendOTP}
                       disabled={loading}
-                      className="text-sm text-luxury-taupe hover:text-luxury-charcoal font-light disabled:opacity-50"
+                      className="text-sm text-luxury-platinumGrey hover:text-luxury-deepBlack font-light disabled:opacity-50"
                     >
                       📧 Gửi lại mã OTP
                     </button>
