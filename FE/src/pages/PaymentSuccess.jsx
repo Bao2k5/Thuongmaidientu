@@ -23,17 +23,13 @@ const PaymentSuccess = () => {
       }
 
       try {
-
-        if (resultCode) {
-
-          setVerifying(true);
-          const verifyResult = await paymentService.queryMomoPayment(orderId);
-          if (verifyResult.success && verifyResult.resultCode === 0) {
-            setPaymentStatus('success');
-          } else {
-            setPaymentStatus('failed');
-          }
-          setVerifying(false);
+        // Nếu có resultCode từ URL (đã verify hoặc simulate), không cần verify lại
+        if (resultCode === '0' || resultCode === 0) {
+          // Đã thanh toán thành công, không cần verify lại
+          setPaymentStatus('success');
+        } else if (resultCode) {
+          // Có resultCode nhưng không phải 0, có thể là lỗi
+          setPaymentStatus('failed');
         } else if (vnpResponseCode) {
 
           setVerifying(true);

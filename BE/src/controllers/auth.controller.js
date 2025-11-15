@@ -118,7 +118,18 @@ exports.login = async (req, res) => {
       console.error('[auth.login] jwt.sign error:', jwtErr && jwtErr.stack ? jwtErr.stack : jwtErr);
       return res.status(500).json({ error: 'JWT error' });
     }
-    res.json({ message: "Login success", user: { id: user._id, name: user.name, email: user.email, role: user.role }, token });
+    res.json({ 
+      message: "Login success", 
+      user: { 
+        id: user._id, 
+        name: user.name, 
+        email: user.email, 
+        phone: user.phone || '',
+        role: user.role,
+        createdAt: user.createdAt
+      }, 
+      token 
+    });
   } catch (err) {
     console.error('[auth.login] error:', err && err.stack ? err.stack : err);
     res.status(500).json({ error: err.message || 'Server error' });
@@ -396,7 +407,9 @@ exports.verifyOtp = async (req, res) => {
         id: user._id, 
         name: user.name, 
         email: user.email,
-        role: user.role
+        phone: user.phone || '',
+        role: user.role,
+        createdAt: user.createdAt
       },
       token
     });

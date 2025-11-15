@@ -198,8 +198,9 @@ const Checkout = () => {
 
         const momoResult = await paymentService.createMomoPayment(order._id);
         if (momoResult.success && momoResult.requestId) {
-
-          navigate(`/payment/momo/simulator?orderId=${order._id}&requestId=${momoResult.requestId}&amount=${Math.round(order.total)}`);
+          // Truyền payUrl nếu có để hiển thị QR code thật
+          const payUrlParam = momoResult.payUrl ? `&payUrl=${encodeURIComponent(momoResult.payUrl)}` : '';
+          navigate(`/payment/momo/simulator?orderId=${order._id}&requestId=${momoResult.requestId}&amount=${Math.round(order.total)}${payUrlParam}`);
         } else {
           throw new Error('Không thể tạo thanh toán MoMo');
         }
