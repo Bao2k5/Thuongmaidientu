@@ -204,12 +204,6 @@
   .input-luxury::placeholder {
     color: #B8A890;
   }
-  }
-
-  .input-luxury:focus {
-    outline: none;
-    border-color: #D9CCBE;
-  }
 
   /* Section spacing */
   .section-luxury {
@@ -246,6 +240,7 @@
       padding-right: 32px;
     }
   }
+}
 
 @layer utilities {
   .text-heading {
