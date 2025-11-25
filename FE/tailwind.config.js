@@ -9,53 +9,53 @@ export default {
       colors: {
 
         luxury: {
-          // PRIMARY SYSTEM - 60%
-          silverPearl: '#F7F8FA',      // Primary background - bright, soft, premium
-          silverPearlLight: '#FAFBFC', // Lighter version
-          silverPearlDark: '#F0F2F5',  // Darker version
-          
-          // SECONDARY SYSTEM - 30%
-          platinumGrey: '#C8CCD0',     // Main secondary - platinum
-          platinumLight: '#D4D8DC',    // Light platinum
-          steelGrey: '#8D9297',        // Steel grey - medium
-          steelDark: '#6C7177',        // Dark steel
-          
-          // ACCENT SYSTEM - 10%
-          deepBlack: '#1A1A1A',        // Primary accent
-          softBlack: '#2D2D2D',        // Soft black
-          metallicSilver: '#E8E9EB',   // Metallic silver
-          
+          // PRIMARY SYSTEM - CHAMPAGNE & ROSE GOLD THEME
+          silverPearl: '#FAF7F2',      // Main BG (Champagne)
+          silverPearlLight: '#FFFFFF', // Lighter BG (Pure White)
+          silverPearlDark: '#F5F0EB',  // Darker BG (Warm Champagne)
+
+          // SECONDARY SYSTEM
+          platinumGrey: '#E8DDD3',     // Borders (Beige)
+          platinumLight: '#F0E6DC',    // Light border
+          steelGrey: '#B76E79',        // Medium accent (Rose Gold)
+          steelDark: '#A05D6B',        // Darker accent (Deep Rose)
+
+          // ACCENT SYSTEM
+          deepBlack: '#4A4A4A',        // Primary Text (Charcoal Grey)
+          softBlack: '#6B6B6B',        // Secondary Text (Soft Grey)
+          metallicSilver: '#D4C4BA',   // Light accent (Champagne Beige)
+
           // LEGACY COMPATIBILITY (mapped to new palette)
-          ivory: '#F7F8FA',            // → silverPearl
-          white: '#F7F8FA',            // → silverPearl
-          mint: '#F0F2F5',             // → silverPearlDark
-          sage: '#E8E9EB',             // → metallicSilver
-          softGreen: '#D4D8DC',        // → platinumLight
-          beige: '#C8CCD0',            // → platinumGrey
-          taupe: '#8D9297',            // → steelGrey
-          brown: '#6C7177',            // → steelDark
-          charcoal: '#2D2D2D',         // → softBlack
-          black: '#1A1A1A',            // → deepBlack
+          ivory: '#FAF7F2',            // → silverPearl
+          white: '#FAF7F2',            // → silverPearl
+          mint: '#F5F0EB',             // → silverPearlDark
+          sage: '#D4C4BA',             // → metallicSilver
+          softGreen: '#F0E6DC',        // → platinumLight
+          beige: '#E8DDD3',            // → platinumGrey
+          taupe: '#B76E79',            // → steelGrey (Rose Gold)
+          brown: '#A05D6B',            // → steelDark
+          charcoal: '#6B6B6B',         // → softBlack
+          black: '#4A4A4A',            // → deepBlack
         },
 
         accent: {
-          // LUXURY SILVER ACCENTS
-          silver: '#E8E9EB',           // Metallic silver
-          silverDark: '#C8CCD0',       // Dark silver
-          platinum: '#B8BCC0',         // Platinum accent
-          
+          // LUXURY ACCENTS (Champagne & Rose Gold Edition)
+          silver: '#D4C4BA',           // Champagne Beige
+          silverDark: '#E8DDD3',       // Light Beige
+          platinum: '#B76E79',         // Rose Gold
+
           // FUNCTIONAL COLORS
-          primary: '#1A1A1A',          // Primary action (deep black)
-          secondary: '#6C7177',        // Secondary action (steel dark)
-          success: '#4A5568',          // Success (dark grey)
-          warning: '#8D9297',          // Warning (steel grey)
-          error: '#6C7177',            // Error (steel dark)
-          
+          primary: '#4A4A4A',          // Primary action (Charcoal)
+          secondary: '#A05D6B',        // Secondary action (Deep Rose)
+          success: '#7FA87F',          // Success (Sage Green)
+          warning: '#E8A87C',          // Warning (Peach)
+          error: '#C85A6E',            // Error (Rose Red)
+
           // LEGACY COMPATIBILITY
-          gold: '#D4AF37',             // Keep gold for special occasions
-          rose: '#E8E9EB',             // → silver
-          peach: '#F0F2F5',            // → silverPearlDark
-          mintLight: '#FAFBFC',        // → silverPearlLight
+          gold: '#B76E79',             // Gold → Rose Gold
+          rose: '#D4C4BA',             // Rose → Champagne Beige
+          peach: '#F5F0EB',            // Peach → Warm Champagne
+          mintLight: '#FFFFFF',        // Mint → Pure White
         },
       },
       fontFamily: {
@@ -78,7 +78,7 @@ export default {
         'silver-lg': '0 10px 15px rgba(26, 26, 26, 0.12)',
         'silver-xl': '0 20px 25px rgba(26, 26, 26, 0.16)',
         'silver-2xl': '0 25px 50px rgba(26, 26, 26, 0.20)',
-        
+
         // LEGACY COMPATIBILITY
         'sm': '0 1px 2px rgba(26, 26, 26, 0.04)',
         'md': '0 4px 6px rgba(26, 26, 26, 0.08)',
