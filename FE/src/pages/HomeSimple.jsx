@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/common/ProductCard';
-import FlashSaleSection from '../components/common/FlashSaleSection';
+
 import NewsletterSignup from '../components/common/NewsletterSignup';
 import TestimonialsSlider from '../components/common/TestimonialsSlider';
 import InstagramFeed from '../components/common/InstagramFeed';
@@ -29,13 +29,13 @@ const HomeSimple = () => {
     const fetchHome = async () => {
       try {
         const p = await api.get('/products', { params: { limit: 12 } });
-        setFeaturedProducts((p.data.products || []).slice(0,8).map(x => ({ 
-          id: x._id, 
-          name: x.name, 
+        setFeaturedProducts((p.data.products || []).slice(0, 8).map(x => ({
+          id: x._id,
+          name: x.name,
           price: x.price,
           priceSale: x.priceSale,
           category: x.category,
-          images: (x.images||[]).map(i => typeof i === 'string' ? i : (i.url || i))
+          images: (x.images || []).map(i => typeof i === 'string' ? i : (i.url || i))
         })));
       } catch (err) {
         console.error('Failed to load featured products', err);
@@ -104,22 +104,21 @@ const HomeSimple = () => {
 
   return (
     <div className="min-h-screen bg-luxury-silverPearl">
-      {}
+      { }
       {heroBanners.length > 0 ? (
         <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
           {heroBanners.map((banner, index) => (
             <div
               key={banner._id}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentBannerIndex ? 'opacity-100' : 'opacity-0'
-              }`}
+              className={`absolute inset-0 transition-opacity duration-1000 ${index === currentBannerIndex ? 'opacity-100' : 'opacity-0'
+                }`}
             >
-              <img 
-                src={banner.image} 
+              <img
+                src={banner.image}
                 alt={banner.title}
                 className="w-full h-full object-cover object-center"
               />
-              {}
+              { }
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                 <div className="text-center text-white max-w-3xl px-8">
                   {banner.title && (
@@ -150,16 +149,15 @@ const HomeSimple = () => {
             </div>
           ))}
 
-          {}
+          { }
           {heroBanners.length > 1 && (
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
               {heroBanners.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentBannerIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentBannerIndex ? 'bg-luxury-silverPearl' : 'bg-luxury-silverPearl/50'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors ${index === currentBannerIndex ? 'bg-luxury-silverPearl' : 'bg-luxury-silverPearl/50'
+                    }`}
                 />
               ))}
             </div>
@@ -168,15 +166,15 @@ const HomeSimple = () => {
       ) : (
 
         <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
-          <img 
-            src="/bthn-hero.png" 
+          <img
+            src="/bthn-hero.png"
             alt="HM Jewelry"
             className="w-full h-full object-cover object-center"
           />
         </section>
       )}
 
-      {}
+      { }
       <section className="section-luxury bg-luxury-silverPearlDark">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -220,11 +218,10 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {}
-      <FlashSaleSection products={featuredProducts} />
 
-      
-      {}
+
+
+      { }
       <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
         <div className="container-luxury">
           <div className="text-center mb-20">
@@ -241,8 +238,8 @@ const HomeSimple = () => {
                 className="group block relative"
               >
                 <div className="aspect-square relative overflow-hidden border-1 border-luxury-metallicSilver">
-                  <img 
-                    src={item.image} 
+                  <img
+                    src={item.image}
                     alt={item.name}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
@@ -259,7 +256,7 @@ const HomeSimple = () => {
         </div>
       </section>
 
-      {}
+      { }
       <section className="section-luxury bg-luxury-silverPearlDark">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto text-center">
@@ -276,15 +273,15 @@ const HomeSimple = () => {
               </p>
 
               <p>
-                <strong className="text-luxury-deepBlack">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế, 
-                được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa. 
-                Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm, 
+                <strong className="text-luxury-deepBlack">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế,
+                được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa.
+                Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm,
                 là tình cảm được lưu giữ mãi mãi.
               </p>
 
               <p>
-                Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-deepBlack">bạc 925 nguyên chất</strong>, 
-                kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến 
+                Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-deepBlack">bạc 925 nguyên chất</strong>,
+                kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến
                 từng chi tiết nhỏ nhất, tất cả đều được thực hiện bởi đôi bàn tay tài hoa của những nghệ nhân lành nghề.
               </p>
 
@@ -321,13 +318,13 @@ const HomeSimple = () => {
               </div>
 
               <p className="italic">
-                Hãy để <strong className="text-luxury-deepBlack">HM Jewelry</strong> đồng hành cùng bạn trong những khoảnh khắc đáng nhớ, 
+                Hãy để <strong className="text-luxury-deepBlack">HM Jewelry</strong> đồng hành cùng bạn trong những khoảnh khắc đáng nhớ,
                 tô điểm thêm vẻ đẹp và sự tự tin cho phong cách của bạn.
               </p>
             </div>
 
-            <Link 
-              to="/about" 
+            <Link
+              to="/about"
               className="inline-block mt-12 bg-luxury-deepBlack text-luxury-silverPearl px-12 py-4 hover:bg-luxury-steelGrey transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
             >
               Tìm hiểu thêm
@@ -336,13 +333,13 @@ const HomeSimple = () => {
         </div>
       </section>
 
-        {}
-        <TestimonialsSlider />
+      { }
+      <TestimonialsSlider />
 
-        {}
-        <InstagramFeed />
+      { }
+      <InstagramFeed />
 
-      {}
+      { }
       <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
         <div className="container-luxury">
           <div className="text-center mb-20">
@@ -365,9 +362,9 @@ const HomeSimple = () => {
         </div>
       </section>
 
-  {}
+      { }
 
-      {}
+      { }
       <NewsletterSignup />
     </div>
   );
