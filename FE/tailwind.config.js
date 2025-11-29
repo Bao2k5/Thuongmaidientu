@@ -9,53 +9,53 @@ export default {
       colors: {
 
         luxury: {
-          // PRIMARY SYSTEM - CHAMPAGNE & ROSE GOLD THEME
-          silverPearl: '#FAF7F2',      // Main BG (Champagne)
-          silverPearlLight: '#FFFFFF', // Lighter BG (Pure White)
-          silverPearlDark: '#F5F0EB',  // Darker BG (Warm Champagne)
+          // PRIMARY SYSTEM - PINK & ROSE THEME
+          silverPearl: '#F4E4E4',      // Main BG (Pink/Rose)
+          silverPearlLight: '#FFFAFA', // Secondary BG (Ivory White)
+          silverPearlDark: '#FFFAFA',  // Secondary BG (Ivory White) - Mapped for content frames
 
           // SECONDARY SYSTEM
-          platinumGrey: '#E8DDD3',     // Borders (Beige)
+          platinumGrey: '#E6D0D0',     // Borders (Soft Pink)
           platinumLight: '#F0E6DC',    // Light border
-          steelGrey: '#B76E79',        // Medium accent (Rose Gold)
-          steelDark: '#A05D6B',        // Darker accent (Deep Rose)
+          steelGrey: '#C48A92',        // Accent (Earthy Pink)
+          steelDark: '#A66D75',        // Darker accent (Deep Earthy Pink)
 
           // ACCENT SYSTEM
-          deepBlack: '#4A4A4A',        // Primary Text (Charcoal Grey)
-          softBlack: '#6B6B6B',        // Secondary Text (Soft Grey)
-          metallicSilver: '#D4C4BA',   // Light accent (Champagne Beige)
+          deepBlack: '#4F3D3D',        // Primary Text (Dark Grayish Brown)
+          softBlack: '#6F5D5D',        // Secondary Text (Lighter Brown)
+          metallicSilver: '#D4C4BA',   // Light accent (Champagne Beige) - Keep for compatibility
 
           // LEGACY COMPATIBILITY (mapped to new palette)
-          ivory: '#FAF7F2',            // → silverPearl
-          white: '#FAF7F2',            // → silverPearl
-          mint: '#F5F0EB',             // → silverPearlDark
-          sage: '#D4C4BA',             // → metallicSilver
+          ivory: '#F4E4E4',            // → silverPearl
+          white: '#FFFAFA',            // → silverPearlLight
+          mint: '#FFFAFA',             // → silverPearlDark
+          sage: '#C48A92',             // → steelGrey
           softGreen: '#F0E6DC',        // → platinumLight
-          beige: '#E8DDD3',            // → platinumGrey
-          taupe: '#B76E79',            // → steelGrey (Rose Gold)
-          brown: '#A05D6B',            // → steelDark
-          charcoal: '#6B6B6B',         // → softBlack
-          black: '#4A4A4A',            // → deepBlack
+          beige: '#E6D0D0',            // → platinumGrey
+          taupe: '#C48A92',            // → steelGrey
+          brown: '#A66D75',            // → steelDark
+          charcoal: '#6F5D5D',         // → softBlack
+          black: '#4F3D3D',            // → deepBlack
         },
 
         accent: {
-          // LUXURY ACCENTS (Champagne & Rose Gold Edition)
+          // LUXURY ACCENTS (Pink & Rose Edition)
           silver: '#D4C4BA',           // Champagne Beige
-          silverDark: '#E8DDD3',       // Light Beige
-          platinum: '#B76E79',         // Rose Gold
+          silverDark: '#E6D0D0',       // Soft Pink Border
+          platinum: '#C48A92',         // Earthy Pink
 
           // FUNCTIONAL COLORS
-          primary: '#4A4A4A',          // Primary action (Charcoal)
-          secondary: '#A05D6B',        // Secondary action (Deep Rose)
+          primary: '#4F3D3D',          // Primary action (Dark Brown)
+          secondary: '#C48A92',        // Secondary action (Earthy Pink)
           success: '#7FA87F',          // Success (Sage Green)
           warning: '#E8A87C',          // Warning (Peach)
           error: '#C85A6E',            // Error (Rose Red)
 
           // LEGACY COMPATIBILITY
-          gold: '#B76E79',             // Gold → Rose Gold
-          rose: '#D4C4BA',             // Rose → Champagne Beige
-          peach: '#F5F0EB',            // Peach → Warm Champagne
-          mintLight: '#FFFFFF',        // Mint → Pure White
+          gold: '#C48A92',             // Gold → Earthy Pink
+          rose: '#F4E4E4',             // Rose → Main Pink BG
+          peach: '#FFFAFA',            // Peach → Ivory White
+          mintLight: '#FFFAFA',        // Mint → Ivory White
         },
       },
       fontFamily: {
