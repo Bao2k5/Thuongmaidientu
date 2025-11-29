@@ -78,7 +78,7 @@ const ProductCard = ({ product, onQuickView }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="group relative card-luxury"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -87,23 +87,23 @@ const ProductCard = ({ product, onQuickView }) => {
     >
       <Link to={`/products/${product.id}`} className="block">
         <div className="aspect-square overflow-hidden bg-luxury-silverPearl">
-          <img 
+          <img
             src={
-              product.images?.[0] 
+              product.images?.[0]
                 ? (typeof product.images[0] === 'string' ? product.images[0] : product.images[0].url)
                 : product.img || 'https://via.placeholder.com/500?text=No+Image'
-            } 
+            }
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => { 
-              e.target.onerror = null; 
+            onError={(e) => {
+              e.target.onerror = null;
               e.target.src = 'https://via.placeholder.com/500?text=Image+Not+Found';
             }}
           />
         </div>
         <div className="p-6">
           <p className="text-luxury-steelGrey text-xs tracking-widest mb-2 uppercase">{product.category}</p>
-          <h3 className="font-serif text-luxury-deepBlack font-light text-lg tracking-wide mb-3 group-hover:text-luxury-steelGrey transition-colors">
+          <h3 className="font-serif text-luxury-deepBlack font-light text-base tracking-wide mb-3 group-hover:text-luxury-steelGrey transition-colors">
             {product.name}
           </h3>
           <div className="flex items-center gap-2 mb-2">
@@ -123,9 +123,9 @@ const ProductCard = ({ product, onQuickView }) => {
         </div>
       </Link>
 
-      {}
+      { }
       {hasDiscount && (
-        <motion.div 
+        <motion.div
           className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
@@ -135,37 +135,36 @@ const ProductCard = ({ product, onQuickView }) => {
         </motion.div>
       )}
 
-      {}
+      { }
       <button
-          onClick={handleWishlistToggle}
-          disabled={wishlistLoading}
-          className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-            inWishlist 
-              ? 'bg-red-500 text-white shadow-lg' 
-              : 'bg-luxury-silverPearl/90 text-luxury-steelGrey hover:bg-luxury-metallicSilver hover:text-luxury-deepBlack'
+        onClick={handleWishlistToggle}
+        disabled={wishlistLoading}
+        className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${inWishlist
+            ? 'bg-red-500 text-white shadow-lg'
+            : 'bg-luxury-silverPearl/90 text-luxury-steelGrey hover:bg-luxury-metallicSilver hover:text-luxury-deepBlack'
           } ${wishlistLoading ? 'opacity-50 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'}`}
-          title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
-        >
-          {wishlistLoading ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-          ) : (
-            <svg 
-              className="w-5 h-5" 
-              fill={inWishlist ? "currentColor" : "none"} 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
-              />
-            </svg>
-          )}
-        </button>
+        title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+      >
+        {wishlistLoading ? (
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+        ) : (
+          <svg
+            className="w-5 h-5"
+            fill={inWishlist ? "currentColor" : "none"}
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+        )}
+      </button>
 
-      {}
+      { }
       {onQuickView && (
         <button
           onClick={() => onQuickView(product)}
@@ -178,7 +177,7 @@ const ProductCard = ({ product, onQuickView }) => {
         </button>
       )}
 
-      {}
+      { }
       <button
         onClick={handleAddToCart}
         disabled={cartLoading}

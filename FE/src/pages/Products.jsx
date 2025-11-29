@@ -518,7 +518,7 @@ const Products = () => {
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <Link to={`/products/${product.id}`}>
-                        <h3 className="text-2xl font-light text-luxury-deepBlack mb-3 group-hover:text-luxury-steelDark transition">
+                        <h3 className="text-xl font-light text-luxury-deepBlack mb-3 group-hover:text-luxury-steelDark transition">
                           {product.name}
                         </h3>
                       </Link>
