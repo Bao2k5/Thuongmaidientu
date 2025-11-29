@@ -94,7 +94,7 @@ const Products = () => {
         const params = { page: 1, limit: 100 };
 
         // Pass category to API if only one is selected (for server-side filtering optimization if supported)
-        if (selectedCategories.length === 1) params.category = selectedCategories[0];
+        // if (selectedCategories.length === 1) params.category = selectedCategories[0];
 
         const res = await api.get('/products', { params });
         const data = res.data || {};
