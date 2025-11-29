@@ -105,7 +105,7 @@ const Products = () => {
           price: p.price,
           priceSale: p.priceSale,
           images: (p.images || []).map(i => typeof i === 'string' ? i : (i.url || i)),
-          category: p.category || (p.collection && p.collection.name) || '',
+          category: (p.category || (p.collection && p.collection.name) || '').toLowerCase() === 'vòng tay' ? 'Lắc Tay' : (p.category || (p.collection && p.collection.name) || ''),
           style: p.style || '', // Ensure style is captured
           material: p.attributes?.material || '',
           rating: p.ratingsAvg || 0,
