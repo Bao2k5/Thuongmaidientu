@@ -191,7 +191,7 @@ const Products = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* ------- FILTERS -------- */}
-        <div className="bg-luxury-silverPearlLight border-b border-luxury-metallicSilver pb-6 mb-8">
+        <div className="pb-6 mb-8">
           <div className="flex flex-wrap items-center gap-8 mb-4">
             {/* SEARCH BAR */}
             <div className="flex-1 min-w-[300px] relative">
@@ -200,7 +200,7 @@ const Products = () => {
                 placeholder="Tìm kiếm sản phẩm..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 pr-12 border border-luxury-metallicSilver rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
+                className="w-full px-4 py-3 pr-12 bg-luxury-silverPearlLight border border-luxury-metallicSilver rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey focus:border-luxury-platinumGrey"
               />
               <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-luxury-steelGrey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -254,7 +254,7 @@ const Products = () => {
               }}
             >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
+                className="flex items-center gap-2 py-3 text-left bg-luxury-silverPearlLight hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('category-filter').classList.toggle('hidden')}
                 onMouseEnter={() => {
                   const element = document.getElementById('category-filter');
@@ -296,7 +296,7 @@ const Products = () => {
               }}
             >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
+                className="flex items-center gap-2 py-3 text-left bg-luxury-silverPearlLight hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('material-filter').classList.toggle('hidden')}
                 onMouseEnter={() => {
                   const element = document.getElementById('material-filter');
@@ -336,7 +336,7 @@ const Products = () => {
               }}
             >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
+                className="flex items-center gap-2 py-3 text-left bg-luxury-silverPearlLight hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('style-filter').classList.toggle('hidden')}
                 onMouseEnter={() => {
                   const element = document.getElementById('style-filter');
@@ -378,7 +378,7 @@ const Products = () => {
               }}
             >
               <button
-                className="flex items-center gap-2 py-3 text-left hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
+                className="flex items-center gap-2 py-3 text-left bg-luxury-silverPearlLight hover:bg-luxury-silverPearlDark px-4 border border-luxury-metallicSilver rounded-lg cursor-pointer"
                 onClick={() => document.getElementById('price-filter').classList.toggle('hidden')}
                 onMouseEnter={() => {
                   const element = document.getElementById('price-filter');
@@ -429,7 +429,7 @@ const Products = () => {
                 id="sort-select"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="py-3 px-4 border border-luxury-metallicSilver rounded-lg text-sm text-luxury-steelDark bg-luxury-silverPearl hover:bg-luxury-silverPearlDark focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey cursor-pointer"
+                className="py-3 px-4 border border-luxury-metallicSilver rounded-lg text-sm text-luxury-steelDark bg-luxury-silverPearlLight hover:bg-luxury-silverPearlDark focus:outline-none focus:ring-2 focus:ring-luxury-platinumGrey cursor-pointer"
                 onMouseEnter={(e) => e.target.focus()}
               >
                 <option value="name-asc">Tên: A-Z</option>
