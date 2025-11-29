@@ -193,7 +193,7 @@ Thuongmaidientu/
 
 ## � GIỚI THIỆU DỰ ÁN
 
-**Jewelry BTHN** là hệ thống thương mại điện tử chuyên về trang sức (nhẫn, dây chuyền, vòng tay, bông tai) được xây dựng với kiến trúc RESTful API hiện đại và giao diện người dùng luxury. Dự án kết hợp giữa backend mạnh mẽ (Node.js + Express + MongoDB) và frontend đẹp mắt (React + Vite + TailwindCSS) để tạo nên một trải nghiệm mua sắm trực tuyến hoàn chỉnh.
+**Jewelry BTHN** là hệ thống thương mại điện tử chuyên về trang sức (nhẫn, dây chuyền, lắc tay, bông tai) được xây dựng với kiến trúc RESTful API hiện đại và giao diện người dùng luxury. Dự án kết hợp giữa backend mạnh mẽ (Node.js + Express + MongoDB) và frontend đẹp mắt (React + Vite + TailwindCSS) để tạo nên một trải nghiệm mua sắm trực tuyến hoàn chỉnh.
 
 ### 🎯 Mục Tiêu Dự Án
 

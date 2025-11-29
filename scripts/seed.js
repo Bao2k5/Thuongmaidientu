@@ -25,48 +25,48 @@ async function main() {
   const pcount = await Product.countDocuments();
   if (pcount === 0) {
     await Product.create([
-      { 
-        name: 'Nhẫn Kim Cương Sang Trọng', 
-        slug: 'nhan-kim-cuong-sang-trong', 
-        price: 15000000, 
+      {
+        name: 'Nhẫn Kim Cương Sang Trọng',
+        slug: 'nhan-kim-cuong-sang-trong',
+        price: 15000000,
         priceSale: 12000000,
         category: 'Nhẫn',
         description: 'Nhẫn kim cương cao cấp, thiết kế sang trọng',
         images: [{ url: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500' }],
         stock: 10,
-        collection: col._id 
-      }, 
-      { 
-        name: 'Dây Chuyền Vàng Ý', 
-        slug: 'day-chuyen-vang-y', 
+        collection: col._id
+      },
+      {
+        name: 'Dây Chuyền Vàng Ý',
+        slug: 'day-chuyen-vang-y',
         price: 8000000,
-        priceSale: 7200000, 
+        priceSale: 7200000,
         category: 'Dây chuyền',
         description: 'Dây chuyền vàng Ý cao cấp, thiết kế tinh xảo',
         images: [{ url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500' }],
         stock: 15,
-        collection: col._id 
+        collection: col._id
       },
-      { 
-        name: 'Bông Tai Ngọc Trai', 
-        slug: 'bong-tai-ngoc-trai', 
+      {
+        name: 'Bông Tai Ngọc Trai',
+        slug: 'bong-tai-ngoc-trai',
         price: 5000000,
         category: 'Bông tai',
         description: 'Bông tai ngọc trai thanh lịch',
         images: [{ url: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500' }],
         stock: 20,
-        collection: col._id 
+        collection: col._id
       },
-      { 
-        name: 'Vòng Tay Bạc Nữ', 
-        slug: 'vong-tay-bac-nu', 
+      {
+        name: 'Lắc Tay Bạc Nữ',
+        slug: 'lac-tay-bac-nu',
         price: 3000000,
         priceSale: 2500000,
-        category: 'Vòng tay',
-        description: 'Vòng tay bạc thiết kế trẻ trung, hiện đại',
+        category: 'Lắc tay',
+        description: 'Lắc tay bạc thiết kế trẻ trung, hiện đại',
         images: [{ url: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500' }],
         stock: 25,
-        collection: col._id 
+        collection: col._id
       }
     ]);
     console.log('Created sample products with images');
@@ -76,4 +76,4 @@ async function main() {
   process.exit(0);
 }
 
-main().catch(err=>{console.error(err); process.exit(1);});
+main().catch(err => { console.error(err); process.exit(1); });
