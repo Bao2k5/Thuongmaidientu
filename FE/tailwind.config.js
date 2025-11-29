@@ -59,9 +59,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+        sans: ['Cormorant Garamond', 'system-ui', 'sans-serif'], // Unified to Serif for "Mộc Miên" style
         serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Montserrat', 'sans-serif'], // Logo & headings - clean sans-serif
+        display: ['Cormorant Garamond', 'sans-serif'],
       },
       letterSpacing: {
         widest: '0.2em',
