@@ -251,7 +251,7 @@ const HomeSimple = () => {
                 </div>
                 <div className="mt-6 text-center">
                   <h3 className="font-serif text-xl font-light text-luxury-deepBlack mb-2 tracking-wide">{item.name}</h3>
-                  <p className="text-luxury-steelGrey text-sm font-light tracking-wide">{item.count} sản phẩm</p>
+
                   <div className="w-8 h-px bg-luxury-deepBlack mx-auto opacity-0 group-hover:opacity-100 transition-opacity mt-3"></div>
                 </div>
               </Link>
