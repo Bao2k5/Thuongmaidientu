@@ -196,10 +196,10 @@ const Products = () => {
 
   // Component return - main render
   return (
-    <div className="min-h-screen bg-luxury-silverPearl">
+    <div className="min-h-screen bg-luxury-cream">
 
       {/* HEADER BANNER */}
-      <div className="bg-gradient-to-b from-luxury-silverPearlDark to-luxury-silverPearl py-20">
+      <div className="bg-gradient-to-b from-white to-luxury-cream py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-light mb-4 text-luxury-deepBlack tracking-wide text-center">SẢN PHẨM</h1>
           <div className="w-20 h-1 bg-luxury-platinumGrey mx-auto mb-6"></div>
