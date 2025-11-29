@@ -60,8 +60,8 @@ export default {
       },
       fontFamily: {
         sans: ['Montserrat', 'system-ui', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Montserrat', 'sans-serif'], // Logo & headings - clean sans-serif
+        serif: ['Montserrat', 'Georgia', 'serif'], // Unified to Montserrat as requested
+        display: ['Montserrat', 'sans-serif'],
       },
       letterSpacing: {
         widest: '0.2em',
