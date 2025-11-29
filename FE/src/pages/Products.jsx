@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ProductCard from '../components/common/ProductCard';
 import { categories, materials } from '../utils/constants';
 import api from '../services/api';
@@ -9,6 +9,7 @@ import useAuthStore from '../store/authStore';
 const Products = () => {
   const { user } = useAuthStore();
   const { addToCart } = useCartStore();
+  const location = useLocation();
 
   // Product data state
   const [products, setProducts] = useState([]);
@@ -27,6 +28,15 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
+
+  // Initialize filters from URL query params
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryParam = params.get('category');
+    if (categoryParam) {
+      setSelectedCategories([categoryParam]);
+    }
+  }, [location.search]);
 
   // Toggle functions for filters - my custom implementation
   const toggleCategory = (category) => {

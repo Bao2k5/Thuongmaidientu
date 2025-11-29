@@ -238,7 +238,7 @@ const HomeSimple = () => {
             {collections.map((item) => (
               <Link
                 key={item._id || item.id}
-                to="/products"
+                to={`/products?category=${encodeURIComponent(item.name)}`}
                 className="group block relative"
               >
                 <div className="aspect-square relative overflow-hidden border-1 border-luxury-metallicSilver">
