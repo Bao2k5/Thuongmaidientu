@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import AdminLayout from '../../components/layout/AdminLayout';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
@@ -33,9 +34,9 @@ function AdminHeroBanners() {
       const response = await axios.get(`${BACKEND_URL}/api/hero-banners/admin`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       console.log('Banners response:', response.data);
-      
+
       // Try different data structures
       const bannersData = response.data?.data || response.data || [];
       setBanners(Array.isArray(bannersData) ? bannersData : []);
@@ -88,7 +89,7 @@ function AdminHeroBanners() {
 
     try {
       const token = localStorage.getItem('token');
-      
+
       // Check token trước khi gửi
       if (!token) {
         console.error('No token found in localStorage');
@@ -96,7 +97,7 @@ function AdminHeroBanners() {
         window.location.href = '/admin/login';
         return;
       }
-      
+
       console.log('Token being sent:', token.substring(0, 20) + '...');
       const url = editingBanner
         ? `${BACKEND_URL}/api/hero-banners/${editingBanner._id}`
@@ -120,7 +121,7 @@ function AdminHeroBanners() {
       setEditingBanner(null);
       resetForm();
       fetchBanners();
-      
+
       // Redirect về admin dashboard
       // window.location.href = '/admin'; // Comment để ở lại trang này tạo thêm banner
     } catch (error) {
@@ -128,7 +129,7 @@ function AdminHeroBanners() {
       console.error('Error status:', error.response?.status);
       console.error('Error data:', error.response?.data);
       console.error('Token exists:', !!localStorage.getItem('token'));
-      
+
       // Handle 401 Unauthorized
       if (error.response?.status === 401) {
         console.log('401 detected - token expired or invalid');
@@ -137,7 +138,7 @@ function AdminHeroBanners() {
         window.location.href = '/admin/login';
         return;
       }
-      
+
       alert('Lỗi: ' + (error.response?.data?.message || error.message));
     }
   };
@@ -217,20 +218,21 @@ function AdminHeroBanners() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6" style={{ pointerEvents: 'auto' }}>
-        <h1 className="text-3xl font-bold">Quản lý Hero Banner</h1>
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer z-10 relative"
-          style={{ pointerEvents: 'auto' }}
-        >
-          {showForm ? 'Đóng Form' : '+ Tạo Banner Mới'}
-        </button>
-      </div>
+    <AdminLayout>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center mb-6" style={{ pointerEvents: 'auto' }}>
+          <h1 className="text-3xl font-bold">Quản lý Hero Banner</h1>
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer z-10 relative"
+            style={{ pointerEvents: 'auto' }}
+          >
+            {showForm ? 'Đóng Form' : '+ Tạo Banner Mới'}
+          </button>
+        </div>
 
-      {showForm && (
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
+        {showForm && (
+          <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h2 className="text-2xl font-bold mb-4">
               {editingBanner ? 'Chỉnh sửa Banner' : 'Upload Banner Mới'}
             </h2>
@@ -253,10 +255,10 @@ function AdminHeroBanners() {
                 )}
                 {formData.image && (
                   <div className="mt-4">
-                    <img 
-                      src={formData.image} 
-                      alt="Preview" 
-                      className="w-full max-h-64 object-cover rounded-lg shadow-md" 
+                    <img
+                      src={formData.image}
+                      alt="Preview"
+                      className="w-full max-h-64 object-cover rounded-lg shadow-md"
                     />
                   </div>
                 )}
@@ -357,70 +359,70 @@ function AdminHeroBanners() {
                 </button>
               </div>
             </form>
-        </div>
-      )}
+          </div>
+        )}
 
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ảnh Banner</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {banners.length === 0 ? (
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
               <tr>
-                <td colSpan="3" className="px-6 py-8 text-center text-gray-500">
-                  Chưa có banner nào. Upload banner đầu tiên! 🎨
-                </td>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ảnh Banner</th>
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Thao tác</th>
               </tr>
-            ) : (
-              banners.map((banner) => (
-                <tr key={banner._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <img
-                      src={banner.image}
-                      alt="Banner"
-                      className="w-full max-w-md h-32 object-cover rounded-lg shadow"
-                    />
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => toggleStatus(banner._id)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                        banner.isActive
-                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                      }`}
-                    >
-                      {banner.isActive ? '✅ Đang hiển thị' : '⏸️ Đã tắt'}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-3 justify-center">
-                      <button
-                        onClick={() => handleEdit(banner)}
-                        className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg font-medium"
-                      >
-                        📝 Sửa
-                      </button>
-                      <button
-                        onClick={() => handleDelete(banner._id)}
-                        className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium"
-                      >
-                        🗑️ Xóa
-                      </button>
-                    </div>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {banners.length === 0 ? (
+                <tr>
+                  <td colSpan="3" className="px-6 py-8 text-center text-gray-500">
+                    Chưa có banner nào. Upload banner đầu tiên! 🎨
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                banners.map((banner) => (
+                  <tr key={banner._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <img
+                        src={banner.image}
+                        alt="Banner"
+                        className="w-full max-w-md h-32 object-cover rounded-lg shadow"
+                      />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => toggleStatus(banner._id)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition ${banner.isActive
+                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                          }`}
+                      >
+                        {banner.isActive ? '✅ Đang hiển thị' : '⏸️ Đã tắt'}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-3 justify-center">
+                        <button
+                          onClick={() => handleEdit(banner)}
+                          className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg font-medium"
+                        >
+                          📝 Sửa
+                        </button>
+                        <button
+                          onClick={() => handleDelete(banner._id)}
+                          className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium"
+                        >
+                          🗑️ Xóa
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 
