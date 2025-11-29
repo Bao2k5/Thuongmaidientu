@@ -14,7 +14,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [showQuickView, setShowQuickView] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Custom hook for managing filter state
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('newest');
@@ -30,16 +30,16 @@ const Products = () => {
 
   // Toggle functions for filters - my custom implementation
   const toggleCategory = (category) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
+    setSelectedCategories(prev =>
+      prev.includes(category)
         ? prev.filter(c => c !== category)
         : [...prev, category]
     );
   };
 
   const toggleStyle = (style) => {
-    setSelectedStyles(prev => 
-      prev.includes(style) 
+    setSelectedStyles(prev =>
+      prev.includes(style)
         ? prev.filter(s => s !== style)
         : [...prev, style]
     );
@@ -103,18 +103,18 @@ const Products = () => {
   const filteredProducts = products.filter(product => {
     // Search filter check
     const searchMatch = searchTerm === '' || product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     // Category filter check
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-    
+
     // Style filter check  
     const styleMatch = selectedStyles.length === 0 || selectedStyles.includes(product.style);
-    
+
     // Price filter check
-    const priceMatch = selectedPriceRange.length === 0 || selectedPriceRange.some(range => 
+    const priceMatch = selectedPriceRange.length === 0 || selectedPriceRange.some(range =>
       product.price >= range.min && product.price <= range.max
     );
-    
+
     return searchMatch && categoryMatch && styleMatch && priceMatch;
   });
 
@@ -146,20 +146,20 @@ const Products = () => {
     setAddingToCart(true);
     try {
       if (user) {
-        await api.post('/cart', { 
-          productId: showQuickView.id, 
-          qty: 1 
+        await api.post('/cart', {
+          productId: showQuickView.id,
+          qty: 1
         });
       }
 
       addToCart(showQuickView, 1);
 
-      alert(`✅ Đã thêm ${showQuickView.name} vào giỏ hàng!`);
+      alert(`Đã thêm ${showQuickView.name} vào giỏ hàng!`);
 
       setShowQuickView(null);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+      alert('Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
     } finally {
       setAddingToCart(false);
     }
@@ -195,12 +195,12 @@ const Products = () => {
               <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-luxury-steelGrey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              
+
               {/* SEARCH SUGGESTIONS */}
               {searchTerm && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-20 max-h-60 overflow-y-auto">
                   {filteredProducts
-                    .filter(product => 
+                    .filter(product =>
                       product.name.toLowerCase().includes(searchTerm.toLowerCase())
                     )
                     .slice(0, 5)
@@ -222,19 +222,19 @@ const Products = () => {
                         </div>
                       </Link>
                     ))}
-                  {filteredProducts.filter(product => 
+                  {filteredProducts.filter(product =>
                     product.name.toLowerCase().includes(searchTerm.toLowerCase())
                   ).length === 0 && (
-                    <div className="px-4 py-3 text-sm text-luxury-steelGrey">
-                      Không tìm thấy sản phẩm nào
-                    </div>
-                  )}
+                      <div className="px-4 py-3 text-sm text-luxury-steelGrey">
+                        Không tìm thấy sản phẩm nào
+                      </div>
+                    )}
                 </div>
               )}
             </div>
-            
+
             {/* CATEGORY FILTER */}
-            <div 
+            <div
               className="relative"
               onMouseLeave={() => {
                 const element = document.getElementById('category-filter');
@@ -258,7 +258,6 @@ const Products = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-
               <div id="category-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
                   {['Nhẫn', 'Bông tai', 'Lắc tay', 'Dây chuyền'].map(cat => (
@@ -277,7 +276,7 @@ const Products = () => {
             </div>
 
             {/* MATERIAL FILTER */}
-            <div 
+            <div
               className="relative"
               onMouseLeave={() => {
                 const element = document.getElementById('material-filter');
@@ -317,7 +316,7 @@ const Products = () => {
             </div>
 
             {/* STYLE FILTER */}
-            <div 
+            <div
               className="relative"
               onMouseLeave={() => {
                 const element = document.getElementById('style-filter');
@@ -359,7 +358,7 @@ const Products = () => {
             </div>
 
             {/* PRICE FILTER */}
-            <div 
+            <div
               className="relative"
               onMouseLeave={() => {
                 const element = document.getElementById('price-filter');
@@ -407,7 +406,7 @@ const Products = () => {
             </div>
 
             {/* SORT OPTIONS */}
-            <div 
+            <div
               className="relative"
               onMouseLeave={() => {
                 const element = document.getElementById('sort-select');
@@ -486,7 +485,7 @@ const Products = () => {
 
         {/* ---------- PRODUCT LIST ---------- */}
         <div className={
-          viewMode === 'grid' 
+          viewMode === 'grid'
             ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6"
             : "space-y-6"
         }>
@@ -499,8 +498,8 @@ const Products = () => {
               ) : (
                 <div key={product.id} className="group bg-luxury-silverPearl hover:shadow-silver-xl transition-all duration-500 border border-luxury-metallicSilver flex gap-6">
                   <div className="w-64 h-64 flex-shrink-0 relative overflow-hidden bg-luxury-silverPearlDark">
-                    <img 
-                      src={product.images?.[0]} 
+                    <img
+                      src={product.images?.[0]}
                       alt={product.name}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     />

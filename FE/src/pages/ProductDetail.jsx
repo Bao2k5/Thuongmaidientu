@@ -31,20 +31,20 @@ const ProductDetail = () => {
     try {
 
       if (user) {
-        await api.post('/cart', { 
-          productId: product.id, 
-          qty: quantity 
+        await api.post('/cart', {
+          productId: product.id,
+          qty: quantity
         });
       }
 
       addToCart(product, quantity);
 
-      alert(`✅ Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
+      alert(`Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
 
       setQuantity(1);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+      alert('Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
     } finally {
       setAddingToCart(false);
     }
@@ -63,7 +63,7 @@ const ProductDetail = () => {
       const inWishlist = isInWishlist(productId);
       if (inWishlist) {
         await removeFromWishlist(productId);
-        alert('❌ Đã xóa khỏi danh sách yêu thích');
+        alert('Đã xóa khỏi danh sách yêu thích');
       } else {
         await addToWishlist(product);
         alert('❤️ Đã thêm vào danh sách yêu thích');
@@ -95,7 +95,7 @@ const ProductDetail = () => {
           description: p.description,
           specifications: p.specifications || p.attributes || {},
           material: p.attributes?.material || '',
-          category: p.category || (p.collection && p.collection.name) || '' ,
+          category: p.category || (p.collection && p.collection.name) || '',
         };
         setProduct(mapped);
 
@@ -103,7 +103,7 @@ const ProductDetail = () => {
         if (p.collection) params.collection = p.collection._id;
         else if (p.category) params.category = p.category;
         const rel = await api.get('/products', { params });
-        const relItems = (rel.data.products || []).filter(x => x._id !== p._id).slice(0,4).map(x => ({
+        const relItems = (rel.data.products || []).filter(x => x._id !== p._id).slice(0, 4).map(x => ({
           id: x._id,
           name: x.name,
           price: x.price,
@@ -135,7 +135,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {}
+      { }
       <div className="bg-luxury-ivory py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-luxury-brown font-light">
@@ -149,17 +149,17 @@ const ProductDetail = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {}
+        { }
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          {}
+          { }
           <div>
             <div className="aspect-square bg-gray-50 mb-4 overflow-hidden border border-luxury-beige">
-              <img 
-                src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'} 
+              <img
+                src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'}
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                onError={(e) => { 
-                  e.target.onerror = null; 
+                onError={(e) => {
+                  e.target.onerror = null;
                   e.target.src = 'https://via.placeholder.com/500?text=Image+Not+Found';
                 }}
               />
@@ -169,16 +169,15 @@ const ProductDetail = () => {
                 <button
                   key={i}
                   onClick={() => setSelectedImage(i)}
-                  className={`aspect-square bg-gray-50 overflow-hidden border-2 transition ${
-                    selectedImage === i ? 'border-luxury-charcoal' : 'border-gray-200 hover:border-luxury-taupe'
-                  }`}
+                  className={`aspect-square bg-gray-50 overflow-hidden border-2 transition ${selectedImage === i ? 'border-luxury-charcoal' : 'border-gray-200 hover:border-luxury-taupe'
+                    }`}
                 >
-                  <img 
-                    src={img?.url || img || 'https://via.placeholder.com/500'} 
-                    alt={`${product.name} ${i + 1}`} 
+                  <img
+                    src={img?.url || img || 'https://via.placeholder.com/500'}
+                    alt={`${product.name} ${i + 1}`}
                     className="w-full h-full object-cover"
-                    onError={(e) => { 
-                      e.target.onerror = null; 
+                    onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = 'https://via.placeholder.com/500?text=No+Image';
                     }}
                   />
@@ -187,11 +186,11 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {}
+          { }
           <div>
             <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">{product.name}</h1>
 
-            {}
+            { }
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
@@ -203,7 +202,7 @@ const ProductDetail = () => {
               <span className="text-luxury-brown font-light">({product.reviews} đánh giá)</span>
             </div>
 
-            {}
+            { }
             <div className="mb-8">
               <p className="text-4xl font-light text-luxury-charcoal mb-2">{formatPrice(product.price)}</p>
               <div className="flex items-center gap-2">
@@ -221,7 +220,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            { }
             <div className="space-y-3 mb-8 pb-8 border-b border-luxury-beige">
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Chất liệu:</span>
@@ -233,7 +232,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            { }
             <div className="mb-8">
               <label className="block text-luxury-charcoal font-light mb-3">Số lượng</label>
               <div className="flex items-center gap-4">
@@ -264,11 +263,11 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            { }
             <div className="space-y-4 mb-8">
-              <button 
+              <button
                 onClick={handleAddToCart}
-                className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+                className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!inStock || addingToCart}
               >
                 {addingToCart ? (
@@ -285,7 +284,7 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
-              <button 
+              <button
                 onClick={handleWishlistToggle}
                 disabled={wishlistLoading}
                 className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -297,10 +296,10 @@ const ProductDetail = () => {
                   </>
                 ) : (
                   <>
-                    <svg 
-                      className={`w-5 h-5 ${product && isInWishlist(product._id) ? 'fill-current' : ''}`} 
-                      fill={product && isInWishlist(product._id) ? 'currentColor' : 'none'} 
-                      stroke="currentColor" 
+                    <svg
+                      className={`w-5 h-5 ${product && isInWishlist(product._id) ? 'fill-current' : ''}`}
+                      fill={product && isInWishlist(product._id) ? 'currentColor' : 'none'}
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -311,7 +310,7 @@ const ProductDetail = () => {
               </button>
             </div>
 
-            {}
+            { }
             <div className="space-y-4 bg-luxury-ivory p-6 border border-luxury-beige">
               <div className="flex items-start gap-3">
                 <svg className="w-6 h-6 text-luxury-charcoal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -344,43 +343,40 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {}
+        { }
         <div className="mb-20">
-          {}
+          { }
           <div className="flex gap-8 border-b border-luxury-beige mb-8">
             <button
               onClick={() => setActiveTab('description')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'description'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'description'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               MÔ TẢ
             </button>
             <button
               onClick={() => setActiveTab('specifications')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'specifications'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'specifications'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               THÔNG SỐ KỸ THUẬT
             </button>
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'reviews'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'reviews'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               ĐÁNH GIÁ ({product.reviews})
             </button>
           </div>
 
-          {}
+          { }
           <div className="max-w-3xl">
             {activeTab === 'description' && (
               <div className="text-luxury-brown font-light leading-relaxed text-lg">
@@ -420,7 +416,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {}
+        { }
         <div>
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light mb-4 text-luxury-charcoal tracking-wide">SẢN PHẨM LIÊN QUAN</h2>

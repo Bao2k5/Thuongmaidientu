@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
     if (!email || !password || !name) return res.status(400).json({ msg: "Missing fields" });
 
     const existing = await User.findOne({ email });
-    
+
     // Nếu email đã tồn tại VÀ đã verified → Không cho đăng ký lại
     if (existing && existing.verified) {
       return res.status(400).json({ msg: "Email already registered" });
@@ -38,9 +38,9 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({ 
-      name, 
-      email, 
+    const newUser = await User.create({
+      name,
+      email,
       password: hashed,
       phone: phone || '',
       otp,
@@ -58,16 +58,16 @@ exports.register = async (req, res) => {
         <div style="background-color: #f0f9f9; padding: 20px; text-align: center; border-radius: 8px; margin: 20px 0;">
           <h1 style="color: #0b5c5f; font-size: 36px; margin: 0; letter-spacing: 5px;">${otp}</h1>
         </div>
-        <p style="color: #d32f2f; font-weight: bold;">⚠️ Mã này có hiệu lực trong 10 phút.</p>
+        <p style="color: #d32f2f; font-weight: bold;"> Mã này có hiệu lực trong 10 phút.</p>
         <p>Nếu bạn không thực hiện đăng ký, vui lòng bỏ qua email này.</p>
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
         <p style="color: #888; font-size: 12px; text-align: center;">Trân trọng,<br><strong>Đội ngũ HM Jewelry</strong></p>
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🎉 Mã xác thực đăng ký - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: ' Mã xác thực đăng ký - HM Jewelry',
       html,
       text: `Mã OTP của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -80,15 +80,15 @@ exports.register = async (req, res) => {
 
     if (!mailResult) {
       // If email fails, still return success but include OTP for testing
-      return res.status(201).json({ 
-        message: "Đăng ký thành công nhưng không thể gửi email. Vui lòng liên hệ support.", 
+      return res.status(201).json({
+        message: "Đăng ký thành công nhưng không thể gửi email. Vui lòng liên hệ support.",
         needsVerification: true,
         email,
         otp // Only for development/testing
       });
     }
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: "Đăng ký thành công! Vui lòng kiểm tra email để nhập mã OTP.",
       needsVerification: true,
       email
@@ -118,17 +118,17 @@ exports.login = async (req, res) => {
       console.error('[auth.login] jwt.sign error:', jwtErr && jwtErr.stack ? jwtErr.stack : jwtErr);
       return res.status(500).json({ error: 'JWT error' });
     }
-    res.json({ 
-      message: "Login success", 
-      user: { 
-        id: user._id, 
-        name: user.name, 
-        email: user.email, 
+    res.json({
+      message: "Login success",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
         phone: user.phone || '',
         role: user.role,
         createdAt: user.createdAt
-      }, 
-      token 
+      },
+      token
     });
   } catch (err) {
     console.error('[auth.login] error:', err && err.stack ? err.stack : err);
@@ -149,7 +149,7 @@ exports.forgotPassword = async (req, res) => {
 
     const resetUrl = `${process.env.FRONTEND_URL || ''}/reset-password?email=${encodeURIComponent(email)}&token=${resetToken}`;
     const html = `<p>Xin chào ${user.name},</p><p>Click link để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p><p>Nếu bạn không yêu cầu, hãy bỏ qua email này.</p>`;
-    const mailResult = await sendMail({ to: email, subject: 'Đặt lại mật khẩu', html, text: `Reset link: ${resetUrl}` }).catch(()=>null);
+    const mailResult = await sendMail({ to: email, subject: 'Đặt lại mật khẩu', html, text: `Reset link: ${resetUrl}` }).catch(() => null);
 
     if (!mailResult) return res.json({ message: 'Password reset token generated', resetToken });
     res.json({ message: 'Password reset email sent' });
@@ -187,7 +187,7 @@ exports.sendVerifyEmail = async (req, res) => {
     await user.save();
     const verifyUrl = `${process.env.FRONTEND_URL || ''}/verify-email?email=${encodeURIComponent(email)}&token=${token}`;
     const html = `<p>Xin chào ${user.name},</p><p>Click link để xác thực email: <a href="${verifyUrl}">${verifyUrl}</a></p>`;
-    const mailResult = await sendMail({ to: email, subject: 'Xác thực email', html, text: `Verify link: ${verifyUrl}` }).catch(()=>null);
+    const mailResult = await sendMail({ to: email, subject: 'Xác thực email', html, text: `Verify link: ${verifyUrl}` }).catch(() => null);
     if (!mailResult) return res.json({ message: 'Verify token generated', token });
     res.json({ message: 'Verify email sent' });
   } catch (err) {
@@ -234,7 +234,7 @@ exports.facebookCallback = async (req, res) => {
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    
+
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ msg: 'Missing required fields' });
     }
@@ -301,9 +301,9 @@ exports.sendResetCode = async (req, res) => {
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🔐 Mã OTP đặt lại mật khẩu - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: '🔐 Mã OTP đặt lại mật khẩu - HM Jewelry',
       html,
       text: `Mã OTP của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -313,8 +313,8 @@ exports.sendResetCode = async (req, res) => {
 
     if (!mailResult) {
       // If email fails, still return success but include OTP in response for testing
-      return res.json({ 
-        message: "Không thể gửi email. Vui lòng kiểm tra cấu hình SMTP.", 
+      return res.json({
+        message: "Không thể gửi email. Vui lòng kiểm tra cấu hình SMTP.",
         otp // Only for development/testing
       });
     }
@@ -330,7 +330,7 @@ exports.sendResetCode = async (req, res) => {
 exports.verifyResetCode = async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
-    
+
     if (!email || !code || !newPassword) {
       return res.status(400).json({ msg: "Thiếu thông tin bắt buộc" });
     }
@@ -340,7 +340,7 @@ exports.verifyResetCode = async (req, res) => {
     }
 
     const user = await User.findOne({ email, resetCode: code });
-    
+
     if (!user) {
       return res.status(400).json({ msg: "Mã OTP không hợp lệ" });
     }
@@ -352,7 +352,7 @@ exports.verifyResetCode = async (req, res) => {
     // Hash new password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
-    
+
     // Clear OTP fields
     user.resetCode = undefined;
     user.resetCodeExpire = undefined;
@@ -369,13 +369,13 @@ exports.verifyResetCode = async (req, res) => {
 exports.verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    
+
     if (!email || !otp) {
       return res.status(400).json({ msg: "Thiếu thông tin bắt buộc" });
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res.status(404).json({ msg: "Không tìm thấy tài khoản" });
     }
@@ -401,11 +401,11 @@ exports.verifyOtp = async (req, res) => {
     // Generate token for auto-login
     const token = signToken(user);
 
-    res.json({ 
+    res.json({
       message: "Xác thực thành công! Chào mừng bạn đến với HM Jewelry 🎉",
-      user: { 
-        id: user._id, 
-        name: user.name, 
+      user: {
+        id: user._id,
+        name: user.name,
         email: user.email,
         phone: user.phone || '',
         role: user.role,
@@ -423,13 +423,13 @@ exports.verifyOtp = async (req, res) => {
 exports.resendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     if (!email) {
       return res.status(400).json({ msg: "Email là bắt buộc" });
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res.status(404).json({ msg: "Không tìm thấy tài khoản" });
     }
@@ -460,9 +460,9 @@ exports.resendOtp = async (req, res) => {
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🔄 Mã OTP mới - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: '🔄 Mã OTP mới - HM Jewelry',
       html,
       text: `Mã OTP mới của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -471,8 +471,8 @@ exports.resendOtp = async (req, res) => {
     });
 
     if (!mailResult) {
-      return res.json({ 
-        message: "Không thể gửi email. Vui lòng thử lại sau.", 
+      return res.json({
+        message: "Không thể gửi email. Vui lòng thử lại sau.",
         otp // Only for development/testing
       });
     }

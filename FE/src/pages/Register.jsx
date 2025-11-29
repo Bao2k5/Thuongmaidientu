@@ -150,7 +150,7 @@ export default function Register() {
       const timer = setTimeout(() => {
         navigate('/login');
       }, 2000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [otpVerified, navigate]);
@@ -163,8 +163,8 @@ export default function Register() {
 
   const successVariants = {
     initial: { opacity: 0, scale: 0.8 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
       transition: { type: 'spring', stiffness: 200, damping: 15 }
     },
@@ -175,8 +175,8 @@ export default function Register() {
     <div className="min-h-screen bg-gradient-to-b from-luxury-silverPearlDark to-luxury-silverPearl flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
 
-        {}
-        <motion.div 
+        { }
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
@@ -193,7 +193,7 @@ export default function Register() {
           </p>
         </motion.div>
 
-        {}
+        { }
         <AnimatePresence mode="wait">
           {message && (
             <motion.div
@@ -220,10 +220,10 @@ export default function Register() {
           )}
         </AnimatePresence>
 
-        {}
+        { }
         <div className="bg-luxury-silverPearl border border-luxury-metallicSilver p-8 shadow-lg">
           <AnimatePresence mode="wait">
-            {}
+            { }
             {step === 2 && otpVerified && (
               <motion.div
                 key="success-message-in-card"
@@ -233,7 +233,7 @@ export default function Register() {
                 className="text-center space-y-4 py-8"
               >
                 <div className="mx-auto w-16 h-16 bg-accent-mintLight rounded-full flex items-center justify-center mb-4">
-                  <span className="text-4xl">✅</span>
+                  <span className="text-4xl">✓</span>
                 </div>
                 <h3 className="text-xl font-light text-luxury-deepBlack">
                   Đăng ký thành công!
@@ -244,7 +244,7 @@ export default function Register() {
               </motion.div>
             )}
 
-            {}
+            { }
             {step === 1 && (
               <motion.form
                 key="step1"
@@ -369,7 +369,7 @@ export default function Register() {
               </motion.form>
             )}
 
-            {}
+            { }
             {step === 2 && !otpVerified && (
               <motion.form
                 key="step2"
@@ -433,7 +433,7 @@ export default function Register() {
                   </button>
                 </div>
 
-                {}
+                { }
                 <div className="text-center pt-4 border-t border-luxury-metallicSilver">
                   {resendTimer > 0 ? (
                     <p className="text-sm text-luxury-platinumGrey font-light">
@@ -453,7 +453,7 @@ export default function Register() {
               </motion.form>
             )}
 
-            {}
+            { }
             {step === 3 && (
               <motion.div
                 key="step3"
@@ -500,7 +500,7 @@ export default function Register() {
           </AnimatePresence>
         </div>
 
-        {}
+        { }
         {step !== 3 && (
           <motion.div
             initial={{ opacity: 0 }}
