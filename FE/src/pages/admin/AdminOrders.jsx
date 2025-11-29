@@ -26,6 +26,12 @@ const AdminOrders = () => {
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
       await api.put(`/admin/orders/${orderId}/status`, { status: newStatus });
+
+      // Update local state for selectedOrder to reflect change immediately
+      if (selectedOrder && selectedOrder._id === orderId) {
+        setSelectedOrder(prev => ({ ...prev, status: newStatus }));
+      }
+
       loadOrders();
     } catch (error) {
       console.error('Error updating order:', error);
@@ -67,13 +73,13 @@ const AdminOrders = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {}
+        { }
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Quản Lý Đơn Hàng</h1>
           <p className="text-luxury-gray">Xem và cập nhật trạng thái đơn hàng</p>
         </div>
 
-        {}
+        { }
         <div className="card-luxury overflow-hidden">
           <table className="w-full">
             <thead className="bg-luxury-pearl border-b border-luxury-platinum">
@@ -122,7 +128,7 @@ const AdminOrders = () => {
         </div>
       </div>
 
-      {}
+      { }
       {showModal && selectedOrder && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-luxury-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
@@ -143,7 +149,7 @@ const AdminOrders = () => {
             </div>
 
             <div className="p-6 space-y-6">
-              {}
+              { }
               <div>
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
                   Trạng Thái Đơn Hàng
@@ -161,7 +167,7 @@ const AdminOrders = () => {
                 </select>
               </div>
 
-              {}
+              { }
               <div className="border-t border-luxury-platinum pt-6">
                 <h3 className="text-lg font-medium text-luxury-black mb-3">Thông Tin Khách Hàng</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
@@ -182,7 +188,7 @@ const AdminOrders = () => {
                 </div>
               </div>
 
-              {}
+              { }
               <div className="border-t border-luxury-platinum pt-6">
                 <h3 className="text-lg font-medium text-luxury-black mb-3">Sản Phẩm</h3>
                 <div className="space-y-3">
@@ -209,7 +215,7 @@ const AdminOrders = () => {
                 </div>
               </div>
 
-              {}
+              { }
               <div className="border-t border-luxury-platinum pt-6">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -233,7 +239,7 @@ const AdminOrders = () => {
                 </div>
               </div>
 
-              {}
+              { }
               <div className="border-t border-luxury-platinum pt-6">
                 <h3 className="text-lg font-medium text-luxury-black mb-3">Thanh Toán</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
