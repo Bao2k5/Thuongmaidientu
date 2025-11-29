@@ -259,6 +259,30 @@ const HomeSimple = () => {
         </div>
       </section>
 
+
+      { }
+      <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
+        <div className="container-luxury">
+          <div className="text-center mb-20">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
+            <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
+            <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          <div className="text-center mt-16">
+            <Link to="/products" className="btn-luxury">
+              XEM TẤT CẢ SẢN PHẨM
+            </Link>
+          </div>
+        </div>
+      </section>
+
       { }
       <section className="section-luxury bg-luxury-silverPearlDark">
         <div className="container-luxury">
@@ -342,28 +366,7 @@ const HomeSimple = () => {
       { }
       <InstagramFeed />
 
-      { }
-      <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
-        <div className="container-luxury">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
-            <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
-            <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <Link to="/products" className="btn-luxury">
-              XEM TẤT CẢ SẢN PHẨM
-            </Link>
-          </div>
-        </div>
-      </section>
 
       { }
 
