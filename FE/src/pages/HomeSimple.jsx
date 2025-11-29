@@ -178,7 +178,7 @@ const HomeSimple = () => {
       )}
 
       { }
-      <section className="section-luxury bg-luxury-silverPearlDark">
+      <section className="section-luxury bg-luxury-silverPearl">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
             <div className="text-center group">
@@ -225,15 +225,16 @@ const HomeSimple = () => {
 
 
       { }
-      <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
+      { }
+      <section className="section-luxury bg-luxury-silverPearl">
         <div className="container-luxury">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-deepBlack tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
-            <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
+            <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
             <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá vẻ đẹp tinh tế của từng thiết kế</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {collections.map((item) => (
               <Link
                 key={item._id || item.id}
@@ -249,7 +250,7 @@ const HomeSimple = () => {
                   <div className="absolute inset-0 bg-luxury-deepBlack/0 group-hover:bg-luxury-deepBlack/10 transition-all duration-500" />
                 </div>
                 <div className="mt-6 text-center">
-                  <h3 className="font-serif text-2xl font-light text-luxury-deepBlack mb-2 tracking-wide">{item.name}</h3>
+                  <h3 className="font-serif text-xl font-light text-luxury-deepBlack mb-2 tracking-wide">{item.name}</h3>
                   <p className="text-luxury-steelGrey text-sm font-light tracking-wide">{item.count} sản phẩm</p>
                   <div className="w-8 h-px bg-luxury-deepBlack mx-auto opacity-0 group-hover:opacity-100 transition-opacity mt-3"></div>
                 </div>
@@ -261,15 +262,15 @@ const HomeSimple = () => {
 
 
       { }
-      <section className="section-luxury bg-luxury-silverPearl border-t border-luxury-metallicSilver">
+      <section className="section-luxury bg-luxury-silverPearl">
         <div className="container-luxury">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-6 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
-            <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
+            <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
             <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -284,14 +285,14 @@ const HomeSimple = () => {
       </section>
 
       { }
-      <section className="section-luxury bg-luxury-silverPearlDark">
+      <section className="section-luxury bg-luxury-silverPearl">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8">
               <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-deepBlack tracking-[0.25em] mb-6 uppercase">
                 HM Jewelry
               </h2>
-              <div className="w-24 h-px bg-luxury-platinumGrey mx-auto mb-8"></div>
+              <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-8"></div>
             </div>
 
             <div className="space-y-6 text-luxury-steelGrey text-base md:text-lg leading-relaxed font-normal">

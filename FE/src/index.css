@@ -213,44 +213,6 @@
     border-color: #D9CCBE;
     background-color: #FFFFFF;
   }
-
-  .input-luxury::placeholder {
-    color: #B8A890;
-  }
-
-  /* Section spacing */
-  .section-luxury {
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-
-  @media (min-width: 768px) {
-    .section-luxury {
-      padding-top: 112px;
-      padding-bottom: 112px;
-    }
-  }
-
-  /* Container */
-  .container-luxury {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  @media (min-width: 768px) {
-    .container-luxury {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container-luxury {
-      padding-left: 32px;
-      padding-right: 32px;
     }
   }
 }
