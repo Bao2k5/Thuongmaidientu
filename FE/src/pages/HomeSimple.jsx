@@ -29,14 +29,17 @@ const HomeSimple = () => {
     const fetchHome = async () => {
       try {
         const p = await api.get('/products', { params: { limit: 12 } });
-        setFeaturedProducts((p.data.products || []).slice(0, 8).map(x => ({
+        console.log('API Response:', p.data);
+        const products = (p.data.products || []).slice(0, 8).map(x => ({
           id: x._id,
           name: x.name,
           price: x.price,
           priceSale: x.priceSale,
           category: x.category,
           images: (x.images || []).map(i => typeof i === 'string' ? i : (i.url || i))
-        })));
+        }));
+        console.log('Mapped Products:', products);
+        setFeaturedProducts(products);
       } catch (err) {
         console.error('Failed to load featured products', err);
       }
