@@ -178,7 +178,7 @@ const HomeSimple = () => {
       )}
 
       { }
-      <section className="section-luxury bg-luxury-silverPearl">
+      <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
             <div className="text-center group">
@@ -226,7 +226,7 @@ const HomeSimple = () => {
 
       { }
       { }
-      <section className="section-luxury bg-luxury-silverPearl">
+      <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
           <div className="text-center mb-12">
             <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
@@ -262,7 +262,7 @@ const HomeSimple = () => {
 
 
       { }
-      <section className="section-luxury bg-luxury-silverPearl">
+      <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
           <div className="text-center mb-12">
             <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
@@ -285,7 +285,7 @@ const HomeSimple = () => {
       </section>
 
       { }
-      <section className="section-luxury bg-luxury-silverPearl">
+      <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8">
