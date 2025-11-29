@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ProductCard from '../components/common/ProductCard';
-import { categories, materials } from '../utils/constants';
+import { categories, materials, STYLES } from '../utils/constants';
 import api from '../services/api';
 import useCartStore from '../store/cartStore';
 import useAuthStore from '../store/authStore';
@@ -33,8 +33,15 @@ const Products = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const categoryParam = params.get('category');
+
     if (categoryParam) {
-      setSelectedCategories([categoryParam]);
+      // Case-insensitive match to find the correct category format
+      const matchedCategory = categories.find(
+        c => c.toLowerCase() === categoryParam.toLowerCase()
+      );
+      if (matchedCategory) {
+        setSelectedCategories([matchedCategory]);
+      }
     }
   }, [location.search]);
 
@@ -81,7 +88,9 @@ const Products = () => {
       try {
         const params = { page: 1, limit: 100 };
 
+        // Pass category to API if only one is selected (for server-side filtering optimization if supported)
         if (selectedCategories.length === 1) params.category = selectedCategories[0];
+
         const res = await api.get('/products', { params });
         const data = res.data || {};
 
@@ -92,6 +101,7 @@ const Products = () => {
           priceSale: p.priceSale,
           images: (p.images || []).map(i => typeof i === 'string' ? i : (i.url || i)),
           category: p.category || (p.collection && p.collection.name) || '',
+          style: p.style || '', // Ensure style is captured
           material: p.attributes?.material || '',
           rating: p.ratingsAvg || 0,
           reviews: p.ratingsCount || 0
@@ -114,15 +124,19 @@ const Products = () => {
     // Search filter check
     const searchMatch = searchTerm === '' || product.name.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Category filter check
-    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    // Category filter check - Case Insensitive
+    const categoryMatch = selectedCategories.length === 0 || selectedCategories.some(cat =>
+      product.category && product.category.toLowerCase() === cat.toLowerCase()
+    );
 
-    // Style filter check  
-    const styleMatch = selectedStyles.length === 0 || selectedStyles.includes(product.style);
+    // Style filter check - Case Insensitive
+    const styleMatch = selectedStyles.length === 0 || selectedStyles.some(style =>
+      product.style && product.style.toLowerCase() === style.toLowerCase()
+    );
 
     // Price filter check
     const priceMatch = selectedPriceRange.length === 0 || selectedPriceRange.some(range =>
-      product.price >= range.min && product.price <= range.max
+      (product.priceSale || product.price) >= range.min && (product.priceSale || product.price) <= range.max
     );
 
     return searchMatch && categoryMatch && styleMatch && priceMatch;
@@ -270,7 +284,7 @@ const Products = () => {
               </button>
               <div id="category-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
-                  {['Nhẫn', 'Bông tai', 'Lắc tay', 'Dây chuyền'].map(cat => (
+                  {categories.map(cat => (
                     <label key={cat} className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -312,15 +326,16 @@ const Products = () => {
               </button>
               <div id="material-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={true}
-                      disabled
-                      className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey"
-                    />
-                    <span className="ml-2 text-sm text-luxury-steelDark">Bạc 925</span>
-                  </label>
+                  {materials.map(mat => (
+                    <label key={mat} className="flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        disabled
+                        className="w-4 h-4 text-luxury-deepBlack border-luxury-metallicSilver rounded focus:ring-luxury-platinumGrey opacity-50 cursor-not-allowed"
+                      />
+                      <span className="ml-2 text-sm text-luxury-steelDark">{mat}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
             </div>
@@ -352,7 +367,7 @@ const Products = () => {
               </button>
               <div id="style-filter" className="hidden absolute top-full left-0 mt-1 bg-luxury-silverPearl border border-luxury-metallicSilver rounded-lg shadow-silver-lg z-10 min-w-[200px]">
                 <div className="p-3 space-y-2">
-                  {['Minimal', 'Hoa văn', 'Cổ điển', 'Hiện đại', 'Đính đá'].map(style => (
+                  {STYLES.map(style => (
                     <label key={style} className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"

@@ -74,6 +74,8 @@ export const PAYMENT_METHODS = [
   { id: 'stripe', name: 'Thanh toán online (Thẻ/QR)', icon: '💳' },
 ];
 
-export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Vòng Tay'];
+export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Lắc Tay'];
 
-export const materials = ['Bạc 925', 'Bạc Ý'];
+export const materials = ['Bạc 925', 'Bạc Ý', 'Vàng Trắng', 'Vàng Hồng'];
+
+export const STYLES = ['Minimal', 'Hoa văn', 'Cổ điển', 'Hiện đại', 'Đính đá'];
