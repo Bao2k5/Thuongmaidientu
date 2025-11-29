@@ -12,6 +12,33 @@ import ProductDetail from './pages/ProductDetail';
 import Collections from './pages/Collections';
 import CollectionProducts from './pages/CollectionProducts';
 import About from './pages/About';
+import Contact from './pages/Contact';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Wishlist from './pages/Wishlist';
+import Address from './pages/Address';
+import OrderHistory from './pages/OrderHistory';
+import OrderDetail from './pages/OrderDetail';
+import AccountLayout from './pages/AccountLayout';
+import AccountInfo from './pages/AccountInfo';
+import AccountOrders from './pages/AccountOrders';
+import AccountSettings from './pages/AccountSettings';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
+import MomoSimulator from './pages/MomoSimulator';
+import VnpaySimulator from './pages/VnpaySimulator';
+import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
+import AuthCallback from './pages/AuthCallback';
+
+// Policy Pages
+import Shipping from './pages/Shipping';
+import Returns from './pages/Returns';
+import Warranty from './pages/Warranty';
+import FAQ from './pages/FAQ';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -64,11 +91,28 @@ function App() {
           },
         }}
       />
-      <Footer />
-      <ZaloChat />
-    </>
+      <ScrollToTop />
+      <Routes>
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/collections" element={<AdminCollections />} />
+        <Route path="/admin/hero-banners" element={<AdminHeroBanners />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+
+        {/* Public Routes */}
+        <Route path="/" element={
+          <>
+            <Header />
+            <main className="flex-1 pt-32">
+              <HomeSimple />
+            </main>
+            <Footer />
+            <ZaloChat />
+          </>
         } />
-  < Route path = "/products" element = {
+        <Route path="/products" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -78,7 +122,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/products/:id" element = {
+        <Route path="/products/:id" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -88,7 +132,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/collections" element = {
+        <Route path="/collections" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -98,7 +142,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/collections/:slug" element = {
+        <Route path="/collections/:slug" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -108,7 +152,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/about" element = {
+        <Route path="/about" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -118,7 +162,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/contact" element = {
+        <Route path="/contact" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -128,7 +172,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/cart" element = {
+        <Route path="/cart" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -138,7 +182,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/checkout" element = {
+        <Route path="/checkout" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -148,7 +192,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/payment/success" element = {
+        <Route path="/payment/success" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -158,7 +202,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/payment/cancel" element = {
+        <Route path="/payment/cancel" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -168,7 +212,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/payment/momo/simulator" element = {
+        <Route path="/payment/momo/simulator" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -178,7 +222,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/payment/vnpay/simulator" element = {
+        <Route path="/payment/vnpay/simulator" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -188,7 +232,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/login" element = {
+        <Route path="/login" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -198,7 +242,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/register" element = {
+        <Route path="/register" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -208,7 +252,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/forgot-password" element = {
+        <Route path="/forgot-password" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -218,7 +262,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/reset-password" element = {
+        <Route path="/reset-password" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -228,8 +272,16 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/auth/callback" element = {< AuthCallback />} />
-    < Route path = "/profile" element = {
+        <Route path="/auth/callback" element={<AuthCallback />} />
+
+        {/* Policy Routes */}
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/returns" element={<Returns />} />
+        <Route path="/warranty" element={<Warranty />} />
+        <Route path="/faq" element={<FAQ />} />
+
+        {/* Account Routes */}
+        <Route path="/profile" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -239,7 +291,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/wishlist" element = {
+        <Route path="/wishlist" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -249,7 +301,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/address" element = {
+        <Route path="/address" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -259,7 +311,7 @@ function App() {
             <ZaloChat />
           </>
         } />
-  < Route path = "/account" element = {
+        <Route path="/account" element={
           <>
             <Header />
             <main className="flex-1 pt-32">
@@ -274,7 +326,7 @@ function App() {
           <Route path="orders/:id" element={<OrderDetail />} />
           <Route path="addresses" element={<Address />} />
           <Route path="settings" element={<AccountSettings />} />
-        </Route >
+        </Route>
         <Route path="/orders" element={
           <>
             <Header />
@@ -295,10 +347,9 @@ function App() {
             <ZaloChat />
           </>
         } />
-      </Routes >
-    </div >
+      </Routes>
+    </div>
   );
 }
 
 export default App;
-
