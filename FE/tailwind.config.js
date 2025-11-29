@@ -60,7 +60,7 @@ export default {
       },
       fontFamily: {
         sans: ['Montserrat', 'system-ui', 'sans-serif'],
-        serif: ['Montserrat', 'Georgia', 'serif'], // Unified to Montserrat as requested
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'], // Restore Cormorant Garamond for specific serif usage (Header)
         display: ['Montserrat', 'sans-serif'],
       },
       letterSpacing: {
