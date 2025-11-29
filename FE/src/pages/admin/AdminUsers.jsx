@@ -34,6 +34,17 @@ const AdminUsers = () => {
     }
   };
 
+  const handleDelete = async (userId) => {
+    if (!confirm('Bạn có chắc muốn xóa người dùng này?')) return;
+    try {
+      await api.delete(`/admin/users/${userId}`);
+      loadUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Lỗi khi xóa người dùng: ' + (error.response?.data?.message || error.message));
+    }
+  };
+
 
 
   if (loading) {
@@ -104,7 +115,14 @@ const AdminUsers = () => {
                     {new Date(user.createdAt).toLocaleDateString('vi-VN')}
                   </td>
                   <td className="px-6 py-4">
-
+                    {String(user.role).toLowerCase() !== 'admin' && (
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                      >
+                        Xóa
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
