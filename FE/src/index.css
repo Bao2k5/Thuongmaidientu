@@ -28,7 +28,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', sans-serif;
     color: #4A4A4A;
     /* Charcoal Grey */
     font-weight: 500;
@@ -100,7 +100,7 @@
     padding: 12px 32px;
     border: 1px solid #4A4A4A;
     color: #4A4A4A;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -120,7 +120,7 @@
     padding: 12px 32px;
     border: 1px solid #A89678;
     color: #A89678;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -139,7 +139,7 @@
     padding: 8px 24px;
     border: 1px solid #2C2415;
     color: #2C2415;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -157,7 +157,7 @@
     padding: 16px 40px;
     border: 1px solid #2C2415;
     color: #2C2415;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -255,12 +255,12 @@
 @layer utilities {
   .text-heading {
     color: #2C2415;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .text-body {
     color: #A89678;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .text-accent {
