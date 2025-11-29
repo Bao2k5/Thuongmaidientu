@@ -25,7 +25,7 @@ const CollectionProducts = () => {
     { value: 'nhan', label: 'Nhẫn' },
     { value: 'day-chuyen', label: 'Dây chuyền' },
     { value: 'bong-tai', label: 'Bông tai' },
-    { value: 'lac-tay', label: 'Vòng tay' }
+    { value: 'lac-tay', label: 'Lắc tay' }
   ];
   const materialOptions = ['Bạc 925', 'Bạc Ý'];
   const sortOptions = [
@@ -102,9 +102,9 @@ const CollectionProducts = () => {
     });
   };
 
-  const activeFiltersCount = 
-    filters.categories.length + 
-    filters.materials.length + 
+  const activeFiltersCount =
+    filters.categories.length +
+    filters.materials.length +
     (filters.priceMin > 0 || filters.priceMax < 50000000 ? 1 : 0);
 
   if (loading) {
@@ -120,7 +120,7 @@ const CollectionProducts = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {}
+      { }
       <section className="bg-white border-b border-gray-200 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -137,11 +137,11 @@ const CollectionProducts = () => {
         </div>
       </section>
 
-      {}
+      { }
       <section className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {}
+          { }
           <HorizontalFilterBar
             filters={filters}
             categoryOptions={categoryOptions}
@@ -155,16 +155,16 @@ const CollectionProducts = () => {
             activeFiltersCount={activeFiltersCount}
           />
 
-          {}
+          { }
           <div className="mb-6">
             <p className="text-sm text-[#4a4033] font-light">
               Hiển thị <span className="font-semibold">{products.length}</span> sản phẩm
             </p>
           </div>
 
-          {}
+          { }
 
-          {}
+          { }
           {loading ? (
             <div className="flex items-center justify-center py-16">
               <div className="text-center">
@@ -196,8 +196,8 @@ const CollectionProducts = () => {
                   className="group"
                 >
                   <div className="aspect-square relative overflow-hidden bg-white mb-3 rounded-lg border border-gray-100">
-                    <img 
-                      src={getProductImage(product)} 
+                    <img
+                      src={getProductImage(product)}
                       alt={product.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

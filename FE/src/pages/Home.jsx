@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { 
-  FiTruck, 
-  FiShield, 
+import {
+  FiTruck,
+  FiShield,
   FiAward,
   FiRefreshCw,
   FiArrowRight,
@@ -70,10 +70,10 @@ const Home = () => {
     },
     {
       id: 4,
-      name: 'Vòng Tay Bạc 925',
+      name: 'Lắc Tay Bạc 925',
       image: '/images/placeholder-bracelets.jpg',
       count: 30,
-      link: '/products?category=vòng tay',
+      link: '/products?category=lắc tay',
     },
   ];
 
@@ -139,14 +139,13 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-luxury-cream">
-      {}
+      { }
       <section className="relative h-[600px] overflow-hidden">
         {heroSlides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -172,7 +171,7 @@ const Home = () => {
           </div>
         ))}
 
-        {}
+        { }
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-colors z-10"
@@ -186,23 +185,22 @@ const Home = () => {
           <FiChevronRight className="w-6 h-6" />
         </button>
 
-        {}
+        { }
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
           {heroSlides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide
+              className={`w-3 h-3 rounded-full transition-all ${index === currentSlide
                   ? 'bg-white w-8'
                   : 'bg-white/50 hover:bg-white/75'
-              }`}
+                }`}
             />
           ))}
         </div>
       </section>
 
-      {}
+      { }
       <section className="py-16 bg-luxury-ivory">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -223,7 +221,7 @@ const Home = () => {
         </div>
       </section>
 
-      {}
+      { }
       <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -269,7 +267,7 @@ const Home = () => {
         </div>
       </section>
 
-      {}
+      { }
       <section className="py-20 bg-gradient-to-r from-luxury-brown via-luxury-taupe to-luxury-brown text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div>
@@ -293,7 +291,7 @@ const Home = () => {
         </div>
       </section>
 
-      {}
+      { }
       <section className="py-20 bg-luxury-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -342,13 +340,13 @@ const Home = () => {
         </div>
       </section>
 
-  {}
-  <FlashSaleSection products={featuredProducts} />
+      { }
+      <FlashSaleSection products={featuredProducts} />
 
-      {}
+      { }
       <PartnerBanner />
 
-      {}
+      { }
       <BlogSection />
     </div>
   );

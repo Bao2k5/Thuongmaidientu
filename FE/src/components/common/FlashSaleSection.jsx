@@ -10,7 +10,7 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
   const saleProducts = productsArr.filter((p) => p && p.priceSale && p.priceSale < p.price);
 
   const normalize = (v) => (v ? String(v).toLowerCase().trim() : '');
-  const preferred = saleProducts.filter((p) => normalize(p.category) === 'vòng tay' || normalize(p.category) === 'vòngtay' || normalize(p.category) === 'vong tay' || normalize(p.category).includes('vòng tay'));
+  const preferred = saleProducts.filter((p) => normalize(p.category) === 'lắc tay' || normalize(p.category) === 'lactay' || normalize(p.category) === 'lac tay' || normalize(p.category).includes('lắc tay'));
   const remaining = saleProducts.filter((p) => !preferred.includes(p));
   const flashProducts = [...preferred.slice(0, 4), ...remaining.slice(0, Math.max(0, 4 - preferred.length))].slice(0, 4);
 
@@ -38,8 +38,8 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
   return (
     <section className="py-16 bg-gradient-to-br from-red-50 to-orange-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        {}
-        <motion.div 
+        { }
+        <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,11 +55,11 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
             Cơ Hội Vàng
           </h2>
 
-          {}
+          { }
           <FlashSaleTimer endTime={flashSaleEndTime} />
         </motion.div>
 
-        {}
+        { }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {flashProducts.map((product, idx) => (
             <motion.div
@@ -74,15 +74,15 @@ const FlashSaleSection = ({ products = [], isLoading = false }) => {
           ))}
         </div>
 
-        {}
-        <motion.div 
+        { }
+        <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <a 
+          <a
             href="/products?filter=sale"
             className="inline-block btn-luxury-large bg-red-500 hover:bg-red-600 text-white"
           >

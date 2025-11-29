@@ -379,7 +379,7 @@ const AdminProducts = () => {
                     <option value="Nhẫn">Nhẫn</option>
                     <option value="Dây Chuyền">Dây Chuyền</option>
                     <option value="Bông Tai">Bông Tai</option>
-                    <option value="Vòng Tay">Vòng Tay</option>
+                    <option value="Lắc Tay">Lắc Tay</option>
                   </select>
                 </div>
                 <div>
