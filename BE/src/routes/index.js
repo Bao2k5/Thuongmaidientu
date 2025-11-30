@@ -29,5 +29,6 @@ router.use('/partners', partnerRoutes);
 router.use('/hero-banners', heroBannerRoutes);
 router.use('/payment', paymentRoutes);
 router.use('/address', addressRoutes);
+router.use('/contact', require('./contact.routes'));
 
 module.exports = router;
