@@ -76,6 +76,6 @@ export const PAYMENT_METHODS = [
 
 export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Lắc Tay'];
 
-export const materials = ['Bạc 925', 'Bạc Ý', 'Vàng Trắng', 'Vàng Hồng'];
+export const materials = ['Bạc 925'];
 
 export const STYLES = ['Minimal', 'Hoa văn', 'Cổ điển', 'Hiện đại', 'Đính đá'];
