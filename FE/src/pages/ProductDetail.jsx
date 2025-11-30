@@ -24,7 +24,7 @@ const ProductDetail = () => {
   const [productReviews, setProductReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Review form state
+  // State cho form đánh giá
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewText, setReviewText] = useState('');
@@ -99,12 +99,12 @@ const ProductDetail = () => {
 
       alert('Cảm ơn bạn đã đánh giá sản phẩm!');
 
-      // Reset form
+      // Reset form sau khi gửi
       setReviewRating(5);
       setReviewTitle('');
       setReviewText('');
 
-      // Refresh reviews
+      // Load lại danh sách review
       const rev = await api.get(`/products/${id}/reviews`);
       setProductReviews((rev.data || []).map(r => ({
         id: r._id,
@@ -190,7 +190,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      { }
+      {/* Breadcrumb điều hướng */}
       <div className="bg-luxury-ivory py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-luxury-brown font-light">
@@ -204,9 +204,9 @@ const ProductDetail = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
-        { }
+        {/* Phần chi tiết sản phẩm chính */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          { }
+          {/* Cột trái: Ảnh sản phẩm */}
           <div>
             <div className="aspect-square bg-gray-50 mb-4 overflow-hidden border border-luxury-beige">
               <img
@@ -241,11 +241,11 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          { }
+          {/* Cột phải: Thông tin chi tiết */}
           <div>
             <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">{product.name}</h1>
 
-            { }
+            {/* Rating stars */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
@@ -257,7 +257,7 @@ const ProductDetail = () => {
               <span className="text-luxury-brown font-light">({product.reviews} đánh giá)</span>
             </div>
 
-            { }
+            {/* Giá và trạng thái kho */}
             <div className="mb-8">
               <p className="text-4xl font-light text-luxury-charcoal mb-2">{formatPrice(product.price)}</p>
               <div className="flex items-center gap-2">
@@ -275,7 +275,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            { }
+            {/* Thông tin cơ bản */}
             <div className="space-y-3 mb-8 pb-8 border-b border-luxury-beige">
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Chất liệu:</span>
@@ -287,7 +287,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            { }
+            {/* Chọn số lượng */}
             <div className="mb-8">
               <label className="block text-luxury-charcoal font-light mb-3">Số lượng</label>
               <div className="flex items-center gap-4">
@@ -318,7 +318,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            { }
+            {/* Nút thao tác */}
             <div className="space-y-4 mb-8">
               <button
                 onClick={handleAddToCart}
@@ -365,7 +365,7 @@ const ProductDetail = () => {
               </button>
             </div>
 
-            { }
+            {/* Cam kết dịch vụ */}
             <div className="space-y-4 bg-luxury-ivory p-6 border border-luxury-beige">
               <div className="flex items-start gap-3">
                 <svg className="w-6 h-6 text-luxury-charcoal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,9 +398,9 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        { }
+        {/* Phần Tabs: Mô tả, Thông số, Đánh giá */}
         <div className="mb-20">
-          { }
+          {/* Tab headers */}
           <div className="flex gap-8 border-b border-luxury-beige mb-8">
             <button
               onClick={() => setActiveTab('description')}
@@ -431,7 +431,7 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          { }
+          {/* Tab content */}
           <div className="max-w-3xl">
             {activeTab === 'description' && (
               <div className="text-luxury-brown font-light leading-relaxed text-lg">
@@ -544,7 +544,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        { }
+        {/* Sản phẩm liên quan */}
         <div>
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light mb-4 text-luxury-charcoal tracking-wide">SẢN PHẨM LIÊN QUAN</h2>

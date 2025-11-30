@@ -13,6 +13,20 @@ async function updateProductRatings(productId) {
     await Product.findByIdAndUpdate(productId, { ratingsAvg: 0, ratingsCount: 0 });
   }
 }
+}
+
+exports.getTopReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({ rating: 5 })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate('user', 'name')
+      .populate('product', 'name images');
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.listReviews = async (req, res) => {
   try {

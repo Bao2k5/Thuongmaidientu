@@ -20,7 +20,7 @@ exports.createOrder = async (req, res) => {
       });
     }
 
-    // basic total calculation
+    // Tính tổng tiền đơn hàng
     let total = 0;
     const items = cart.items.map(i => {
       if (!i.product) {
@@ -57,7 +57,7 @@ exports.createOrder = async (req, res) => {
 
     console.log('[createOrder] Order created:', order._id);
 
-    // decrement stock (only for non-Stripe orders; Stripe orders decrement in webhook)
+    // Trừ tồn kho (chỉ áp dụng cho đơn COD, đơn Stripe sẽ trừ sau khi thanh toán thành công)
     if (!req.body.useStripe) {
       for (const it of items) {
         await Product.findByIdAndUpdate(it.product, { $inc: { stock: -it.qty } });
@@ -66,11 +66,11 @@ exports.createOrder = async (req, res) => {
       await order.save();
     }
 
-    // clear cart
+    // Xóa giỏ hàng sau khi đặt thành công
     await Cart.findOneAndDelete({ user: req.user.id });
     console.log('[createOrder] Cart cleared');
 
-    // Send confirmation email
+    // Gửi email xác nhận cho khách
     try {
       const message = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
@@ -92,25 +92,6 @@ exports.createOrder = async (req, res) => {
                 <span>${item.qty}x Sản phẩm (ID: ${item.product})</span>
                 <span>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
               </li>
-            `).join('')}
-          </ul>
-
-          <p style="text-align: center; margin-top: 30px; color: #888;">
-            Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ hotline: 0375 223 143
-          </p>
-        </div>
-      `;
-
-      await sendEmail({
-        email: order.email,
-        subject: `[HM Jewelry] Xác nhận đơn hàng #${order._id.toString().slice(-6).toUpperCase()}`,
-        message,
-      });
-      console.log('[createOrder] Email sent successfully');
-    } catch (emailError) {
-      console.error('[createOrder] Failed to send email:', emailError);
-      // Don't fail the order if email fails
-    }
 
     res.status(201).json({
       success: true,
@@ -165,7 +146,7 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
-// mock payment: mark as paid
+// Giả lập thanh toán (dùng cho demo)
 exports.mockPayment = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);

@@ -107,7 +107,7 @@ const HomeSimple = () => {
 
   return (
     <div className="min-h-screen bg-luxury-silverPearl">
-      { }
+      {/* Hero Banner Section - Slide tự động chạy */}
       {heroBanners.length > 0 ? (
         <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
           {heroBanners.map((banner, index) => (
@@ -121,7 +121,7 @@ const HomeSimple = () => {
                 alt={banner.title}
                 className="w-full h-full object-cover object-center"
               />
-              { }
+              {/* Overlay tối màu để text dễ đọc hơn */}
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                 <div className="text-center text-white max-w-3xl px-8">
                   {banner.title && (
@@ -152,7 +152,7 @@ const HomeSimple = () => {
             </div>
           ))}
 
-          { }
+          {/* Nút điều hướng slide (dots) */}
           {heroBanners.length > 1 && (
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
               {heroBanners.map((_, index) => (
@@ -177,7 +177,7 @@ const HomeSimple = () => {
         </section>
       )}
 
-      { }
+      {/* Phần cam kết dịch vụ (Shipping, Bảo mật...) */}
       <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -226,154 +226,154 @@ const HomeSimple = () => {
 
       { }
       { }
-      <section className="section-luxury bg-luxury-silverPearlLight">
-        <div className="container-luxury">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
-            <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
-            <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá vẻ đẹp tinh tế của từng thiết kế</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {collections.map((item) => (
-              <Link
-                key={item._id || item.id}
-                to={`/products?category=${encodeURIComponent(item.name)}`}
-                className="group block relative"
-              >
-                <div className="aspect-square relative overflow-hidden border-1 border-luxury-metallicSilver">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-luxury-deepBlack/0 group-hover:bg-luxury-deepBlack/10 transition-all duration-500" />
-                </div>
-                <div className="mt-6 text-center">
-                  <h3 className="font-serif text-xl font-light text-luxury-deepBlack mb-2 tracking-wide">{item.name}</h3>
-
-                  <div className="w-8 h-px bg-luxury-deepBlack mx-auto opacity-0 group-hover:opacity-100 transition-opacity mt-3"></div>
-                </div>
-              </Link>
-            ))}
-          </div>
+      {/* Danh sách Bộ sưu tập */}
+      <div className="container-luxury">
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Bộ Sưu Tập</h2>
+          <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
+          <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá vẻ đẹp tinh tế của từng thiết kế</p>
         </div>
-      </section>
 
-
-      { }
-      <section className="section-luxury bg-luxury-silverPearlLight">
-        <div className="container-luxury">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
-            <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
-            <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <Link to="/products" className="btn-luxury">
-              XEM TẤT CẢ SẢN PHẨM
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      { }
-      <section className="section-luxury bg-luxury-silverPearlLight">
-        <div className="container-luxury">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-8">
-              <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-deepBlack tracking-[0.25em] mb-6 uppercase">
-                HM Jewelry
-              </h2>
-              <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-8"></div>
-            </div>
-
-            <div className="space-y-6 text-luxury-steelGrey text-base md:text-lg leading-relaxed font-normal">
-              <p className="text-xl md:text-2xl font-serif italic text-luxury-deepBlack mb-8">
-                "Nơi có những món đồ bé nhỏ để bạn có thể gói ghém dành tặng bản thân và người thân yêu của bạn"
-              </p>
-
-              <p>
-                <strong className="text-luxury-deepBlack">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế,
-                được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa.
-                Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm,
-                là tình cảm được lưu giữ mãi mãi.
-              </p>
-
-              <p>
-                Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-deepBlack">bạc 925 nguyên chất</strong>,
-                kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến
-                từng chi tiết nhỏ nhất, tất cả đều được thực hiện bởi đôi bàn tay tài hoa của những nghệ nhân lành nghề.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-8">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                  </div>
-                  <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Chất lượng</h3>
-                  <p className="text-sm text-luxury-steelGrey">Bạc 925 nguyên chất, kiểm định chặt chẽ</p>
-                </div>
-
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Thiết kế</h3>
-                  <p className="text-sm text-luxury-steelGrey">Tinh tế, nhẹ nhàng, phù hợp mọi phong cách</p>
-                </div>
-
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Bảo hành</h3>
-                  <p className="text-sm text-luxury-steelGrey">Bảo hành trọn đời, đổi trả miễn phí</p>
-                </div>
-              </div>
-
-              <p className="italic">
-                Hãy để <strong className="text-luxury-deepBlack">HM Jewelry</strong> đồng hành cùng bạn trong những khoảnh khắc đáng nhớ,
-                tô điểm thêm vẻ đẹp và sự tự tin cho phong cách của bạn.
-              </p>
-            </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {collections.map((item) => (
             <Link
-              to="/about"
-              className="inline-block mt-12 bg-luxury-deepBlack text-luxury-silverPearl px-12 py-4 hover:bg-luxury-steelGrey transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+              key={item._id || item.id}
+              to={`/products?category=${encodeURIComponent(item.name)}`}
+              className="group block relative"
             >
-              Tìm hiểu thêm
+              <div className="aspect-square relative overflow-hidden border-1 border-luxury-metallicSilver">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-luxury-deepBlack/0 group-hover:bg-luxury-deepBlack/10 transition-all duration-500" />
+              </div>
+              <div className="mt-6 text-center">
+                <h3 className="font-serif text-xl font-light text-luxury-deepBlack mb-2 tracking-wide">{item.name}</h3>
+
+                <div className="w-8 h-px bg-luxury-deepBlack mx-auto opacity-0 group-hover:opacity-100 transition-opacity mt-3"></div>
+              </div>
             </Link>
-          </div>
+          ))}
         </div>
-      </section>
-
-      { }
-      <TestimonialsSlider />
-
-      { }
-      <InstagramFeed />
+      </div>
+    </section>
 
 
+      {/* Sản phẩm nổi bật */ }
+  <section className="section-luxury bg-luxury-silverPearlLight">
+    <div className="container-luxury">
+      <div className="text-center mb-12">
+        <h2 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-luxury-deepBlack tracking-[0.2em] uppercase">Sản phẩm</h2>
+        <div className="w-12 h-px bg-luxury-platinumGrey mx-auto mb-4"></div>
+        <p className="text-luxury-steelGrey text-base font-normal tracking-wide">Khám phá những thiết kế được yêu thích nhất</p>
+      </div>
 
-      { }
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {featuredProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
 
-      { }
-      <NewsletterSignup />
+      <div className="text-center mt-16">
+        <Link to="/products" className="btn-luxury">
+          XEM TẤT CẢ SẢN PHẨM
+        </Link>
+      </div>
     </div>
+  </section>
+
+  {/* Giới thiệu về thương hiệu */ }
+  <section className="section-luxury bg-luxury-silverPearlLight">
+    <div className="container-luxury">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="mb-8">
+          <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-deepBlack tracking-[0.25em] mb-6 uppercase">
+            HM Jewelry
+          </h2>
+          <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-8"></div>
+        </div>
+
+        <div className="space-y-6 text-luxury-steelGrey text-base md:text-lg leading-relaxed font-normal">
+          <p className="text-xl md:text-2xl font-serif italic text-luxury-deepBlack mb-8">
+            "Nơi có những món đồ bé nhỏ để bạn có thể gói ghém dành tặng bản thân và người thân yêu của bạn"
+          </p>
+
+          <p>
+            <strong className="text-luxury-deepBlack">HM Jewelry</strong> là thương hiệu trang sức bạc 925 tinh tế,
+            được thành lập với sứ mệnh mang đến những sản phẩm trang sức nhẹ nhàng, sang trọng và đầy ý nghĩa.
+            Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện làm đẹp, mà còn là câu chuyện, là kỷ niệm,
+            là tình cảm được lưu giữ mãi mãi.
+          </p>
+
+          <p>
+            Mỗi sản phẩm của chúng tôi đều được chế tác tỉ mỉ từ <strong className="text-luxury-deepBlack">bạc 925 nguyên chất</strong>,
+            kết hợp với nghệ thuật và tình yêu đối với vẻ đẹp tự nhiên. Từ những thiết kế tinh xảo đến
+            từng chi tiết nhỏ nhất, tất cả đều được thực hiện bởi đôi bàn tay tài hoa của những nghệ nhân lành nghề.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-8">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Chất lượng</h3>
+              <p className="text-sm text-luxury-steelGrey">Bạc 925 nguyên chất, kiểm định chặt chẽ</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Thiết kế</h3>
+              <p className="text-sm text-luxury-steelGrey">Tinh tế, nhẹ nhàng, phù hợp mọi phong cách</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-luxury-silverPearl rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-luxury-deepBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-lg font-medium text-luxury-deepBlack mb-2 uppercase tracking-wider">Bảo hành</h3>
+              <p className="text-sm text-luxury-steelGrey">Bảo hành trọn đời, đổi trả miễn phí</p>
+            </div>
+          </div>
+
+          <p className="italic">
+            Hãy để <strong className="text-luxury-deepBlack">HM Jewelry</strong> đồng hành cùng bạn trong những khoảnh khắc đáng nhớ,
+            tô điểm thêm vẻ đẹp và sự tự tin cho phong cách của bạn.
+          </p>
+        </div>
+
+        <Link
+          to="/about"
+          className="inline-block mt-12 bg-luxury-deepBlack text-luxury-silverPearl px-12 py-4 hover:bg-luxury-steelGrey transition-all duration-300 tracking-[0.2em] text-xs font-medium uppercase"
+        >
+          Tìm hiểu thêm
+        </Link>
+      </div>
+    </div>
+  </section>
+
+  {/* Slider đánh giá khách hàng */ }
+  <TestimonialsSlider />
+
+  {/* Feed Instagram */ }
+  <InstagramFeed />
+
+
+
+  { }
+
+  {/* Đăng ký nhận tin */ }
+  <NewsletterSignup />
+    </div >
   );
 };
 
