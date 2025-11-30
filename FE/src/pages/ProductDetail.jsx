@@ -24,6 +24,12 @@ const ProductDetail = () => {
   const [productReviews, setProductReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Review form state
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   const handleAddToCart = async () => {
     if (!product) return;
 
@@ -73,6 +79,48 @@ const ProductDetail = () => {
     } finally {
       setWishlistLoading(false);
     }
+
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      alert('Vui lòng đăng nhập để viết đánh giá!');
+      return;
+    }
+
+    setSubmittingReview(true);
+    try {
+      await api.post(`/products/${product.id}/reviews`, {
+        rating: reviewRating,
+        title: reviewTitle,
+        text: reviewText
+      });
+
+      alert('Cảm ơn bạn đã đánh giá sản phẩm!');
+
+      // Reset form
+      setReviewRating(5);
+      setReviewTitle('');
+      setReviewText('');
+
+      // Refresh reviews
+      const rev = await api.get(`/products/${id}/reviews`);
+      setProductReviews((rev.data || []).map(r => ({
+        id: r._id,
+        userName: r.user?.name || 'Ẩn danh',
+        rating: r.rating,
+        date: new Date(r.createdAt).toLocaleDateString('vi-VN'),
+        comment: r.text,
+        title: r.title
+      })));
+
+    } catch (error) {
+      console.error('Review error:', error);
+      alert(error.response?.data?.msg || 'Có lỗi xảy ra khi gửi đánh giá.');
+    } finally {
+      setSubmittingReview(false);
+    }
   };
 
   useEffect(() => {
@@ -113,9 +161,16 @@ const ProductDetail = () => {
 
         try {
           const rev = await api.get(`/products/${id}/reviews`);
-          setProductReviews(rev.data || []);
+          setProductReviews((rev.data || []).map(r => ({
+            id: r._id,
+            userName: r.user?.name || 'Ẩn danh',
+            rating: r.rating,
+            date: new Date(r.createdAt).toLocaleDateString('vi-VN'),
+            comment: r.text,
+            title: r.title
+          })));
         } catch (e) {
-
+          console.error('Error fetching reviews:', e);
         }
       } catch (err) {
         console.error('Failed to load product', err);
@@ -408,9 +463,82 @@ const ProductDetail = () => {
 
             {activeTab === 'reviews' && (
               <div className="space-y-8">
-                {productReviews.map(review => (
-                  <ReviewCard key={review.id} review={review} />
-                ))}
+                {/* Review Form */}
+                <div className="bg-gray-50 p-6 border border-luxury-beige rounded-sm mb-8">
+                  <h3 className="text-lg font-light text-luxury-charcoal mb-4">Viết đánh giá của bạn</h3>
+                  {user ? (
+                    <form onSubmit={handleSubmitReview} className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Đánh giá của bạn</label>
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setReviewRating(star)}
+                              className="focus:outline-none transition-transform hover:scale-110"
+                            >
+                              <svg
+                                className={`w-6 h-6 ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}`}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Tiêu đề</label>
+                        <input
+                          type="text"
+                          value={reviewTitle}
+                          onChange={(e) => setReviewTitle(e.target.value)}
+                          className="w-full p-3 border border-luxury-beige focus:border-luxury-charcoal focus:outline-none bg-white font-light"
+                          placeholder="Tóm tắt trải nghiệm của bạn"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Nội dung</label>
+                        <textarea
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                          rows="4"
+                          className="w-full p-3 border border-luxury-beige focus:border-luxury-charcoal focus:outline-none bg-white font-light"
+                          placeholder="Chia sẻ chi tiết về sản phẩm..."
+                          required
+                        ></textarea>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={submittingReview}
+                        className="bg-luxury-charcoal text-white px-8 py-3 text-sm font-light tracking-wider hover:bg-luxury-brown transition-colors disabled:opacity-50"
+                      >
+                        {submittingReview ? 'ĐANG GỬI...' : 'GỬI ĐÁNH GIÁ'}
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="text-center py-6">
+                      <p className="text-luxury-brown mb-4">Vui lòng đăng nhập để viết đánh giá</p>
+                      <Link to="/login" className="inline-block border border-luxury-charcoal text-luxury-charcoal px-6 py-2 hover:bg-luxury-charcoal hover:text-white transition-colors">
+                        Đăng nhập ngay
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {productReviews.length > 0 ? (
+                  productReviews.map(review => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))
+                ) : (
+                  <p className="text-luxury-brown font-light italic text-center">Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+                )}
               </div>
             )}
           </div>
