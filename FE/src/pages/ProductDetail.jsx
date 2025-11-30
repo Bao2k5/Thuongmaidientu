@@ -454,7 +454,7 @@ const ProductDetail = () => {
                   return (
                     <div key={key} className="flex border-b border-luxury-ivory pb-3">
                       <span className="w-48 text-luxury-brown font-light">{labels[key] || key}:</span>
-                      <span className="flex-1 text-luxury-charcoal font-light">{value}</span>
+                      <span className="flex-1 text-luxury-charcoal font-light">{key === 'material' ? 'Bạc 925' : value}</span>
                     </div>
                   );
                 })}

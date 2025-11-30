@@ -31,12 +31,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
 
   const materials = [
     'Tất cả',
-    'Vàng',
     'Bạc 925',
-    'Bạch Kim',
-    'Titan',
-    'Kim Cương',
-    'Ngọc Trai'
   ];
 
   const sortOptions = [
@@ -209,8 +204,8 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                           key={cat}
                           onClick={() => handleFilterChange('category', cat)}
                           className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${filters.category === cat || (cat === 'Tất cả' && !filters.category)
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
                             }`}
                         >
                           {cat}
@@ -230,8 +225,8 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                           key={mat}
                           onClick={() => handleFilterChange('material', mat)}
                           className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${filters.material === mat || (mat === 'Tất cả' && !filters.material)
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
                             }`}
                         >
                           {mat}
@@ -251,8 +246,8 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                           key={index}
                           onClick={() => handlePriceRangeSelect(range.min, range.max)}
                           className={`w-full px-4 py-2.5 rounded-lg border-2 font-medium text-left transition-all ${filters.minPrice === range.min && filters.maxPrice === range.max
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
                             }`}
                         >
                           {range.label}
