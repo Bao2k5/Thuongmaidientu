@@ -279,7 +279,7 @@ const ProductDetail = () => {
             <div className="space-y-3 mb-8 pb-8 border-b border-luxury-beige">
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Chất liệu:</span>
-                <span className="text-luxury-charcoal font-light">{product.material}</span>
+                <span className="text-luxury-charcoal font-light">Bạc 925</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Danh mục:</span>
