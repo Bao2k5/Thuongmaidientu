@@ -111,7 +111,7 @@ const HomeSimple = () => {
     <div className="min-h-screen bg-luxury-silverPearl">
       {/* Hero Banner Section - Slide tự động chạy */}
       {heroBanners.length > 0 ? (
-        <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
+        <section className="relative w-full overflow-hidden min-h-[500px] md:min-h-0 md:aspect-video">
           {heroBanners.map((banner, index) => (
             <div
               key={banner._id}
@@ -127,17 +127,17 @@ const HomeSimple = () => {
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                 <div className="text-center text-white max-w-3xl px-8">
                   {banner.title && (
-                    <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 tracking-wide">
+                    <h1 className="text-3xl md:text-6xl font-display font-bold mb-2 md:mb-4 tracking-wide">
                       {banner.title}
                     </h1>
                   )}
                   {banner.subtitle && (
-                    <p className="text-xl md:text-2xl font-light mb-6">
+                    <p className="text-lg md:text-2xl font-light mb-4 md:mb-6">
                       {banner.subtitle}
                     </p>
                   )}
                   {banner.description && (
-                    <p className="text-lg mb-8 max-w-2xl mx-auto">
+                    <p className="text-sm md:text-lg mb-6 md:mb-8 max-w-2xl mx-auto hidden md:block">
                       {banner.description}
                     </p>
                   )}
@@ -170,7 +170,7 @@ const HomeSimple = () => {
         </section>
       ) : (
 
-        <section className="relative w-full overflow-hidden aspect-video md:aspect-video">
+        <section className="relative w-full overflow-hidden min-h-[500px] md:min-h-0 md:aspect-video">
           <img
             src="/bthn-hero.png"
             alt="HM Jewelry"
@@ -227,7 +227,7 @@ const HomeSimple = () => {
       <section className="section-luxury bg-luxury-silverPearlLight pb-0">
         <div className="container-luxury">
           <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-sm overflow-hidden">
-            <div className="flex flex-col md:flex-row h-[500px] md:h-[600px]">
+            <div className="flex flex-col md:flex-row h-auto md:h-[600px]">
               {/* Left Side: Text Content */}
               <div className="w-full md:w-5/12 flex flex-col justify-center items-center text-center p-8 md:p-12 bg-luxury-silverPearl/30">
                 <motion.div
@@ -253,7 +253,7 @@ const HomeSimple = () => {
               </div>
 
               {/* Right Side: Vertical Video */}
-              <div className="w-full md:w-7/12 relative h-full group">
+              <div className="w-full md:w-7/12 relative h-[400px] md:h-full group">
                 <video
                   ref={videoRef}
                   autoPlay
