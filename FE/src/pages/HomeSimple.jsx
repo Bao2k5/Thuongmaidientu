@@ -111,7 +111,7 @@ const HomeSimple = () => {
     <div className="min-h-screen bg-luxury-silverPearl">
       {/* Hero Banner Section - Slide tự động chạy */}
       {heroBanners.length > 0 ? (
-        <section className="relative w-full overflow-hidden min-h-[500px] md:min-h-0 md:aspect-video">
+        <section className="relative w-full overflow-hidden min-h-[400px] md:min-h-0 md:aspect-video">
           {heroBanners.map((banner, index) => (
             <div
               key={banner._id}
@@ -170,7 +170,7 @@ const HomeSimple = () => {
         </section>
       ) : (
 
-        <section className="relative w-full overflow-hidden min-h-[500px] md:min-h-0 md:aspect-video">
+        <section className="relative w-full overflow-hidden min-h-[400px] md:min-h-0 md:aspect-video">
           <img
             src="/bthn-hero.png"
             alt="HM Jewelry"
