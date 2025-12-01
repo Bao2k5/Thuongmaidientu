@@ -263,7 +263,7 @@ const HomeSimple = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                   poster="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2070&auto=format&fit=crop"
                 >
-                  <source src="/intro.mp4" type="video/mp4" />
+                  <source src="https://res.cloudinary.com/drqowqzr6/video/upload/v1764559439/7279733070411_zxhlga.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
 
