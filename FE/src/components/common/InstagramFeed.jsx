@@ -50,11 +50,11 @@ const InstagramFeed = () => {
         </div>
 
         {/* Grid ảnh */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="flex overflow-x-auto md:grid md:grid-cols-3 lg:grid-cols-6 gap-2 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-hide">
           {posts.map((product, index) => (
             <motion.div
               key={product._id}
-              className="relative aspect-square overflow-hidden group cursor-pointer"
+              className="relative flex-shrink-0 w-[40vw] md:w-auto aspect-square overflow-hidden group cursor-pointer snap-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
