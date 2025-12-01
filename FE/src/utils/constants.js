@@ -35,7 +35,7 @@ export const SORT_OPTIONS = [
 ];
 
 export const SOCIAL_LINKS = {
-  facebook: 'https://facebook.com/hmjewelry',
+  facebook: 'https://www.facebook.com/le.duong.bao.845783',
   instagram: 'https://www.instagram.com/elgnoud_oab/',
   tiktok: 'https://tiktok.com/@hmjewelry',
   zalo: 'https://zalo.me/hmjewelry',

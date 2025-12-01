@@ -226,6 +226,43 @@ const HomeSimple = () => {
 
       { }
       { }
+      {/* Video Section - Cinematic Introduction */}
+      <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
+        <div className="absolute inset-0 bg-black/30 z-10" /> {/* Overlay */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-jewelry-making-close-up-5244/1080p.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-serif text-4xl md:text-6xl font-light tracking-widest mb-6 uppercase">
+              Tinh Hoa Chế Tác
+            </h2>
+            <p className="text-lg md:text-xl font-light tracking-wide max-w-2xl mx-auto mb-8 text-white/90">
+              Mỗi sản phẩm là một tác phẩm nghệ thuật, được thổi hồn bởi những nghệ nhân tài hoa
+            </p>
+            <Link
+              to="/about"
+              className="inline-block border border-white/50 hover:border-white hover:bg-white hover:text-luxury-deepBlack px-8 py-3 transition-all duration-300 tracking-[0.2em] text-sm uppercase"
+            >
+              Câu chuyện thương hiệu
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Danh sách Bộ sưu tập */}
       <section className="section-luxury bg-luxury-silverPearlLight">
         <div className="container-luxury">
