@@ -235,8 +235,9 @@ const HomeSimple = () => {
           loop
           playsInline
           className="w-full h-full object-cover"
+          poster="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2070&auto=format&fit=crop"
         >
-          <source src="https://cdn.coverr.co/videos/coverr-jewelry-making-close-up-5244/1080p.mp4" type="video/mp4" />
+          <source src="https://cdn.pixabay.com/video/2023/10/19/185732-876153603_large.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
