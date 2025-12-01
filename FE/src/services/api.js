@@ -39,5 +39,17 @@ api.interceptors.response.use(
   }
 );
 
+api.interceptors.request.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      storage.remove('token');
+      storage.remove('user');
+      window.location.href = '/register';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export { api };
 export default api;

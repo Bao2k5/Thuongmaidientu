@@ -30,13 +30,16 @@ const Register = () => {
     }
 
     try {
-      // API call sẽ được thêm sau
-      console.log('Register:', formData);
-      alert('Đăng ký thành công! (Sẽ tích hợp với backend sau)');
-      navigate('/login');
+      const res = await register(formData);
+      console.log('Register success:', res);
+      alert('Đăng ký thành công!');
+      navigate('/register');
     } catch (error) {
       console.error('Register error:', error);
-      alert('Đăng ký thất bại. Vui lòng thử lại.');
+      const msg = error.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.';
+      alert(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
