@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { SOCIAL_LINKS } from '../../utils/constants';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://facebook.com"
+                href={SOCIAL_LINKS.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-luxury-silverPearl hover:text-luxury-steelGrey transition"
@@ -28,7 +29,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://instagram.com"
+                href={SOCIAL_LINKS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-luxury-silverPearl hover:text-luxury-steelGrey transition"
@@ -39,7 +40,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://www.tiktok.com"
+                href={SOCIAL_LINKS.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-luxury-silverPearl hover:text-luxury-steelGrey transition"
@@ -50,14 +51,14 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://zalo.me/0375225749"
+                href={SOCIAL_LINKS.zalo}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-luxury-silverPearl hover:text-luxury-steelGrey transition"
                 aria-label="Zalo"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
-                  <path d="M440.7 182.1c7.9-98-59.9-181.8-159.8-184.1C165.7-4.6 79.4 79.4 79.4 194.6c0 18.8 2.6 37 7.5 54.4 1.7 6.1-.5 12.7-5.6 16.5l-32.8 24.3c-8.8 6.5-5.7 20.3 4.9 22.2l74.7 13.1c6.6 1.2 13.4-1.2 17.5-6.1l.2-.2c32.8 19.8 71.5 31.2 113 31.2 116.9 0 211.2-94.3 211.2-211.2 0-3.9-.1-7.7-.3-11.6zm-179.1 73.2l-39.9-39.9c-3.1-3.1-8.2-3.1-11.3 0l-11.3 11.3c-3.1 3.1-3.1 8.2 0 11.3l39.9 39.9-39.9 39.9c-3.1 3.1 8.2 3.1 11.3 0l11.3 11.3c3.1 3.1 8.2 3.1 11.3 0l39.9-39.9 39.9 39.9c3.1 3.1 8.2 3.1 11.3 0l11.3-11.3c3.1-3.1 3.1-8.2 0-11.3l-11.3-11.3c-3.1-3.1-8.2-3.1-11.3 0l-39.9 39.9z" />
+                  <path d="M440.7 182.1c7.9-98-59.9-181.8-159.8-184.1C165.7-4.6 79.4 79.4 79.4 194.6c0 18.8 2.6 37 7.5 54.4 1.7 6.1-.5 12.7-5.6 16.5l-32.8 24.3c-8.8 6.5-5.7 20.3 4.9 22.2l74.7 13.1c6.6 1.2 13.4-1.2 17.5-6.1l.2-.2c32.8 19.8 71.5 31.2 113 31.2 116.9 0 211.2-94.3 211.2-211.2 0-3.9-.1-7.7-.3-11.6zm-179.1 73.2l-39.9-39.9c-3.1-3.1-8.2-3.1-11.3 0l-11.3 11.3c-3.1 3.1-3.1 8.2 0 11.3l39.9 39.9-39.9 39.9c-3.1 3.1 8.2 3.1 11.3 0l11.3 11.3c3.1 3.1 8.2 3.1 11.3 0l11.3-11.3c3.1-3.1 3.1-8.2 0-11.3l-11.3-11.3c-3.1-3.1-8.2-3.1-11.3 0l-39.9 39.9z" />
                 </svg>
               </a>
             </div>

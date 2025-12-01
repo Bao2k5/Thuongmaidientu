@@ -1,5 +1,5 @@
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hmjewelry-backend.onrender.com';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const CATEGORIES = [
   { id: 'rings', name: 'Nhẫn', slug: 'nhan', icon: '💍' },
@@ -36,7 +36,7 @@ export const SORT_OPTIONS = [
 
 export const SOCIAL_LINKS = {
   facebook: 'https://facebook.com/hmjewelry',
-  instagram: 'https://instagram.com/hmjewelry',
+  instagram: 'https://www.instagram.com/elgnoud_oab/',
   tiktok: 'https://tiktok.com/@hmjewelry',
   zalo: 'https://zalo.me/hmjewelry',
 };
