@@ -221,6 +221,55 @@ const HomeSimple = () => {
         </div>
       </section>
 
+      {/* Video Section - Cinematic Split Layout */}
+      <section className="section-luxury bg-luxury-silverPearlLight pb-0">
+        <div className="container-luxury">
+          <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-sm overflow-hidden">
+            <div className="flex flex-col md:flex-row h-[500px] md:h-[600px]">
+              {/* Left Side: Text Content */}
+              <div className="w-full md:w-5/12 flex flex-col justify-center items-center text-center p-8 md:p-12 bg-luxury-silverPearl/30">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="font-serif text-3xl md:text-5xl font-light tracking-widest mb-6 uppercase text-luxury-deepBlack">
+                    Tinh Hoa <br /> Chế Tác
+                  </h2>
+                  <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
+                  <p className="text-luxury-softBlack text-base md:text-lg font-light leading-relaxed mb-8 max-w-xs mx-auto">
+                    Từng đường nét được chạm khắc tỉ mỉ, đánh thức vẻ đẹp kiêu sa tiềm ẩn trong mỗi viên đá quý.
+                  </p>
+                  <Link
+                    to="/about"
+                    className="inline-block border border-luxury-deepBlack text-luxury-deepBlack px-8 py-3 hover:bg-luxury-deepBlack hover:text-white transition-all duration-300 tracking-[0.2em] text-xs uppercase"
+                  >
+                    Câu chuyện thương hiệu
+                  </Link>
+                </motion.div>
+              </div>
+
+              {/* Right Side: Vertical Video */}
+              <div className="w-full md:w-7/12 relative h-full">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                  poster="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2070&auto=format&fit=crop"
+                >
+                  <source src="/intro.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                {/* Overlay gradient nhẹ để video hòa vào nền trắng hơn nếu cần */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Danh sách Bộ sưu tập */}
       <section className="section-luxury bg-luxury-silverPearlLight">
