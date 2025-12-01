@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ProductCard from '../components/common/ProductCard';
 
 import NewsletterSignup from '../components/common/NewsletterSignup';
@@ -20,6 +20,8 @@ const HomeSimple = () => {
   const [collections, setCollections] = useState([]);
   const [heroBanners, setHeroBanners] = useState([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef(null);
   const [testimonials] = useState([
     { id: 1, name: 'Khách hàng A', role: 'Khách hàng', content: 'Sản phẩm rất đẹp', rating: 5 },
     { id: 2, name: 'Khách hàng B', role: 'Khách hàng', content: 'Dịch vụ tốt', rating: 5 }
@@ -239,7 +241,7 @@ const HomeSimple = () => {
                   </h2>
                   <div className="w-16 h-px bg-luxury-platinumGrey mx-auto mb-6"></div>
                   <p className="text-luxury-softBlack text-base md:text-lg font-light leading-relaxed mb-8 max-w-xs mx-auto">
-                    Từng đường nét được chạm khắc tỉ mỉ, đánh thức vẻ đẹp kiêu sa tiềm ẩn trong mỗi viên đá quý.
+                    Từng đường nét được chạm khắc tỉ mỉ, đánh thức vẻ đẹp kiêu sa tiềm ẩn trong mỗi trang sức của chúng tôi.
                   </p>
                   <Link
                     to="/about"
@@ -251,10 +253,11 @@ const HomeSimple = () => {
               </div>
 
               {/* Right Side: Vertical Video */}
-              <div className="w-full md:w-7/12 relative h-full">
+              <div className="w-full md:w-7/12 relative h-full group">
                 <video
+                  ref={videoRef}
                   autoPlay
-                  muted
+                  muted={isMuted}
                   loop
                   playsInline
                   className="absolute inset-0 w-full h-full object-cover"
@@ -263,8 +266,26 @@ const HomeSimple = () => {
                   <source src="/intro.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-                {/* Overlay gradient nhẹ để video hòa vào nền trắng hơn nếu cần */}
+
+                {/* Overlay gradient nhẹ */}
                 <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
+
+                {/* Mute/Unmute Button */}
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className="absolute bottom-6 right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/40 transition-all duration-300"
+                  aria-label={isMuted ? "Bật tiếng" : "Tắt tiếng"}
+                >
+                  {isMuted ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                    </svg>
+                  )}
+                </button>
               </div>
             </div>
           </div>
