@@ -13,20 +13,13 @@ const VNPAY_CONFIG = {
   ipnUrl: process.env.VNPAY_IPN_URL || 'https://hmjewelry-be.vercel.app/api/payment/vnpay/ipn',
 };
 
-// VNPay official sortObject function from demo
+// Simple sortObject - do NOT encode values (querystring.stringify will handle it)
 function sortObject(obj) {
-  let sorted = {};
-  let str = [];
-  let key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      str.push(encodeURIComponent(key));
-    }
-  }
-  str.sort();
-  for (key = 0; key < str.length; key++) {
-    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
-  }
+  const sorted = {};
+  const keys = Object.keys(obj).sort();
+  keys.forEach(key => {
+    sorted[key] = obj[key];
+  });
   return sorted;
 }
 
