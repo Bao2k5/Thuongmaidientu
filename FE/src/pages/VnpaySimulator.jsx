@@ -98,7 +98,7 @@ const VnpaySimulator = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {}
+        { }
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 rounded-xl mb-4">
             <span className="text-white text-2xl font-bold">VNPAY</span>
@@ -107,7 +107,7 @@ const VnpaySimulator = () => {
           <p className="text-gray-600">Chế độ test - Không thanh toán thật</p>
         </div>
 
-        {}
+        { }
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
           <div className="border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Thông tin đơn hàng</h2>
@@ -127,7 +127,7 @@ const VnpaySimulator = () => {
             </div>
           </div>
 
-          {}
+          { }
           <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl p-8 mb-6">
             <div className="text-center">
               <div className="bg-white rounded-lg p-6 inline-block mb-4">
@@ -156,7 +156,7 @@ const VnpaySimulator = () => {
               </div>
               <p className="text-gray-600 text-sm">
                 <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-semibold mb-2">
-                  ⚠️ SANDBOX MODE
+                  SANDBOX MODE
                 </span>
                 <br />
                 Trong môi trường thật, bạn sẽ chọn phương thức và nhập thông tin thẻ
@@ -164,7 +164,7 @@ const VnpaySimulator = () => {
             </div>
           </div>
 
-          {}
+          { }
           <div className="space-y-3">
             <button
               onClick={handleSimulateSuccess}
@@ -180,7 +180,7 @@ const VnpaySimulator = () => {
                   Đang xử lý...
                 </span>
               ) : (
-                '✅ Giả lập thanh toán THÀNH CÔNG'
+                'Giả lập thanh toán THÀNH CÔNG'
               )}
             </button>
 
@@ -189,7 +189,7 @@ const VnpaySimulator = () => {
               disabled={loading}
               className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              ❌ Giả lập thanh toán THẤT BẠI
+              Giả lập thanh toán THẤT BẠI
             </button>
 
             <button
@@ -202,14 +202,14 @@ const VnpaySimulator = () => {
           </div>
         </div>
 
-        {}
+        { }
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
           <div className="flex items-start">
             <svg className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
             <div className="text-sm text-blue-800">
-              <p className="font-semibold mb-1">💡 Hướng dẫn test:</p>
+              <p className="font-semibold mb-1">Hướng dẫn test:</p>
               <ul className="list-disc list-inside space-y-1 ml-2">
                 <li>Nhấn nút xanh để giả lập thanh toán thành công</li>
                 <li>Nhấn nút đỏ để giả lập thanh toán thất bại</li>

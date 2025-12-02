@@ -62,7 +62,7 @@ const Cart = () => {
         await cartService.updateCartItem(id, newQuantity);
       }
 
-      setCartItems(cartItems.map(item => 
+      setCartItems(cartItems.map(item =>
         item.id === id ? { ...item, quantity: newQuantity } : item
       ));
 
@@ -84,7 +84,7 @@ const Cart = () => {
 
       removeFromCart(id);
 
-      alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
+      alert('Đã xóa sản phẩm khỏi giỏ hàng!');
     } catch (error) {
       console.error('Error removing from cart:', error);
       alert('Không thể xóa sản phẩm. Vui lòng thử lại!');
@@ -135,7 +135,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {}
+      { }
       <div className="bg-gradient-to-b from-luxury-ivory to-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-5xl font-light mb-4 text-luxury-charcoal tracking-wide text-center">GIỎ HÀNG</h1>
@@ -146,17 +146,17 @@ const Cart = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {}
+          { }
           <div className="lg:col-span-2 space-y-6">
             {cartItems.map((item) => (
               <div key={item.id} className="bg-white border border-luxury-beige p-6 hover:shadow-lg transition-shadow">
                 <div className="flex gap-6">
-                  {}
+                  { }
                   <Link to={`/products/${item.id}`} className="w-32 h-32 flex-shrink-0 bg-gray-50 overflow-hidden">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                   </Link>
 
-                  {}
+                  { }
                   <div className="flex-1">
                     <div className="flex justify-between mb-3">
                       <div>
@@ -177,7 +177,7 @@ const Cart = () => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      {}
+                      { }
                       <div className="flex items-center border border-luxury-beige">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -203,7 +203,7 @@ const Cart = () => {
                         </button>
                       </div>
 
-                      {}
+                      { }
                       <div className="text-right">
                         <p className="text-lg font-light text-luxury-charcoal">{formatPrice(item.price * item.quantity)}</p>
                         <p className="text-sm text-luxury-taupe font-light">{formatPrice(item.price)} / sản phẩm</p>
@@ -214,7 +214,7 @@ const Cart = () => {
               </div>
             ))}
 
-            {}
+            { }
             <Link
               to="/products"
               className="inline-flex items-center gap-2 text-luxury-charcoal hover:text-luxury-taupe transition font-light"
@@ -226,7 +226,7 @@ const Cart = () => {
             </Link>
           </div>
 
-          {}
+          { }
           <div>
             <div className="sticky top-24 bg-luxury-ivory border border-luxury-beige p-8">
               <h2 className="text-2xl font-light text-luxury-charcoal mb-8 tracking-wide">TÓM TẮT ĐƠN HÀNG</h2>
@@ -262,7 +262,7 @@ const Cart = () => {
                 THANH TOÁN
               </Link>
 
-              {}
+              { }
               <div className="space-y-3 pt-6 border-t border-luxury-beige">
                 <div className="flex items-center gap-3">
                   <svg className="w-5 h-5 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">

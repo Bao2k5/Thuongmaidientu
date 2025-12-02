@@ -34,15 +34,18 @@ const AdminUsers = () => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDelete = async (userId) => {
     if (!confirm('Bạn có chắc muốn xóa người dùng này?')) return;
     try {
       await api.delete(`/admin/users/${userId}`);
       loadUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
+      alert('Lỗi khi xóa người dùng: ' + (error.response?.data?.message || error.message));
     }
   };
+
+
 
   if (loading) {
     return (
@@ -57,13 +60,13 @@ const AdminUsers = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {}
+        { }
         <div>
           <h1 className="font-display text-4xl text-luxury-black mb-2 tracking-wide">Quản Lý Người Dùng</h1>
           <p className="text-luxury-gray">Xem và cập nhật thông tin người dùng</p>
         </div>
 
-        {}
+        { }
         <div className="card-luxury overflow-hidden">
           <table className="w-full">
             <thead className="bg-luxury-pearl border-b border-luxury-platinum">
@@ -112,12 +115,14 @@ const AdminUsers = () => {
                     {new Date(user.createdAt).toLocaleDateString('vi-VN')}
                   </td>
                   <td className="px-6 py-4">
-                    <button
-                      onClick={() => handleDeleteUser(user._id)}
-                      className="text-red-600 hover:text-red-700 text-sm font-medium"
-                    >
-                      Xóa
-                    </button>
+                    {String(user.role).toLowerCase() !== 'admin' && (
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                      >
+                        Xóa
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -125,7 +130,7 @@ const AdminUsers = () => {
           </table>
         </div>
 
-        {}
+        { }
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2">
             <button

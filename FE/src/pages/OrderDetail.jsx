@@ -64,7 +64,7 @@ export default function OrderDetail() {
               } catch (err) {
                 setError(err.message || 'Lỗi thanh toán');
               }
-            }}>Đánh dấu đã thanh toán (mock)</button>
+            }}>Đã thanh toán</button>
           </div>
         )}
       </div>

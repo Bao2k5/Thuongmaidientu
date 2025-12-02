@@ -24,6 +24,12 @@ const ProductDetail = () => {
   const [productReviews, setProductReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // State cho form đánh giá
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   const handleAddToCart = async () => {
     if (!product) return;
 
@@ -31,20 +37,20 @@ const ProductDetail = () => {
     try {
 
       if (user) {
-        await api.post('/cart', { 
-          productId: product.id, 
-          qty: quantity 
+        await api.post('/cart', {
+          productId: product.id,
+          qty: quantity
         });
       }
 
       addToCart(product, quantity);
 
-      alert(`✅ Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
+      alert(`Đã thêm ${quantity} ${product.name} vào giỏ hàng!`);
 
       setQuantity(1);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
+      alert('Không thể thêm vào giỏ hàng. Vui lòng thử lại!');
     } finally {
       setAddingToCart(false);
     }
@@ -59,10 +65,11 @@ const ProductDetail = () => {
 
     setWishlistLoading(true);
     try {
-      const inWishlist = isInWishlist(product.id);
+      const productId = product._id || product.id;
+      const inWishlist = isInWishlist(productId);
       if (inWishlist) {
-        await removeFromWishlist(product.id);
-        alert('❌ Đã xóa khỏi danh sách yêu thích');
+        await removeFromWishlist(productId);
+        alert('Đã xóa khỏi danh sách yêu thích');
       } else {
         await addToWishlist(product);
         alert('❤️ Đã thêm vào danh sách yêu thích');
@@ -71,6 +78,48 @@ const ProductDetail = () => {
       console.error('Wishlist error:', error);
     } finally {
       setWishlistLoading(false);
+    }
+
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      alert('Vui lòng đăng nhập để viết đánh giá!');
+      return;
+    }
+
+    setSubmittingReview(true);
+    try {
+      await api.post(`/products/${product.id}/reviews`, {
+        rating: reviewRating,
+        title: reviewTitle,
+        text: reviewText
+      });
+
+      alert('Cảm ơn bạn đã đánh giá sản phẩm!');
+
+      // Reset form sau khi gửi
+      setReviewRating(5);
+      setReviewTitle('');
+      setReviewText('');
+
+      // Load lại danh sách review
+      const rev = await api.get(`/products/${id}/reviews`);
+      setProductReviews((rev.data || []).map(r => ({
+        id: r._id,
+        userName: r.user?.name || 'Ẩn danh',
+        rating: r.rating,
+        date: new Date(r.createdAt).toLocaleDateString('vi-VN'),
+        comment: r.text,
+        title: r.title
+      })));
+
+    } catch (error) {
+      console.error('Review error:', error);
+      alert(error.response?.data?.msg || 'Có lỗi xảy ra khi gửi đánh giá.');
+    } finally {
+      setSubmittingReview(false);
     }
   };
 
@@ -94,7 +143,7 @@ const ProductDetail = () => {
           description: p.description,
           specifications: p.specifications || p.attributes || {},
           material: p.attributes?.material || '',
-          category: p.category || (p.collection && p.collection.name) || '' ,
+          category: p.category || (p.collection && p.collection.name) || '',
         };
         setProduct(mapped);
 
@@ -102,7 +151,7 @@ const ProductDetail = () => {
         if (p.collection) params.collection = p.collection._id;
         else if (p.category) params.category = p.category;
         const rel = await api.get('/products', { params });
-        const relItems = (rel.data.products || []).filter(x => x._id !== p._id).slice(0,4).map(x => ({
+        const relItems = (rel.data.products || []).filter(x => x._id !== p._id).slice(0, 4).map(x => ({
           id: x._id,
           name: x.name,
           price: x.price,
@@ -112,9 +161,16 @@ const ProductDetail = () => {
 
         try {
           const rev = await api.get(`/products/${id}/reviews`);
-          setProductReviews(rev.data || []);
+          setProductReviews((rev.data || []).map(r => ({
+            id: r._id,
+            userName: r.user?.name || 'Ẩn danh',
+            rating: r.rating,
+            date: new Date(r.createdAt).toLocaleDateString('vi-VN'),
+            comment: r.text,
+            title: r.title
+          })));
         } catch (e) {
-
+          console.error('Error fetching reviews:', e);
         }
       } catch (err) {
         console.error('Failed to load product', err);
@@ -134,7 +190,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {}
+      {/* Breadcrumb điều hướng */}
       <div className="bg-luxury-ivory py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-luxury-brown font-light">
@@ -148,17 +204,17 @@ const ProductDetail = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {}
+        {/* Phần chi tiết sản phẩm chính */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          {}
+          {/* Cột trái: Ảnh sản phẩm */}
           <div>
             <div className="aspect-square bg-gray-50 mb-4 overflow-hidden border border-luxury-beige">
-              <img 
-                src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'} 
+              <img
+                src={product.images[selectedImage]?.url || product.images[selectedImage] || 'https://via.placeholder.com/500'}
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                onError={(e) => { 
-                  e.target.onerror = null; 
+                onError={(e) => {
+                  e.target.onerror = null;
                   e.target.src = 'https://via.placeholder.com/500?text=Image+Not+Found';
                 }}
               />
@@ -168,16 +224,15 @@ const ProductDetail = () => {
                 <button
                   key={i}
                   onClick={() => setSelectedImage(i)}
-                  className={`aspect-square bg-gray-50 overflow-hidden border-2 transition ${
-                    selectedImage === i ? 'border-luxury-charcoal' : 'border-gray-200 hover:border-luxury-taupe'
-                  }`}
+                  className={`aspect-square bg-gray-50 overflow-hidden border-2 transition ${selectedImage === i ? 'border-luxury-charcoal' : 'border-gray-200 hover:border-luxury-taupe'
+                    }`}
                 >
-                  <img 
-                    src={img?.url || img || 'https://via.placeholder.com/500'} 
-                    alt={`${product.name} ${i + 1}`} 
+                  <img
+                    src={img?.url || img || 'https://via.placeholder.com/500'}
+                    alt={`${product.name} ${i + 1}`}
                     className="w-full h-full object-cover"
-                    onError={(e) => { 
-                      e.target.onerror = null; 
+                    onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = 'https://via.placeholder.com/500?text=No+Image';
                     }}
                   />
@@ -186,11 +241,11 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {}
+          {/* Cột phải: Thông tin chi tiết */}
           <div>
             <h1 className="text-4xl font-light text-luxury-charcoal mb-4 tracking-wide">{product.name}</h1>
 
-            {}
+            {/* Rating stars */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
@@ -202,7 +257,7 @@ const ProductDetail = () => {
               <span className="text-luxury-brown font-light">({product.reviews} đánh giá)</span>
             </div>
 
-            {}
+            {/* Giá và trạng thái kho */}
             <div className="mb-8">
               <p className="text-4xl font-light text-luxury-charcoal mb-2">{formatPrice(product.price)}</p>
               <div className="flex items-center gap-2">
@@ -220,11 +275,11 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            {/* Thông tin cơ bản */}
             <div className="space-y-3 mb-8 pb-8 border-b border-luxury-beige">
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Chất liệu:</span>
-                <span className="text-luxury-charcoal font-light">{product.material}</span>
+                <span className="text-luxury-charcoal font-light">Bạc 925</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-luxury-brown font-light w-32">Danh mục:</span>
@@ -232,7 +287,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            {/* Chọn số lượng */}
             <div className="mb-8">
               <label className="block text-luxury-charcoal font-light mb-3">Số lượng</label>
               <div className="flex items-center gap-4">
@@ -263,11 +318,11 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {}
+            {/* Nút thao tác */}
             <div className="space-y-4 mb-8">
-              <button 
+              <button
                 onClick={handleAddToCart}
-                className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+                className="w-full bg-luxury-charcoal text-white py-4 text-sm font-light tracking-wider hover:bg-luxury-brown transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!inStock || addingToCart}
               >
                 {addingToCart ? (
@@ -284,7 +339,7 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
-              <button 
+              <button
                 onClick={handleWishlistToggle}
                 disabled={wishlistLoading}
                 className="w-full border-2 border-luxury-charcoal text-luxury-charcoal py-4 text-sm font-light tracking-wider hover:bg-luxury-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -296,21 +351,21 @@ const ProductDetail = () => {
                   </>
                 ) : (
                   <>
-                    <svg 
-                      className={`w-5 h-5 ${product && isInWishlist(product.id) ? 'fill-current' : ''}`} 
-                      fill={product && isInWishlist(product.id) ? 'currentColor' : 'none'} 
-                      stroke="currentColor" 
+                    <svg
+                      className={`w-5 h-5 ${product && isInWishlist(product._id) ? 'fill-current' : ''}`}
+                      fill={product && isInWishlist(product._id) ? 'currentColor' : 'none'}
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    {product && isInWishlist(product.id) ? 'ĐÃ YÊU THÍCH' : 'THÊM VÀO YÊU THÍCH'}
+                    {product && isInWishlist(product._id) ? 'ĐÃ YÊU THÍCH' : 'THÊM VÀO YÊU THÍCH'}
                   </>
                 )}
               </button>
             </div>
 
-            {}
+            {/* Cam kết dịch vụ */}
             <div className="space-y-4 bg-luxury-ivory p-6 border border-luxury-beige">
               <div className="flex items-start gap-3">
                 <svg className="w-6 h-6 text-luxury-charcoal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -343,43 +398,40 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {}
+        {/* Phần Tabs: Mô tả, Thông số, Đánh giá */}
         <div className="mb-20">
-          {}
+          {/* Tab headers */}
           <div className="flex gap-8 border-b border-luxury-beige mb-8">
             <button
               onClick={() => setActiveTab('description')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'description'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'description'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               MÔ TẢ
             </button>
             <button
               onClick={() => setActiveTab('specifications')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'specifications'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'specifications'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               THÔNG SỐ KỸ THUẬT
             </button>
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`pb-4 text-sm font-light tracking-wider transition ${
-                activeTab === 'reviews'
-                  ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
-                  : 'text-luxury-taupe hover:text-luxury-charcoal'
-              }`}
+              className={`pb-4 text-sm font-light tracking-wider transition ${activeTab === 'reviews'
+                ? 'text-luxury-charcoal border-b-2 border-luxury-charcoal'
+                : 'text-luxury-taupe hover:text-luxury-charcoal'
+                }`}
             >
               ĐÁNH GIÁ ({product.reviews})
             </button>
           </div>
 
-          {}
+          {/* Tab content */}
           <div className="max-w-3xl">
             {activeTab === 'description' && (
               <div className="text-luxury-brown font-light leading-relaxed text-lg">
@@ -402,7 +454,7 @@ const ProductDetail = () => {
                   return (
                     <div key={key} className="flex border-b border-luxury-ivory pb-3">
                       <span className="w-48 text-luxury-brown font-light">{labels[key] || key}:</span>
-                      <span className="flex-1 text-luxury-charcoal font-light">{value}</span>
+                      <span className="flex-1 text-luxury-charcoal font-light">{key === 'material' ? 'Bạc 925' : value}</span>
                     </div>
                   );
                 })}
@@ -411,15 +463,88 @@ const ProductDetail = () => {
 
             {activeTab === 'reviews' && (
               <div className="space-y-8">
-                {productReviews.map(review => (
-                  <ReviewCard key={review.id} review={review} />
-                ))}
+                {/* Review Form */}
+                <div className="bg-gray-50 p-6 border border-luxury-beige rounded-sm mb-8">
+                  <h3 className="text-lg font-light text-luxury-charcoal mb-4">Viết đánh giá của bạn</h3>
+                  {user ? (
+                    <form onSubmit={handleSubmitReview} className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Đánh giá của bạn</label>
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setReviewRating(star)}
+                              className="focus:outline-none transition-transform hover:scale-110"
+                            >
+                              <svg
+                                className={`w-6 h-6 ${star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}`}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Tiêu đề</label>
+                        <input
+                          type="text"
+                          value={reviewTitle}
+                          onChange={(e) => setReviewTitle(e.target.value)}
+                          className="w-full p-3 border border-luxury-beige focus:border-luxury-charcoal focus:outline-none bg-white font-light"
+                          placeholder="Tóm tắt trải nghiệm của bạn"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-luxury-brown mb-2">Nội dung</label>
+                        <textarea
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                          rows="4"
+                          className="w-full p-3 border border-luxury-beige focus:border-luxury-charcoal focus:outline-none bg-white font-light"
+                          placeholder="Chia sẻ chi tiết về sản phẩm..."
+                          required
+                        ></textarea>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={submittingReview}
+                        className="bg-luxury-charcoal text-white px-8 py-3 text-sm font-light tracking-wider hover:bg-luxury-brown transition-colors disabled:opacity-50"
+                      >
+                        {submittingReview ? 'ĐANG GỬI...' : 'GỬI ĐÁNH GIÁ'}
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="text-center py-6">
+                      <p className="text-luxury-brown mb-4">Vui lòng đăng nhập để viết đánh giá</p>
+                      <Link to="/login" className="inline-block border border-luxury-charcoal text-luxury-charcoal px-6 py-2 hover:bg-luxury-charcoal hover:text-white transition-colors">
+                        Đăng nhập ngay
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {productReviews.length > 0 ? (
+                  productReviews.map(review => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))
+                ) : (
+                  <p className="text-luxury-brown font-light italic text-center">Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+                )}
               </div>
             )}
           </div>
         </div>
 
-        {}
+        {/* Sản phẩm liên quan */}
         <div>
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light mb-4 text-luxury-charcoal tracking-wide">SẢN PHẨM LIÊN QUAN</h2>

@@ -113,25 +113,6 @@ const products = [
       material: 'Bạc 925',
       gemstone: 'CZ',
       weight: '2.8g',
-      size: 'One size'
-    },
-    rating: 5,
-    reviews: 0
-  },
-  {
-    name: 'Vòng Tay Bạc 925 Charm',
-    slug: 'vong-tay-bac-925-charm',
-    price: 2200000,
-    priceSale: 1800000,
-    category: 'Vòng Tay',
-    material: 'Bạc 925',
-    description: 'Vòng tay bạc 925 kiểu charm, có thể tùy chỉnh thêm charm theo sở thích',
-    stock: 18,
-    images: [
-      { url: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=500&h=500&fit=crop', public_id: 'unsplash_11' },
-      { url: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=500&fit=crop', public_id: 'unsplash_12' }
-    ],
-    specifications: {
       material: 'Bạc 925',
       gemstone: 'Không',
       weight: '8.5g',
@@ -154,13 +135,13 @@ const seedProducts = async () => {
     // Insert new products
     const created = await Product.insertMany(products);
     console.log(`✅ Created ${created.length} products with working images!`);
-    
+
     console.log('\n📦 Products added:');
     created.forEach(p => {
       console.log(`   - ${p.name} (${p.category})`);
       console.log(`     Images: ${p.images.length} URLs`);
     });
-    
+
     console.log('\n🎉 Done! Refresh your website to see products with images!');
     process.exit(0);
   } catch (error) {

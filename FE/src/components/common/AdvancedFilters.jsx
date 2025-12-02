@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FunnelIcon, 
-  XMarkIcon, 
-  AdjustmentsHorizontalIcon 
+import {
+  FunnelIcon,
+  XMarkIcon,
+  AdjustmentsHorizontalIcon
 } from '@heroicons/react/24/outline';
 
 const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
@@ -22,7 +22,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
   const categories = [
     'Tất cả',
     'Nhẫn',
-    'Vòng Tay',
+    'Lắc Tay',
     'Dây Chuyền',
     'Bông Tai',
     'Lắc Chân',
@@ -31,12 +31,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
 
   const materials = [
     'Tất cả',
-    'Vàng',
     'Bạc 925',
-    'Bạch Kim',
-    'Titan',
-    'Kim Cương',
-    'Ngọc Trai'
   ];
 
   const sortOptions = [
@@ -128,7 +123,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
 
   return (
     <>
-      {}
+      { }
       <button
         onClick={() => setIsOpen(true)}
         className="relative flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
@@ -142,11 +137,11 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
         )}
       </button>
 
-      {}
+      { }
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 overflow-hidden">
-            {}
+            { }
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -155,7 +150,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
               className="absolute inset-0 bg-black bg-opacity-25"
             />
 
-            {}
+            { }
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -164,7 +159,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
               className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl overflow-y-auto"
             >
               <div className="flex flex-col h-full">
-                {}
+                { }
                 <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
                   <div className="flex items-center gap-2">
                     <FunnelIcon className="w-6 h-6 text-amber-600" />
@@ -178,9 +173,9 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                   </button>
                 </div>
 
-                {}
+                { }
                 <div className="flex-1 px-6 py-6 space-y-6">
-                  {}
+                  { }
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Sắp xếp theo
@@ -198,7 +193,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                     </select>
                   </div>
 
-                  {}
+                  { }
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Danh mục
@@ -208,11 +203,10 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                         <button
                           key={cat}
                           onClick={() => handleFilterChange('category', cat)}
-                          className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${
-                            filters.category === cat || (cat === 'Tất cả' && !filters.category)
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
-                          }`}
+                          className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${filters.category === cat || (cat === 'Tất cả' && !filters.category)
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            }`}
                         >
                           {cat}
                         </button>
@@ -220,7 +214,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                     </div>
                   </div>
 
-                  {}
+                  { }
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Chất liệu
@@ -230,11 +224,10 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                         <button
                           key={mat}
                           onClick={() => handleFilterChange('material', mat)}
-                          className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${
-                            filters.material === mat || (mat === 'Tất cả' && !filters.material)
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
-                          }`}
+                          className={`px-4 py-2.5 rounded-lg border-2 font-medium transition-all ${filters.material === mat || (mat === 'Tất cả' && !filters.material)
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            }`}
                         >
                           {mat}
                         </button>
@@ -242,7 +235,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                     </div>
                   </div>
 
-                  {}
+                  { }
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Khoảng giá
@@ -252,11 +245,10 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                         <button
                           key={index}
                           onClick={() => handlePriceRangeSelect(range.min, range.max)}
-                          className={`w-full px-4 py-2.5 rounded-lg border-2 font-medium text-left transition-all ${
-                            filters.minPrice === range.min && filters.maxPrice === range.max
-                              ? 'bg-amber-50 border-amber-500 text-amber-700'
-                              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
-                          }`}
+                          className={`w-full px-4 py-2.5 rounded-lg border-2 font-medium text-left transition-all ${filters.minPrice === range.min && filters.maxPrice === range.max
+                            ? 'bg-amber-50 border-amber-500 text-amber-700'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                            }`}
                         >
                           {range.label}
                         </button>
@@ -264,7 +256,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                     </div>
                   </div>
 
-                  {}
+                  { }
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Hoặc nhập khoảng giá tùy chỉnh
@@ -293,7 +285,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                     </div>
                   </div>
 
-                  {}
+                  { }
                   <div className="space-y-3">
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input
@@ -317,7 +309,7 @@ const AdvancedFilters = ({ onFilterChange, initialFilters = {} }) => {
                   </div>
                 </div>
 
-                {}
+                { }
                 <div className="sticky bottom-0 bg-white border-t px-6 py-4 space-y-3">
                   <button
                     onClick={handleApplyFilters}

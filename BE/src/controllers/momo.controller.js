@@ -401,17 +401,12 @@ exports.simulateCallback = async (req, res) => {
       order.payment.status = 'paid';
       order.payment.transactionId = fakeTransId;
       order.payment.paidAt = new Date();
-      order.status = 'processing';
+      order.status = 'paid';
 
       // Decrement stock if not already done
       if (!order.stockAdjusted) {
         for (const item of order.items) {
-          const product = await Product.findById(item.product);
-          if (product) {
-            product.stock -= item.quantity;
-            if (product.stock < 0) product.stock = 0;
-            await product.save();
-          }
+          await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.qty } });
         }
         order.stockAdjusted = true;
       }

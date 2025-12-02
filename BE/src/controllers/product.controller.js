@@ -3,7 +3,7 @@ const Product = require("../models/product.model");
 const { uploadImage, deleteImage } = require('../utils/cloudinary');
 const { slugify } = require('../utils/helpers');
 
-// list products with simple pagination
+// Lấy danh sách sản phẩm (có phân trang + lọc)
 exports.listProducts = async (req, res) => {
   try {
     let { page = 1, limit = 12, q, collection, category, tag, minPrice, maxPrice, flash } = req.query;
@@ -21,15 +21,15 @@ exports.listProducts = async (req, res) => {
     let products = await Product.find(filter).populate('collection').skip((page - 1) * limit).limit(limit);
     const total = await Product.countDocuments(filter);
 
-    // apply simple promo logic: if product.isFlashSale or an external promo applies,
-    // frontend can use priceSale if present. For now, if priceSale field exists keep it.
+    // Logic khuyến mãi đơn giản: nếu là flash sale thì dùng giá sale
+    // TODO: Cần làm thêm logic check ngày hết hạn khuyến mãi sau này
     products = products.map(p => {
       const obj = p.toObject();
       if (obj.priceSale) obj.displayPrice = obj.priceSale; else obj.displayPrice = obj.price;
       return obj;
     });
 
-    res.json({ products, total, page, pages: Math.ceil(total/limit) });
+    res.json({ products, total, page, pages: Math.ceil(total / limit) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -59,7 +59,7 @@ exports.createProduct = async (req, res) => {
   try {
     console.log('🔍 [CREATE PRODUCT] Request body:', JSON.stringify(req.body, null, 2));
     const body = req.body;
-    // Auto-generate slug from name if not provided
+    // Tự động tạo slug nếu không có (để URL đẹp hơn)
     if (!body.slug && body.name) {
       body.slug = slugify(body.name);
       console.log(`🔗 Generated slug: "${body.slug}"`);
@@ -96,7 +96,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// add image to product via buffer (multer single file)
+// Upload ảnh sản phẩm (dùng multer để xử lý file)
 exports.addProductImage = async (req, res) => {
   try {
     if (!req.file || !req.file.buffer) return res.status(400).json({ msg: 'file required' });
@@ -127,7 +127,7 @@ exports.deleteProductImage = async (req, res) => {
   }
 };
 
-// Get New Arrivals - latest 8 products
+// Lấy 8 sản phẩm mới nhất
 exports.getNewArrivals = async (req, res) => {
   try {
     const products = await Product.find()
@@ -140,32 +140,32 @@ exports.getNewArrivals = async (req, res) => {
   }
 };
 
-// Get products by collection slug
+// Lấy sản phẩm theo bộ sưu tập (slug)
 exports.getByCollectionSlug = async (req, res) => {
   try {
     const { slug } = req.params;
     const { limit, material, color, shape, ready, sort } = req.query;
-    
-    // Find collection by slug
+
+    // Tìm collection trước
     const Collection = require('../models/collection.model');
     const collection = await Collection.findOne({ slug });
     if (!collection) {
       return res.status(404).json({ error: 'Collection not found' });
     }
-    
-    // Build query with filters
+
+    // Build bộ lọc
     const queryFilters = { collection: collection._id };
-    
+
     if (material) queryFilters.material = material;
     if (color) queryFilters.color = color;
     if (shape) queryFilters.shape = shape;
     if (ready === 'true') queryFilters.inStock = true;
-    
-    // Find products with filters
+
+    // Query database
     let query = Product.find(queryFilters)
       .select('_id name slug price priceSale images thumbnail category material color shape inStock');
-    
-    // Apply sorting
+
+    // Sắp xếp theo giá hoặc mới nhất
     if (sort === 'price_asc') {
       query = query.sort({ price: 1 });
     } else if (sort === 'price_desc') {
@@ -174,11 +174,11 @@ exports.getByCollectionSlug = async (req, res) => {
       // Default: newest first
       query = query.sort({ createdAt: -1 });
     }
-    
+
     if (limit) {
       query = query.limit(parseInt(limit));
     }
-    
+
     const products = await query;
     res.json({ products, collection });
   } catch (err) {
@@ -186,7 +186,7 @@ exports.getByCollectionSlug = async (req, res) => {
   }
 };
 
-// Search products by keyword
+// Tìm kiếm sản phẩm theo từ khóa
 exports.searchProducts = async (req, res) => {
   try {
     const { q } = req.query;
@@ -197,8 +197,8 @@ exports.searchProducts = async (req, res) => {
     }
 
     const searchRegex = new RegExp(q.trim(), 'i');
-    
-    // Search in name, description, and tags
+
+    // Tìm trong tên, mô tả và tags
     const products = await Product.find({
       $or: [
         { name: searchRegex },
@@ -206,8 +206,8 @@ exports.searchProducts = async (req, res) => {
         { tags: searchRegex }
       ]
     })
-    .select('_id name slug price priceSale images thumbnail category')
-    .limit(limit);
+      .select('_id name slug price priceSale images thumbnail category')
+      .limit(limit);
 
     res.json({ products });
   } catch (err) {

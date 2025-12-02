@@ -1,5 +1,5 @@
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const CATEGORIES = [
   { id: 'rings', name: 'Nhẫn', slug: 'nhan', icon: '💍' },
@@ -35,8 +35,8 @@ export const SORT_OPTIONS = [
 ];
 
 export const SOCIAL_LINKS = {
-  facebook: 'https://facebook.com/hmjewelry',
-  instagram: 'https://instagram.com/hmjewelry',
+  facebook: 'https://www.facebook.com/le.duong.bao.845783',
+  instagram: 'https://www.instagram.com/elgnoud_oab/',
   tiktok: 'https://tiktok.com/@hmjewelry',
   zalo: 'https://zalo.me/hmjewelry',
 };
@@ -74,6 +74,8 @@ export const PAYMENT_METHODS = [
   { id: 'stripe', name: 'Thanh toán online (Thẻ/QR)', icon: '💳' },
 ];
 
-export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Vòng Tay'];
+export const categories = ['Nhẫn', 'Dây Chuyền', 'Bông Tai', 'Lắc Tay'];
 
-export const materials = ['Bạc 925', 'Bạc Ý'];
+export const materials = ['Bạc 925'];
+
+export const STYLES = ['Minimal', 'Hoa văn', 'Cổ điển', 'Hiện đại', 'Đính đá'];

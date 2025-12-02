@@ -19,28 +19,28 @@ exports.register = async (req, res) => {
     if (!email || !password || !name) return res.status(400).json({ msg: "Missing fields" });
 
     const existing = await User.findOne({ email });
-    
-    // Nếu email đã tồn tại VÀ đã verified → Không cho đăng ký lại
+
+    // Nếu email đã tồn tại VÀ đã xác thực -> Báo lỗi luôn
     if (existing && existing.verified) {
       return res.status(400).json({ msg: "Email already registered" });
     }
 
-    // Nếu email tồn tại NHƯNG chưa verified → Xóa user cũ, cho đăng ký lại
+    // Nếu email tồn tại NHƯNG chưa xác thực -> Xóa user cũ đi để đăng ký lại từ đầu
     if (existing && !existing.verified) {
       await User.findByIdAndDelete(existing._id);
       console.log(`[register] Deleted unverified user: ${email}`);
     }
 
-    // Generate 6-digit OTP
+    // Tạo mã OTP 6 số ngẫu nhiên
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
 
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({ 
-      name, 
-      email, 
+    const newUser = await User.create({
+      name,
+      email,
       password: hashed,
       phone: phone || '',
       otp,
@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
       verified: false
     });
 
-    // Send OTP email
+    // Gửi email chứa OTP
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h2 style="color: #0b5c5f; text-align: center;">🎉 Chào mừng đến HM Jewelry!</h2>
@@ -58,16 +58,16 @@ exports.register = async (req, res) => {
         <div style="background-color: #f0f9f9; padding: 20px; text-align: center; border-radius: 8px; margin: 20px 0;">
           <h1 style="color: #0b5c5f; font-size: 36px; margin: 0; letter-spacing: 5px;">${otp}</h1>
         </div>
-        <p style="color: #d32f2f; font-weight: bold;">⚠️ Mã này có hiệu lực trong 10 phút.</p>
+        <p style="color: #d32f2f; font-weight: bold;"> Mã này có hiệu lực trong 10 phút.</p>
         <p>Nếu bạn không thực hiện đăng ký, vui lòng bỏ qua email này.</p>
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
         <p style="color: #888; font-size: 12px; text-align: center;">Trân trọng,<br><strong>Đội ngũ HM Jewelry</strong></p>
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🎉 Mã xác thực đăng ký - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: ' Mã xác thực đăng ký - HM Jewelry',
       html,
       text: `Mã OTP của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -79,16 +79,17 @@ exports.register = async (req, res) => {
     });
 
     if (!mailResult) {
-      // If email fails, still return success but include OTP for testing
-      return res.status(201).json({ 
-        message: "Đăng ký thành công nhưng không thể gửi email. Vui lòng liên hệ support.", 
+      // Nếu gửi mail lỗi thì vẫn trả về success để test (nhưng có kèm OTP trong response)
+      // TODO: Xóa cái otp trong response khi deploy thật
+      return res.status(201).json({
+        message: "Đăng ký thành công nhưng không thể gửi email. Vui lòng liên hệ support.",
         needsVerification: true,
         email,
         otp // Only for development/testing
       });
     }
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: "Đăng ký thành công! Vui lòng kiểm tra email để nhập mã OTP.",
       needsVerification: true,
       email
@@ -118,7 +119,18 @@ exports.login = async (req, res) => {
       console.error('[auth.login] jwt.sign error:', jwtErr && jwtErr.stack ? jwtErr.stack : jwtErr);
       return res.status(500).json({ error: 'JWT error' });
     }
-    res.json({ message: "Login success", user: { id: user._id, name: user.name, email: user.email, role: user.role }, token });
+    res.json({
+      message: "Login success",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone || '',
+        role: user.role,
+        createdAt: user.createdAt
+      },
+      token
+    });
   } catch (err) {
     console.error('[auth.login] error:', err && err.stack ? err.stack : err);
     res.status(500).json({ error: err.message || 'Server error' });
@@ -130,7 +142,7 @@ exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Email not found" });
-    // generate secure token
+    // Tạo token reset password ngẫu nhiên
     const resetToken = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 1000 * 60 * 30; // 30 minutes
@@ -138,7 +150,7 @@ exports.forgotPassword = async (req, res) => {
 
     const resetUrl = `${process.env.FRONTEND_URL || ''}/reset-password?email=${encodeURIComponent(email)}&token=${resetToken}`;
     const html = `<p>Xin chào ${user.name},</p><p>Click link để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p><p>Nếu bạn không yêu cầu, hãy bỏ qua email này.</p>`;
-    const mailResult = await sendMail({ to: email, subject: 'Đặt lại mật khẩu', html, text: `Reset link: ${resetUrl}` }).catch(()=>null);
+    const mailResult = await sendMail({ to: email, subject: 'Đặt lại mật khẩu', html, text: `Reset link: ${resetUrl}` }).catch(() => null);
 
     if (!mailResult) return res.json({ message: 'Password reset token generated', resetToken });
     res.json({ message: 'Password reset email sent' });
@@ -176,7 +188,7 @@ exports.sendVerifyEmail = async (req, res) => {
     await user.save();
     const verifyUrl = `${process.env.FRONTEND_URL || ''}/verify-email?email=${encodeURIComponent(email)}&token=${token}`;
     const html = `<p>Xin chào ${user.name},</p><p>Click link để xác thực email: <a href="${verifyUrl}">${verifyUrl}</a></p>`;
-    const mailResult = await sendMail({ to: email, subject: 'Xác thực email', html, text: `Verify link: ${verifyUrl}` }).catch(()=>null);
+    const mailResult = await sendMail({ to: email, subject: 'Xác thực email', html, text: `Verify link: ${verifyUrl}` }).catch(() => null);
     if (!mailResult) return res.json({ message: 'Verify token generated', token });
     res.json({ message: 'Verify email sent' });
   } catch (err) {
@@ -199,7 +211,7 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-// OAuth callbacks
+// Xử lý callback sau khi login Google/Facebook thành công
 exports.googleCallback = async (req, res) => {
   try {
     const token = signToken(req.user);
@@ -219,11 +231,11 @@ exports.facebookCallback = async (req, res) => {
   }
 };
 
-// Change password (authenticated user)
+// Đổi mật khẩu (cho user đã đăng nhập)
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    
+
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ msg: 'Missing required fields' });
     }
@@ -232,23 +244,23 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({ msg: 'New password must be at least 6 characters' });
     }
 
-    // Get user from database
+    // Lấy user từ DB
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
 
-    // Verify current password
+    // Kiểm tra mật khẩu cũ có đúng không
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Current password is incorrect' });
     }
 
-    // Hash new password
+    // Mã hóa mật khẩu mới
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    // Update password
+    // Lưu vào DB
     user.password = hashedPassword;
     await user.save();
 
@@ -258,7 +270,7 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// Send OTP to email for password reset
+// Gửi OTP để reset password
 exports.sendResetCode = async (req, res) => {
   try {
     const { email } = req.body;
@@ -267,13 +279,13 @@ exports.sendResetCode = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ msg: "Email không tồn tại trong hệ thống" });
 
-    // Generate 6-digit OTP
+    // Tạo OTP 6 số
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     user.resetCode = otp;
     user.resetCodeExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    // Send email with OTP
+    // Gửi email
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h2 style="color: #0b5c5f; text-align: center;">🔐 Đặt lại mật khẩu</h2>
@@ -290,9 +302,9 @@ exports.sendResetCode = async (req, res) => {
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🔐 Mã OTP đặt lại mật khẩu - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: '🔐 Mã OTP đặt lại mật khẩu - HM Jewelry',
       html,
       text: `Mã OTP của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -301,9 +313,10 @@ exports.sendResetCode = async (req, res) => {
     });
 
     if (!mailResult) {
-      // If email fails, still return success but include OTP in response for testing
-      return res.json({ 
-        message: "Không thể gửi email. Vui lòng kiểm tra cấu hình SMTP.", 
+      // Nếu lỗi mail thì trả về OTP luôn để test
+      // TODO: Nhớ fix lại cái này khi chạy production
+      return res.json({
+        message: "Không thể gửi email. Vui lòng kiểm tra cấu hình SMTP.",
         otp // Only for development/testing
       });
     }
@@ -315,11 +328,11 @@ exports.sendResetCode = async (req, res) => {
   }
 };
 
-// Verify OTP and reset password
+// Xác thực OTP và đặt lại mật khẩu mới
 exports.verifyResetCode = async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
-    
+
     if (!email || !code || !newPassword) {
       return res.status(400).json({ msg: "Thiếu thông tin bắt buộc" });
     }
@@ -329,7 +342,7 @@ exports.verifyResetCode = async (req, res) => {
     }
 
     const user = await User.findOne({ email, resetCode: code });
-    
+
     if (!user) {
       return res.status(400).json({ msg: "Mã OTP không hợp lệ" });
     }
@@ -338,11 +351,11 @@ exports.verifyResetCode = async (req, res) => {
       return res.status(400).json({ msg: "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới." });
     }
 
-    // Hash new password
+    // Mã hóa pass mới
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
-    
-    // Clear OTP fields
+
+    // Xóa mã OTP đã dùng
     user.resetCode = undefined;
     user.resetCodeExpire = undefined;
     await user.save();
@@ -354,17 +367,17 @@ exports.verifyResetCode = async (req, res) => {
   }
 };
 
-// Verify OTP for registration
+// Xác thực OTP khi đăng ký
 exports.verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    
+
     if (!email || !otp) {
       return res.status(400).json({ msg: "Thiếu thông tin bắt buộc" });
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res.status(404).json({ msg: "Không tìm thấy tài khoản" });
     }
@@ -381,22 +394,24 @@ exports.verifyOtp = async (req, res) => {
       return res.status(400).json({ msg: "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới." });
     }
 
-    // Mark as verified
+    // Đánh dấu đã xác thực
     user.verified = true;
     user.otp = undefined;
     user.otpExpire = undefined;
     await user.save();
 
-    // Generate token for auto-login
+    // Tạo token để tự động login luôn
     const token = signToken(user);
 
-    res.json({ 
+    res.json({
       message: "Xác thực thành công! Chào mừng bạn đến với HM Jewelry 🎉",
-      user: { 
-        id: user._id, 
-        name: user.name, 
+      user: {
+        id: user._id,
+        name: user.name,
         email: user.email,
-        role: user.role
+        phone: user.phone || '',
+        role: user.role,
+        createdAt: user.createdAt
       },
       token
     });
@@ -406,17 +421,17 @@ exports.verifyOtp = async (req, res) => {
   }
 };
 
-// Resend OTP for registration
+// Gửi lại OTP (nếu hết hạn hoặc chưa nhận được)
 exports.resendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     if (!email) {
       return res.status(400).json({ msg: "Email là bắt buộc" });
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res.status(404).json({ msg: "Không tìm thấy tài khoản" });
     }
@@ -425,13 +440,13 @@ exports.resendOtp = async (req, res) => {
       return res.json({ message: "Tài khoản đã được xác thực", alreadyVerified: true });
     }
 
-    // Generate new OTP
+    // Tạo OTP mới
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     user.otp = otp;
     user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    // Send email
+    // Gửi lại email
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h2 style="color: #0b5c5f; text-align: center;">🔄 Mã xác thực mới</h2>
@@ -447,9 +462,9 @@ exports.resendOtp = async (req, res) => {
       </div>
     `;
 
-    const mailResult = await sendMail({ 
-      to: email, 
-      subject: '🔄 Mã OTP mới - HM Jewelry', 
+    const mailResult = await sendMail({
+      to: email,
+      subject: '🔄 Mã OTP mới - HM Jewelry',
       html,
       text: `Mã OTP mới của bạn là: ${otp}. Có hiệu lực trong 10 phút.`
     }).catch(err => {
@@ -458,8 +473,8 @@ exports.resendOtp = async (req, res) => {
     });
 
     if (!mailResult) {
-      return res.json({ 
-        message: "Không thể gửi email. Vui lòng thử lại sau.", 
+      return res.json({
+        message: "Không thể gửi email. Vui lòng thử lại sau.",
         otp // Only for development/testing
       });
     }

@@ -15,7 +15,10 @@ const ReviewCard = ({ review }) => {
           </div>
         </div>
       </div>
-      <p className="text-luxury-brown leading-relaxed">{review.comment}</p>
+      <div className="text-luxury-brown leading-relaxed">
+        {review.title && <h5 className="font-medium text-luxury-charcoal mb-1">{review.title}</h5>}
+        <p>{review.comment}</p>
+      </div>
     </div>
   );
 };

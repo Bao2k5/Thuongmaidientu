@@ -34,12 +34,18 @@ import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
 import AuthCallback from './pages/AuthCallback';
 
+// Policy Pages
+import Shipping from './pages/Shipping';
+import Returns from './pages/Returns';
+import Warranty from './pages/Warranty';
+import FAQ from './pages/FAQ';
+
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminUsers from './pages/admin/AdminUsers';
 import AdminCollections from './pages/admin/AdminCollections';
 import AdminHeroBanners from './pages/admin/AdminHeroBanners';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminUsers from './pages/admin/AdminUsers';
 
 const ComingSoon = ({ title }) => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-luxury-ivory via-luxury-cream to-luxury-sand">
@@ -87,7 +93,7 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        {}
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/collections" element={<AdminCollections />} />
@@ -95,7 +101,7 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/users" element={<AdminUsers />} />
 
-        {}
+        {/* Public Routes */}
         <Route path="/" element={
           <>
             <Header />
@@ -267,6 +273,14 @@ function App() {
           </>
         } />
         <Route path="/auth/callback" element={<AuthCallback />} />
+
+        {/* Policy Routes */}
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/returns" element={<Returns />} />
+        <Route path="/warranty" element={<Warranty />} />
+        <Route path="/faq" element={<FAQ />} />
+
+        {/* Account Routes */}
         <Route path="/profile" element={
           <>
             <Header />
@@ -339,4 +353,3 @@ function App() {
 }
 
 export default App;
-

@@ -27,7 +27,7 @@ const collections = [
     featured: true
   },
   {
-    name: 'Vòng Tay',
+    name: 'Lắc Tay',
     slug: 'vong-tay',
     description: 'Sang trọng và quyến rũ ở từng chi tiết',
     image: '/images/collections/vong-tay.jpg',

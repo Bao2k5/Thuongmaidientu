@@ -28,8 +28,8 @@ function buildVnpaySecureHash(params, hashSecret) {
   // Sort params
   const sortedParams = sortObject(cleanParams);
 
-  // Build sign data with proper encoding
-  const signData = querystring.stringify(sortedParams, { encode: false });
+  // Build sign data with URL encoding (must match final URL encoding)
+  const signData = querystring.stringify(sortedParams, { encode: true });
 
   // Hash with HMAC-SHA512
   const hmac = crypto.createHmac('sha512', hashSecret);
@@ -44,7 +44,7 @@ function verifyVnpaySecureHash(params, hashSecret) {
   if (!receivedHash) return false;
 
   const expectedHash = buildVnpaySecureHash(params, hashSecret);
-  
+
   // Case-insensitive comparison (VNPay may return uppercase)
   return expectedHash.toUpperCase() === receivedHash.toUpperCase();
 }

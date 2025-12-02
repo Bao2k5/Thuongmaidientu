@@ -89,12 +89,13 @@ exports.createBanner = async (req, res) => {
     const { title, subtitle, description, image, buttonText, buttonLink, isActive, startDate, endDate, order } = req.body;
 
     // Validation
-    if (!title || !image) {
+    if (!title) {
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập tiêu đề và upload ảnh banner'
+        message: 'Vui lòng nhập tiêu đề banner'
       });
     }
+    // Remove image validation - cho phép tạo banner mà không cần ảnh
 
     const banner = await HeroBanner.create({
       title,

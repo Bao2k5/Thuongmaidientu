@@ -43,34 +43,34 @@ const About = () => {
 
   const timeline = [
     {
-      year: '2020',
-      title: 'Khởi đầu',
-      description: 'HM Jewelry được thành lập với niềm đam mê tạo nên những món trang sức tinh tế, độc đáo từ bạc 925.'
+      year: 'Tháng 6/2025',
+      title: 'Mùa hè khởi đầu',
+      description: 'Ra mắt bộ sưu tập đầu tiên "Hạ Vọng" với 15 thiết kế nhẫn bạc handmade. Bán được 100 sản phẩm đầu tiên qua Instagram và nhận được phản hồi tích cực từ khách hàng.'
     },
     {
-      year: '2021',
-      title: 'Phát triển',
-      description: 'Mở rộng bộ sưu tập, ra mắt nhiều dòng sản phẩm mới phù hợp với nhiều phong cách khác nhau.'
+      year: 'Tháng 7/2025',
+      title: 'Mở rộng sản phẩm',
+      description: 'Phát triển thêm dòng dây chuyền và bông tai. Đội ngũ nghệ nhân tăng lên 8 người. Doanh thu tháng đạt 50 triệu đồng. Bắt đầu có khách hàng quen trở lại.'
     },
     {
-      year: '2022',
-      title: 'Chất lượng',
-      description: 'Đạt chứng nhận tiêu chuẩn quốc tế, xây dựng quy trình kiểm định chất lượng nghiêm ngặt.'
+      year: 'Tháng 8/2025',
+      title: 'Xây dựng thương hiệu',
+      description: 'Tham gia hội chợ thủ công tại Hà Nội, nhận được 500+ khách hàng mới. Ra mắt chương trình "Bảo hành trọn đời" và chính sách đổi trả 30 ngày.'
     },
     {
-      year: '2023',
-      title: 'Mở rộng',
-      description: 'Khai trương showroom tại các thành phố lớn, phục vụ ngày càng nhiều khách hàng trên toàn quốc.'
+      year: 'Tháng 9/2025',
+      title: 'Hợp tác & Đầu tư',
+      description: 'Ký hợp đồng với 3 cửa hàng accessories tại TP.HCM. Nhận đầu tư 200 triệu đồng để mở rộng xưởng sản xuất. Sản phẩm có mặt tại 10 điểm bán.'
     },
     {
-      year: '2024',
-      title: 'Đổi mới',
-      description: 'Ra mắt website mới với trải nghiệm mua sắm trực tuyến tiện lợi, hiện đại.'
+      year: 'Tháng 10/2025',
+      title: 'Mùa vàng kinh doanh',
+      description: 'Doanh thu tháng đạt 300 triệu đồng. Ra mắt bộ sưu tập "Thu Luyến" với 30 thiết kế mới. Bán được 2000+ sản phẩm. Đội ngũ đạt 15 nhân viên.'
     },
     {
-      year: '2025',
-      title: 'Tương lai',
-      description: 'Tiếp tục đổi mới, sáng tạo và mang đến những sản phẩm tốt nhất cho khách hàng.'
+      year: 'Tháng 11-12/2025',
+      title: 'Mùa lễ hội bùng nổ',
+      description: 'Đón mùa lễ hội với bộ sưu tập "Ký Ức". Doanh thu dự kiến 1 tỷ đồng. Mở showroom đầu tiên tại Hà Nội. Sẵn sàng cho năm mới với nhiều dòng sản phẩm cao cấp.'
     }
   ];
 
@@ -206,6 +206,100 @@ const About = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {}
+      <section className="section-luxury bg-luxury-sage/5">
+        <div className="container-luxury">
+          <h2 className="font-serif text-2xl md:text-3xl font-medium text-luxury-charcoal tracking-[0.2em] mb-6 uppercase text-center">
+            Hành trình phát triển công nghệ
+          </h2>
+          <div className="w-16 h-px bg-luxury-sage mx-auto mb-16"></div>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <motion.div
+                className="bg-luxury-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-12 h-12 bg-luxury-mint/20 rounded-full flex items-center justify-center mb-6">
+                  <span className="font-serif text-sm font-bold text-luxury-charcoal">6-7/2025</span>
+                </div>
+                <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-3 uppercase tracking-wide">
+                  Khởi nghiệp
+                </h3>
+                <ul className="text-luxury-brown text-sm space-y-2">
+                  <li>• 15 thiết kế đầu tiên</li>
+                  <li>• Bán qua Instagram</li>
+                  <li>• 8 nghệ nhân</li>
+                  <li>• 50 triệu doanh thu</li>
+                </ul>
+              </motion.div>
+
+              <motion.div
+                className="bg-luxury-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-12 h-12 bg-luxury-mint/30 rounded-full flex items-center justify-center mb-6">
+                  <span className="font-serif text-sm font-bold text-luxury-charcoal">8-9/2025</span>
+                </div>
+                <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-3 uppercase tracking-wide">
+                  Phát triển
+                </h3>
+                <ul className="text-luxury-brown text-sm space-y-2">
+                  <li>• Hội chợ thủ công</li>
+                  <li>• 500+ khách hàng mới</li>
+                  <li>• 10 điểm bán</li>
+                  <li>• 200 triệu đầu tư</li>
+                </ul>
+              </motion.div>
+
+              <motion.div
+                className="bg-luxury-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-12 h-12 bg-luxury-mint/40 rounded-full flex items-center justify-center mb-6">
+                  <span className="font-serif text-sm font-bold text-luxury-charcoal">10-12/2025</span>
+                </div>
+                <h3 className="font-serif text-lg font-medium text-luxury-charcoal mb-3 uppercase tracking-wide">
+                  Bùng nổ
+                </h3>
+                <ul className="text-luxury-brown text-sm space-y-2">
+                  <li>• 300 triệu/tháng</li>
+                  <li>• 2000+ sản phẩm</li>
+                  <li>• 15 nhân viên</li>
+                  <li>• Showroom đầu tiên</li>
+                </ul>
+              </motion.div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <div className="inline-flex items-center gap-8 text-luxury-brown text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-luxury-mint rounded-full"></div>
+                  <span>Đã hoàn thành</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-luxury-sage rounded-full"></div>
+                  <span>Đang phát triển</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-luxury-charcoal rounded-full"></div>
+                  <span>Kế hoạch tương lai</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

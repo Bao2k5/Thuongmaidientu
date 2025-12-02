@@ -113,6 +113,7 @@ const AdminProducts = () => {
       loadProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
+      alert('Lỗi khi xóa sản phẩm: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -299,7 +300,7 @@ const AdminProducts = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(product._id)}
-                        className="text-red-600 hover:text-red-700 text-sm font-medium"
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
                       >
                         Xóa
                       </button>
@@ -378,7 +379,7 @@ const AdminProducts = () => {
                     <option value="Nhẫn">Nhẫn</option>
                     <option value="Dây Chuyền">Dây Chuyền</option>
                     <option value="Bông Tai">Bông Tai</option>
-                    <option value="Vòng Tay">Vòng Tay</option>
+                    <option value="Lắc Tay">Lắc Tay</option>
                   </select>
                 </div>
                 <div>
@@ -400,15 +401,15 @@ const AdminProducts = () => {
                 <label className="block text-sm font-medium text-luxury-darkGray mb-2 uppercase tracking-widest">
                   Chất Liệu
                 </label>
-                  <select
-                    required
-                    value={formData.material}
-                    onChange={(e) => setFormData({ ...formData, material: e.target.value })}
-                    className="input-luxury w-full"
-                  >
-                    <option value="Bạc 925">Bạc 925</option>
-                    <option value="Bạc Ý">Bạc Ý</option>
-                  </select>
+                <select
+                  required
+                  value={formData.material}
+                  onChange={(e) => setFormData({ ...formData, material: e.target.value })}
+                  className="input-luxury w-full"
+                >
+                  <option value="Bạc 925">Bạc 925</option>
+                  <option value="Bạc Ý">Bạc Ý</option>
+                </select>
               </div>
 
               <div>
