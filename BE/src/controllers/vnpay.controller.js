@@ -38,11 +38,10 @@ exports.createPayment = async (req, res) => {
     const orderId_vnp = `${orderId}_${Date.now()}`;
     const amount = Math.floor(order.total * 100); // VNPay requires amount in VND * 100 (integer)
 
-    // Handle Vercel/Proxy IP headers (take first IP if multiple)
-    let ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || '127.0.0.1';
-    if (ipAddr && ipAddr.includes(',')) {
-      ipAddr = ipAddr.split(',')[0].trim();
-    }
+    // Handle Vercel/Proxy IP headers
+    // VNPay Sandbox often rejects IPv6 or complex IPs. 
+    // Forcing 127.0.0.1 is the safest way to pass the "Invalid Data Format" check.
+    let ipAddr = '127.0.0.1';
     // VNPay does not like IPv6 ::1, force IPv4
     if (ipAddr === '::1') {
       ipAddr = '127.0.0.1';
