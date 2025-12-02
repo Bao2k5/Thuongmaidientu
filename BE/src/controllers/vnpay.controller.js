@@ -57,7 +57,7 @@ exports.createPayment = async (req, res) => {
       vnp_CurrCode: 'VND',
       vnp_IpAddr: ipAddr,
       vnp_Locale: 'vn',
-      vnp_OrderInfo: `Thanh toan don hang ${orderId}`,
+      vnp_OrderInfo: `Thanh_toan_don_hang_${orderId}`,
       vnp_OrderType: 'other',
       vnp_ReturnUrl: VNPAY_CONFIG.returnUrl,
       vnp_TxnRef: orderId_vnp,
