@@ -43,6 +43,10 @@ exports.createPayment = async (req, res) => {
     if (ipAddr && ipAddr.includes(',')) {
       ipAddr = ipAddr.split(',')[0].trim();
     }
+    // VNPay does not like IPv6 ::1, force IPv4
+    if (ipAddr === '::1') {
+      ipAddr = '127.0.0.1';
+    }
 
     let vnp_Params = {
       vnp_Version: '2.1.0',
@@ -66,6 +70,9 @@ exports.createPayment = async (req, res) => {
 
     // Sort params
     vnp_Params = sortObject(vnp_Params);
+
+    // DEBUG: Log params to check for invalid data
+    console.log('VNPay Create Payment Params:', JSON.stringify(vnp_Params, null, 2));
 
     // Create signature using utility function
     const secureHash = buildVnpaySecureHash(vnp_Params, VNPAY_CONFIG.hashSecret);
