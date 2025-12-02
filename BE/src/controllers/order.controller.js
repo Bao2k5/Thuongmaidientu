@@ -162,20 +162,25 @@ exports.updateOrderStatus = async (req, res) => {
 // Giả lập thanh toán (dùng cho demo)
 exports.mockPayment = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          'payment.method': 'mock',
+          'payment.status': 'paid',
+          'payment.gateway': 'mock',
+          'payment.transactionId': 'MOCK-' + Date.now(),
+          'payment.paidAt': new Date(),
+          status: 'paid'
+        }
+      },
+      { new: true, runValidators: false }
+    );
+
     if (!order) return res.status(404).json({ msg: 'Not found' });
-    order.payment = {
-      ...order.payment,
-      method: 'mock',
-      status: 'paid',
-      gateway: 'mock',
-      transactionId: 'MOCK-' + Date.now(),
-      paidAt: new Date()
-    };
-    order.status = 'paid';
-    await order.save();
     res.json(order);
   } catch (err) {
+    console.error('Mock payment error:', err);
     res.status(500).json({ error: err.message });
   }
 };
