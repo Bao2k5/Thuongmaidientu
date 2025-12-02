@@ -65,7 +65,7 @@ exports.createPayment = async (req, res) => {
     vnp_Params['vnp_Locale'] = locale;
     vnp_Params['vnp_CurrCode'] = currCode;
     vnp_Params['vnp_TxnRef'] = orderId_vnp;
-    vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+    vnp_Params['vnp_OrderInfo'] = 'Thanh_toan_cho_ma_GD_' + orderId;
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
     vnp_Params['vnp_ReturnUrl'] = returnUrl;
