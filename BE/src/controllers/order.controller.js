@@ -92,7 +92,20 @@ exports.createOrder = async (req, res) => {
                 <span>${item.qty}x Sản phẩm (ID: ${item.product})</span>
                 <span>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
               </li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
 
+      await sendEmail({
+        email: order.email,
+        subject: 'Xác nhận đơn hàng - HM Jewelry',
+        message
+      });
+    } catch (emailError) {
+      console.error('Email send failed:', emailError);
+      // Không throw error để đơn hàng vẫn thành công
+    }
     res.status(201).json({
       success: true,
       message: 'Đặt hàng thành công',
@@ -151,7 +164,14 @@ exports.mockPayment = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ msg: 'Not found' });
-    order.payment = { method: 'mock', status: 'paid', transactionId: 'MOCK-' + Date.now() };
+    order.payment = {
+      ...order.payment,
+      method: 'mock',
+      status: 'paid',
+      gateway: 'mock',
+      transactionId: 'MOCK-' + Date.now(),
+      paidAt: new Date()
+    };
     order.status = 'paid';
     await order.save();
     res.json(order);
