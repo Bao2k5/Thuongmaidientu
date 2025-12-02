@@ -199,8 +199,8 @@ const Checkout = () => {
         const vnpayResult = await paymentService.createVNPayPayment(order._id);
         if (vnpayResult.success) {
 
-          // Use VNPay Simulator for demo (more reliable)
-          navigate(`/payment/vnpay/simulator?orderId=${order._id}&vnp_TxnRef=${order._id}&vnp_Amount=${Math.round(order.total * 100)}`);
+          // Redirect to real VNPay gateway
+          window.location.href = vnpayResult.payUrl;
         } else {
           throw new Error('Không thể tạo thanh toán VNPay');
         }
