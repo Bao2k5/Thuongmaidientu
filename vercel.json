@@ -19,9 +19,12 @@
             "dest": "/BE/server.js"
         },
         {
-            "src": "/(.*)",
-            "dest": "/FE/$1",
-            "continue": true
+            "src": "/assets/(.*)",
+            "dest": "/FE/assets/$1"
+        },
+        {
+            "src": "/(.*)\\.(.*)",
+            "dest": "/FE/$1.$2"
         },
         {
             "handle": "filesystem"
