@@ -13,7 +13,7 @@ const AccountOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await api.get('/orders/my-orders');
+      const response = await api.get('/orders');
       setOrders(response.data.orders || response.data || []);
     } catch (error) {
       console.error('Failed to fetch orders:', error);
@@ -49,8 +49,8 @@ const AccountOrders = () => {
     return statusMap[status] || status;
   };
 
-  const filteredOrders = filter === 'all' 
-    ? orders 
+  const filteredOrders = filter === 'all'
+    ? orders
     : orders.filter(order => order.status === filter);
 
   if (loading) {
@@ -70,7 +70,7 @@ const AccountOrders = () => {
           Đơn Hàng Của Tôi
         </h2>
 
-        {}
+        { }
         <div className="flex flex-wrap gap-2 mb-6">
           {[
             { key: 'all', label: 'Tất cả' },
@@ -82,11 +82,10 @@ const AccountOrders = () => {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`px-4 py-2 text-sm tracking-wide transition-all duration-200 ${
-                filter === tab.key
+              className={`px-4 py-2 text-sm tracking-wide transition-all duration-200 ${filter === tab.key
                   ? 'bg-luxury-charcoal text-luxury-cream'
                   : 'bg-luxury-cream text-luxury-brown hover:bg-luxury-sage/20'
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -94,7 +93,7 @@ const AccountOrders = () => {
         </div>
       </div>
 
-      {}
+      { }
       {filteredOrders.length === 0 ? (
         <div className="bg-luxury-white shadow-sm border border-luxury-sage/20 p-12 text-center">
           <svg className="w-16 h-16 mx-auto mb-4 text-luxury-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +113,7 @@ const AccountOrders = () => {
             key={order._id}
             className="bg-luxury-white shadow-sm border border-luxury-sage/20 hover:shadow-md transition-shadow duration-200"
           >
-            {}
+            { }
             <div className="p-6 border-b border-luxury-sage/20 bg-luxury-cream/30">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
@@ -137,7 +136,7 @@ const AccountOrders = () => {
               </div>
             </div>
 
-            {}
+            { }
             <div className="p-6">
               <div className="space-y-4">
                 {order.items?.map((item, index) => (
@@ -162,7 +161,7 @@ const AccountOrders = () => {
                 ))}
               </div>
 
-              {}
+              { }
               <div className="flex gap-3 mt-6 pt-6 border-t border-luxury-sage/20">
                 <Link
                   to={`/account/orders/${order._id}`}
