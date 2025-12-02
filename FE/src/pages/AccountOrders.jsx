@@ -33,6 +33,7 @@ const AccountOrders = () => {
       processing: 'bg-blue-100 text-blue-800',
       shipped: 'bg-purple-100 text-purple-800',
       delivered: 'bg-green-100 text-green-800',
+      completed: 'bg-green-100 text-green-800',
       cancelled: 'bg-red-100 text-red-800'
     };
     return statusMap[status] || 'bg-gray-100 text-gray-800';
@@ -44,6 +45,7 @@ const AccountOrders = () => {
       processing: 'Đang xử lý',
       shipped: 'Đang giao',
       delivered: 'Đã giao',
+      completed: 'Hoàn thành',
       cancelled: 'Đã hủy'
     };
     return statusMap[status] || status;
@@ -83,8 +85,8 @@ const AccountOrders = () => {
               key={tab.key}
               onClick={() => setFilter(tab.key)}
               className={`px-4 py-2 text-sm tracking-wide transition-all duration-200 ${filter === tab.key
-                  ? 'bg-luxury-charcoal text-luxury-cream'
-                  : 'bg-luxury-cream text-luxury-brown hover:bg-luxury-sage/20'
+                ? 'bg-luxury-charcoal text-luxury-cream'
+                : 'bg-luxury-cream text-luxury-brown hover:bg-luxury-sage/20'
                 }`}
             >
               {tab.label}

@@ -48,7 +48,7 @@ const AdminOrders = () => {
     const statusConfig = {
       pending: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'Chờ Xử Lý' },
       processing: { bg: 'bg-luxury-sand', text: 'text-luxury-brown', label: 'Đang Xử Lý' },
-      shipping: { bg: 'bg-purple-100', text: 'text-purple-700', label: 'Đang Giao' },
+      shipped: { bg: 'bg-purple-100', text: 'text-purple-700', label: 'Đang Giao' },
       completed: { bg: 'bg-green-100', text: 'text-green-700', label: 'Hoàn Thành' },
       cancelled: { bg: 'bg-red-100', text: 'text-red-700', label: 'Đã Hủy' }
     };
@@ -161,7 +161,7 @@ const AdminOrders = () => {
                 >
                   <option value="pending">Chờ Xử Lý</option>
                   <option value="processing">Đang Xử Lý</option>
-                  <option value="shipping">Đang Giao</option>
+                  <option value="shipped">Đang Giao</option>
                   <option value="completed">Hoàn Thành</option>
                   <option value="cancelled">Đã Hủy</option>
                 </select>
