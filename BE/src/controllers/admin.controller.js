@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
+const Review = require('../models/review.model');
 const AdminLog = require('../models/adminLog.model');
 const { sendMail } = require('../utils/mailer');
 
@@ -131,7 +132,14 @@ exports.getStats = async (req, res) => {
     const totalOrders = await Order.countDocuments();
     const totalProducts = await Product.countDocuments();
 
-    console.log('Admin Stats Debug:', { totalUsers, totalOrders, totalProducts });
+    // Additional stats for dashboard
+    const pendingOrders = await Order.countDocuments({ status: 'pending' });
+    const shippingOrders = await Order.countDocuments({ status: { $in: ['shipped', 'shipping'] } });
+    const outOfStock = await Product.countDocuments({ stock: { $lte: 0 } });
+    const newReviews = await Review.countDocuments({ createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } }); // Reviews today
+    const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5);
+
+    console.log('Admin Stats Debug:', { totalUsers, totalOrders, totalProducts, pendingOrders, shippingOrders, outOfStock, newReviews });
 
     const revenueAgg = await Order.aggregate([
       { $match: { status: { $in: ['paid', 'completed', 'shipped'] } } },
@@ -144,7 +152,19 @@ exports.getStats = async (req, res) => {
       { $sort: { sold: -1 } },
       { $limit: 5 }
     ]).catch(() => []);
-    res.json({ totalUsers, totalOrders, totalProducts, revenue, topProducts });
+
+    res.json({
+      totalUsers,
+      totalOrders,
+      totalProducts,
+      revenue,
+      topProducts,
+      pendingOrders,
+      shippingOrders,
+      outOfStock,
+      newReviews,
+      recentOrders
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
