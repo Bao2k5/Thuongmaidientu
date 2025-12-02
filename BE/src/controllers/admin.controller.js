@@ -12,7 +12,7 @@ exports.listUsers = async (req, res) => {
     // Không cần filter deleted vì đã dùng hard delete
     const users = await User.find({}).select('-password').skip(skip).limit(limit).sort('-createdAt');
     const total = await User.countDocuments({});
-    res.json({ users, total, page, pages: Math.ceil(total/limit) });
+    res.json({ users, total, page, pages: Math.ceil(total / limit) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -55,17 +55,17 @@ exports.deleteUser = async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
 
     // Log action
-    await AdminLog.create({ 
-      admin: req.user.id, 
-      action: 'hard_delete_user', 
-      resource: 'User', 
-      resourceId: userInfo.id, 
-      details: { email: userInfo.email, name: userInfo.name } 
+    await AdminLog.create({
+      admin: req.user.id,
+      action: 'hard_delete_user',
+      resource: 'User',
+      resourceId: userInfo.id,
+      details: { email: userInfo.email, name: userInfo.name }
     }).catch(err => console.error('AdminLog failed:', err.message));
 
-    res.json({ 
-      msg: 'User deleted successfully', 
-      deletedUser: { email: userInfo.email, name: userInfo.name } 
+    res.json({
+      msg: 'User deleted successfully',
+      deletedUser: { email: userInfo.email, name: userInfo.name }
     });
   } catch (err) {
     console.error('Delete user error:', err);
@@ -129,8 +129,9 @@ exports.getStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
     const totalOrders = await Order.countDocuments();
+    const totalProducts = await Product.countDocuments();
     const revenueAgg = await Order.aggregate([
-      { $match: { status: { $in: ['paid','completed','shipped'] } } },
+      { $match: { status: { $in: ['paid', 'completed', 'shipped'] } } },
       { $group: { _id: null, revenue: { $sum: '$total' } } }
     ]);
     const revenue = revenueAgg.length ? revenueAgg[0].revenue : 0;
@@ -140,7 +141,7 @@ exports.getStats = async (req, res) => {
       { $sort: { sold: -1 } },
       { $limit: 5 }
     ]).catch(() => []);
-    res.json({ totalUsers, totalOrders, revenue, topProducts });
+    res.json({ totalUsers, totalOrders, totalProducts, revenue, topProducts });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -153,7 +154,7 @@ exports.listLogs = async (req, res) => {
     const skip = (page - 1) * limit;
     const logs = await AdminLog.find().sort('-createdAt').skip(skip).limit(limit).populate('admin', 'name email');
     const total = await AdminLog.countDocuments();
-    res.json({ logs, total, page, pages: Math.ceil(total/limit) });
+    res.json({ logs, total, page, pages: Math.ceil(total / limit) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -178,7 +179,7 @@ exports.bulkUpdateProducts = async (req, res) => {
     const list = req.body.list;
     if (!Array.isArray(list)) return res.status(400).json({ msg: 'list required' });
     const results = [];
-    const allowed = ['price','priceSale','stock','isFlashSale','tags','name','sku'];
+    const allowed = ['price', 'priceSale', 'stock', 'isFlashSale', 'tags', 'name', 'sku'];
     for (const item of list) {
       // sanitize updates: only allow certain fields
       const updates = {};
