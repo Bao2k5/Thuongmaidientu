@@ -43,7 +43,12 @@ exports.createPayment = async (req, res) => {
     process.env.TZ = 'Asia/Ho_Chi_Minh';
 
     let date = new Date();
-    let createDate = moment(date).format('YYYYMMDDHHmmss');
+    let createDate = date.getFullYear().toString() +
+      String(date.getMonth() + 1).padStart(2, '0') +
+      String(date.getDate()).padStart(2, '0') +
+      String(date.getHours()).padStart(2, '0') +
+      String(date.getMinutes()).padStart(2, '0') +
+      String(date.getSeconds()).padStart(2, '0');
 
     let ipAddr = req.headers['x-forwarded-for'] ||
       req.connection.remoteAddress ||
@@ -55,7 +60,7 @@ exports.createPayment = async (req, res) => {
     let vnpUrl = VNPAY_CONFIG.url;
     let returnUrl = VNPAY_CONFIG.returnUrl;
 
-    let orderId_vnp = `${orderId}_${moment(date).format('DDHHmmss')}`;
+    let orderId_vnp = `${orderId}_${String(date.getDate()).padStart(2, '0')}${String(date.getHours()).padStart(2, '0')}${String(date.getMinutes()).padStart(2, '0')}${String(date.getSeconds()).padStart(2, '0')}`;
     let amount = Math.floor(order.total);
 
     let locale = 'vn';
