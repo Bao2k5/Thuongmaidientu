@@ -19,13 +19,22 @@ const VNPAY_CONFIG = {
 exports.createPayment = async (req, res) => {
   try {
     const { orderId, bankCode } = req.body;
-    
+
     // Get order from DB
     const order = await Order.findById(orderId).populate('items.product');
     if (!order) return res.status(404).json({ msg: 'Order not found' });
     if (order.user.toString() !== req.user.id) return res.status(403).json({ msg: 'Forbidden' });
 
-    const createDate = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+    // VNPay requires GMT+7
+    const date = new Date();
+    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const vnpTime = new Date(utc + (7 * 3600000));
+    const createDate = vnpTime.toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+
+    // Expire time (15 minutes later)
+    const expireTime = new Date(vnpTime.getTime() + 15 * 60000);
+    const expireDate = expireTime.toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+
     const orderId_vnp = `${orderId}_${Date.now()}`;
     const amount = order.total * 100; // VNPay requires amount in VND * 100
     const ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || '127.0.0.1';
@@ -36,6 +45,7 @@ exports.createPayment = async (req, res) => {
       vnp_TmnCode: VNPAY_CONFIG.tmnCode,
       vnp_Amount: amount.toString(),
       vnp_CreateDate: createDate,
+      vnp_ExpireDate: expireDate,
       vnp_CurrCode: 'VND',
       vnp_IpAddr: ipAddr,
       vnp_Locale: 'vn',
@@ -81,7 +91,7 @@ exports.createPayment = async (req, res) => {
 exports.queryPaymentStatus = async (req, res) => {
   try {
     const { orderId } = req.body;
-    
+
     // Get order from DB
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ msg: 'Order not found' });
@@ -126,14 +136,14 @@ exports.queryPaymentStatus = async (req, res) => {
       vnpRes.on('end', async () => {
         try {
           const response = JSON.parse(data);
-          
+
           // Update order based on query result
           if (response.vnp_ResponseCode === '00') {
             // Payment successful
             order.payment.status = 'paid';
             order.payment.transactionId = response.vnp_TransactionNo;
             order.status = 'paid';
-            
+
             // Decrement stock if not already done
             if (!order.stockAdjusted) {
               for (const item of order.items) {
@@ -141,7 +151,7 @@ exports.queryPaymentStatus = async (req, res) => {
               }
               order.stockAdjusted = true;
             }
-            
+
             await order.save();
             res.json({ success: true, status: 'paid', order });
           } else if (response.vnp_ResponseCode === '01') {
@@ -256,7 +266,7 @@ exports.ipnCallback = async (req, res) => {
       order.payment.gatewayTransactionId = transactionNo;
       order.payment.paidAt = new Date();
       order.status = 'paid';
-      
+
       if (!order.stockAdjusted) {
         for (const item of order.items) {
           await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.qty } });
@@ -264,7 +274,7 @@ exports.ipnCallback = async (req, res) => {
         order.stockAdjusted = true;
         console.log('[VNPay IPN] Stock adjusted for order:', orderId);
       }
-      
+
       await order.save();
       console.log('[VNPay IPN] Payment successful:', orderId);
       res.status(200).json({ RspCode: '00', Message: 'Success' });
@@ -285,9 +295,9 @@ exports.ipnCallback = async (req, res) => {
 exports.simulateCallback = async (req, res) => {
   try {
     const { orderId, txnRef, amount, responseCode, transactionStatus } = req.body;
-    
+
     console.log('[VNPay Simulator] Simulating callback for order:', orderId);
-    
+
     // Find order
     const order = await Order.findById(orderId).populate('items.product');
     if (!order) {
@@ -297,7 +307,7 @@ exports.simulateCallback = async (req, res) => {
     // Build fake IPN data that matches real VNPay format
     const fakeTransactionNo = `VNPAY_SIMULATE_${Date.now()}`;
     const vnpAmount = amount || (Math.round(order.total * 100)).toString();
-    
+
     const ipnData = {
       vnp_TmnCode: VNPAY_CONFIG.tmnCode,
       vnp_TxnRef: txnRef || orderId.toString(),
@@ -316,10 +326,10 @@ exports.simulateCallback = async (req, res) => {
       // Check idempotency
       if (order.paymentEvents?.some(e => e.provider === 'vnpay' && e.transactionId === fakeTransactionNo)) {
         console.log('[VNPay Simulator] Duplicate transaction - idempotency caught');
-        return res.status(200).json({ 
-          success: true, 
-          message: 'Duplicate transaction (idempotency)', 
-          order 
+        return res.status(200).json({
+          success: true,
+          message: 'Duplicate transaction (idempotency)',
+          order
         });
       }
 
@@ -328,9 +338,9 @@ exports.simulateCallback = async (req, res) => {
       const receivedAmount = parseInt(vnpAmount);
       if (expectedAmount !== receivedAmount) {
         console.log('[VNPay Simulator] Amount mismatch:', { expectedAmount, receivedAmount });
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Amount mismatch' 
+        return res.status(400).json({
+          success: false,
+          message: 'Amount mismatch'
         });
       }
 
@@ -364,24 +374,24 @@ exports.simulateCallback = async (req, res) => {
       }
 
       await order.save();
-      
+
       console.log('[VNPay Simulator] Payment successful, order updated');
-      return res.json({ 
-        success: true, 
-        message: 'Payment simulated successfully', 
-        order 
+      return res.json({
+        success: true,
+        message: 'Payment simulated successfully',
+        order
       });
     } else {
       // Failed payment
       order.payment.status = 'failed';
       order.status = 'cancelled';
       await order.save();
-      
+
       console.log('[VNPay Simulator] Payment failed simulation');
-      return res.json({ 
-        success: true, 
-        message: 'Payment failure simulated', 
-        order 
+      return res.json({
+        success: true,
+        message: 'Payment failure simulated',
+        order
       });
     }
   } catch (err) {
