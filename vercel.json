@@ -31,7 +31,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/FE/index.html"
+            "dest": "/index.html"
         }
     ]
 }
