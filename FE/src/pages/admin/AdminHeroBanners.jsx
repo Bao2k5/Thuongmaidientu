@@ -84,10 +84,14 @@ function AdminHeroBanners() {
     }
   };
 
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
 
     try {
+      setSubmitting(true);
       const token = localStorage.getItem('token');
 
       // Check token trước khi gửi
@@ -140,6 +144,8 @@ function AdminHeroBanners() {
       }
 
       alert('Lỗi: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -345,10 +351,10 @@ function AdminHeroBanners() {
               <div className="flex gap-4 pt-4">
                 <button
                   type="submit"
-                  disabled={uploading}
+                  disabled={uploading || submitting}
                   className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium"
                 >
-                  {editingBanner ? '💾 Lưu thay đổi' : '✨ Tạo Banner'}
+                  {submitting ? '⏳ Đang xử lý...' : (editingBanner ? '💾 Lưu thay đổi' : '✨ Tạo Banner')}
                 </button>
                 <button
                   type="button"
@@ -392,8 +398,8 @@ function AdminHeroBanners() {
                       <button
                         onClick={() => toggleStatus(banner._id)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition ${banner.isActive
-                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                           }`}
                       >
                         {banner.isActive ? '✅ Đang hiển thị' : '⏸️ Đã tắt'}
