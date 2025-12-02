@@ -3,17 +3,33 @@ const crypto = require('crypto');
 const querystring = require('querystring');
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
-const { sortObject, buildVnpaySecureHash, verifyVnpaySecureHash } = require('../utils/vnpay');
+const moment = require('moment');
 
 // VNPay configuration (replace with your credentials)
 const VNPAY_CONFIG = {
   tmnCode: process.env.VNPAY_TMN_CODE || 'GGPAFZ7E',
   hashSecret: process.env.VNPAY_HASH_SECRET || '44WBV76VZDN6GJEC7CDSEJE6RJ17BJRC',
   url: process.env.VNPAY_URL || 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
-  // SANDBOX: Redirect to simulator page instead of direct callback
   returnUrl: process.env.VNPAY_RETURN_URL || 'https://hmjewelry.vercel.app/payment/vnpay/return',
   ipnUrl: process.env.VNPAY_IPN_URL || 'https://hmjewelry-be.vercel.app/api/payment/vnpay/ipn',
 };
+
+// VNPay official sortObject function from demo
+function sortObject(obj) {
+  let sorted = {};
+  let str = [];
+  let key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      str.push(encodeURIComponent(key));
+    }
+  }
+  str.sort();
+  for (key = 0; key < str.length; key++) {
+    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
+  }
+  return sorted;
+}
 
 // Create VNPay payment
 exports.createPayment = async (req, res) => {
@@ -25,67 +41,56 @@ exports.createPayment = async (req, res) => {
     if (!order) return res.status(404).json({ msg: 'Order not found' });
     if (order.user.toString() !== req.user.id) return res.status(403).json({ msg: 'Forbidden' });
 
-    // VNPay requires GMT+7
-    const date = new Date();
-    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-    const vnpTime = new Date(utc + (7 * 3600000));
-    const createDate = vnpTime.toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+    process.env.TZ = 'Asia/Ho_Chi_Minh';
 
-    // Expire time (15 minutes later)
-    const expireTime = new Date(vnpTime.getTime() + 15 * 60000);
-    const expireDate = expireTime.toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+    let date = new Date();
+    let createDate = moment(date).format('YYYYMMDDHHmmss');
 
-    const orderId_vnp = `${orderId}_${Date.now()}`;
-    const amount = Math.floor(order.total * 100); // VNPay requires amount in VND * 100 (integer)
+    let ipAddr = req.headers['x-forwarded-for'] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress;
 
-    // Handle Vercel/Proxy IP headers
-    // VNPay Sandbox often rejects IPv6 or complex IPs. 
-    // Forcing 127.0.0.1 is the safest way to pass the "Invalid Data Format" check.
-    let ipAddr = '127.0.0.1';
-    // VNPay does not like IPv6 ::1, force IPv4
-    if (ipAddr === '::1') {
-      ipAddr = '127.0.0.1';
+    let tmnCode = VNPAY_CONFIG.tmnCode;
+    let secretKey = VNPAY_CONFIG.hashSecret;
+    let vnpUrl = VNPAY_CONFIG.url;
+    let returnUrl = VNPAY_CONFIG.returnUrl;
+
+    let orderId_vnp = `${orderId}_${moment(date).format('DDHHmmss')}`;
+    let amount = order.total;
+
+    let locale = 'vn';
+    let currCode = 'VND';
+    let vnp_Params = {};
+    vnp_Params['vnp_Version'] = '2.1.0';
+    vnp_Params['vnp_Command'] = 'pay';
+    vnp_Params['vnp_TmnCode'] = tmnCode;
+    vnp_Params['vnp_Locale'] = locale;
+    vnp_Params['vnp_CurrCode'] = currCode;
+    vnp_Params['vnp_TxnRef'] = orderId_vnp;
+    vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+    vnp_Params['vnp_OrderType'] = 'other';
+    vnp_Params['vnp_Amount'] = amount * 100;
+    vnp_Params['vnp_ReturnUrl'] = returnUrl;
+    vnp_Params['vnp_IpAddr'] = ipAddr;
+    vnp_Params['vnp_CreateDate'] = createDate;
+    if (bankCode !== null && bankCode !== '') {
+      vnp_Params['vnp_BankCode'] = bankCode;
     }
 
-    let vnp_Params = {
-      vnp_Version: '2.1.0',
-      vnp_Command: 'pay',
-      vnp_TmnCode: VNPAY_CONFIG.tmnCode,
-      vnp_Amount: amount.toString(),
-      vnp_CreateDate: createDate,
-      vnp_ExpireDate: expireDate,
-      vnp_CurrCode: 'VND',
-      vnp_IpAddr: ipAddr,
-      vnp_Locale: 'vn',
-      vnp_OrderInfo: `Thanh_toan_don_hang_${orderId}`,
-      vnp_OrderType: 'other',
-      vnp_ReturnUrl: VNPAY_CONFIG.returnUrl,
-      vnp_TxnRef: orderId_vnp,
-    };
-
-    if (bankCode) {
-      vnp_Params.vnp_BankCode = bankCode;
-    }
-
-    // Sort params
     vnp_Params = sortObject(vnp_Params);
 
-    // DEBUG: Log params to check for invalid data
-    console.log('VNPay Create Payment Params:', JSON.stringify(vnp_Params, null, 2));
-
-    // Create signature using utility function
-    const secureHash = buildVnpaySecureHash(vnp_Params, VNPAY_CONFIG.hashSecret);
-    vnp_Params.vnp_SecureHash = secureHash;
-
-    // Build payment URL
-    // CRITICAL: Must encode params for the final URL (spaces, special chars)
-    const paymentUrl = VNPAY_CONFIG.url + '?' + querystring.stringify(vnp_Params, { encode: true });
+    let signData = querystring.stringify(vnp_Params, { encode: false });
+    let hmac = crypto.createHmac("sha512", secretKey);
+    let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+    vnp_Params['vnp_SecureHash'] = signed;
+    let paymentUrl = vnpUrl + '?' + querystring.stringify(vnp_Params, { encode: false });
 
     // Update order with VNPay info
     order.payment = {
       method: 'vnpay',
       status: 'pending',
-      requestId: orderId_vnp,
+      gatewayOrderId: orderId_vnp,
     };
     await order.save();
 
