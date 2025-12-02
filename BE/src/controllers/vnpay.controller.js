@@ -79,7 +79,8 @@ exports.createPayment = async (req, res) => {
     vnp_Params.vnp_SecureHash = secureHash;
 
     // Build payment URL
-    const paymentUrl = VNPAY_CONFIG.url + '?' + querystring.stringify(vnp_Params, { encode: false });
+    // CRITICAL: Must encode params for the final URL (spaces, special chars)
+    const paymentUrl = VNPAY_CONFIG.url + '?' + querystring.stringify(vnp_Params, { encode: true });
 
     // Update order with VNPay info
     order.payment = {
