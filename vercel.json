@@ -20,7 +20,8 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/FE/$1"
+            "dest": "/FE/$1",
+            "continue": true
         },
         {
             "handle": "filesystem"
