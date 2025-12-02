@@ -7,12 +7,12 @@ const { sortObject, buildVnpaySecureHash, verifyVnpaySecureHash } = require('../
 
 // VNPay configuration (replace with your credentials)
 const VNPAY_CONFIG = {
-  tmnCode: process.env.VNPAY_TMN_CODE || 'DEMOSHOP',
-  hashSecret: process.env.VNPAY_HASH_SECRET || 'TESTDEMOSHOPSECRET',
+  tmnCode: process.env.VNPAY_TMN_CODE || 'GGPAFZ7E',
+  hashSecret: process.env.VNPAY_HASH_SECRET || '44WBV76VZDN6GJEC7CDSEJE6RJ17BJRC',
   url: process.env.VNPAY_URL || 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
   // SANDBOX: Redirect to simulator page instead of direct callback
-  returnUrl: process.env.VNPAY_RETURN_URL || 'http://localhost:5173/payment/vnpay/simulator',
-  ipnUrl: process.env.VNPAY_IPN_URL || 'http://localhost:5000/api/payment/vnpay/ipn',
+  returnUrl: process.env.VNPAY_RETURN_URL || 'https://hmjewelry.vercel.app/payment/vnpay/return',
+  ipnUrl: process.env.VNPAY_IPN_URL || 'https://hmjewelry-be.vercel.app/api/payment/vnpay/ipn',
 };
 
 // Create VNPay payment
@@ -36,8 +36,13 @@ exports.createPayment = async (req, res) => {
     const expireDate = expireTime.toISOString().replace(/[-:T.]/g, '').slice(0, 14);
 
     const orderId_vnp = `${orderId}_${Date.now()}`;
-    const amount = order.total * 100; // VNPay requires amount in VND * 100
-    const ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || '127.0.0.1';
+    const amount = Math.floor(order.total * 100); // VNPay requires amount in VND * 100 (integer)
+
+    // Handle Vercel/Proxy IP headers (take first IP if multiple)
+    let ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress || '127.0.0.1';
+    if (ipAddr && ipAddr.includes(',')) {
+      ipAddr = ipAddr.split(',')[0].trim();
+    }
 
     let vnp_Params = {
       vnp_Version: '2.1.0',
