@@ -13,7 +13,6 @@ async function updateProductRatings(productId) {
     await Product.findByIdAndUpdate(productId, { ratingsAvg: 0, ratingsCount: 0 });
   }
 }
-}
 
 exports.getTopReviews = async (req, res) => {
   try {
