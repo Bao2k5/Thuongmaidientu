@@ -109,7 +109,7 @@ Nhóm em đã cấu hình sẵn script để cài đặt và chạy cả Backend
     ```bash
     npm run dev:all
     ```
-    *Lệnh này sẽ mở cả Backend (Port 3000) và Frontend (Port 5173) cùng lúc.*
+    *Lệnh này sẽ mở cả Backend (Port 3000) và Frontend (Port 5173) cùng lúc.*,
 
 ---
 
