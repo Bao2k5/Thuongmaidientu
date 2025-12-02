@@ -57,7 +57,7 @@ exports.createPayment = async (req, res) => {
     let returnUrl = VNPAY_CONFIG.returnUrl;
 
     let orderId_vnp = `${orderId}_${moment(date).format('DDHHmmss')}`;
-    let amount = order.total;
+    let amount = Math.floor(order.total);
 
     let locale = 'vn';
     let currCode = 'VND';
@@ -82,7 +82,7 @@ exports.createPayment = async (req, res) => {
 
     let signData = querystring.stringify(vnp_Params, { encode: false });
     let hmac = crypto.createHmac("sha512", secretKey);
-    let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+    let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
     vnp_Params['vnp_SecureHash'] = signed;
     let paymentUrl = vnpUrl + '?' + querystring.stringify(vnp_Params, { encode: false });
 
